@@ -34,13 +34,17 @@ const userSchema = new mongoose.Schema(
     },
     niveau: {
       type: String,
-      enum: ["Débutant", "Intermédiaire", "Avancé"],
-      default: "Débutant",
+      enum: ["debutant", "intermediaire", "avance"],
+      default: "debutant",
     },
     objectifs: {
       type: [String],
-      enum: ["Perte de poids", "Prise de masse", "Entretien"],
-      default: ["Entretien"],
+      enum: ["perte de poids", "prise de masse", "entretien", "force"],
+      default: [],
+    },
+    profileCompleted: {
+      type: Boolean,
+      default: false,
     },
     programmesSuivis: [
       {

@@ -2,18 +2,26 @@ import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 import verifyPW from "../utils/verifyPW.js";
 import {
-  sendVerificationEmail,
-  generateVerificationToken,
+  handleEmailVerification,
+  generateVerificationSuccessPage,
 } from "../utils/email.js";
 
 export const register = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, confirmPassword } = req.body;
 
   try {
     // 1. Validation des champs obligatoires
-    if (!username || !email || !password) {
+    if (!username || !email || !password || !confirmPassword) {
       return res.status(400).json({
-        message: "Tous les champs sont obligatoires (nom, email, mot de passe)",
+        message:
+          "Tous les champs sont obligatoires (nom, email, mot de passe, confirmation du mot de passe)",
+      });
+    }
+
+    // 2. Vérification que les mots de passe correspondent
+    if (password !== confirmPassword) {
+      return res.status(400).json({
+        message: "Les mots de passe ne correspondent pas",
       });
     }
 
@@ -48,33 +56,25 @@ export const register = async (req, res) => {
       });
     }
 
-    // 6. Générer le token de vérification
-    const verificationToken = generateVerificationToken();
-    const verificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24h
-
-    // 7. Créer l'utilisateur avec email non vérifié
+    // 6. Créer l'utilisateur avec email non vérifié (sans objectifs par défaut)
     const newUser = await User.create({
       nom: username.trim(),
       email: email.toLowerCase().trim(),
       motDePasse: password,
-      emailVerificationToken: verificationToken,
-      emailVerificationExpires: verificationExpires,
+      niveau: "debutant",
+      objectifs: [], // Tableau vide, sera rempli lors de updateProfile
     });
 
-    // 8. Envoyer l'email de vérification
-    const emailSent = await sendVerificationEmail(
-      email,
-      username,
-      verificationToken
-    );
+    // 7. Gérer la vérification email (génération token + envoi email)
+    const emailResult = await handleEmailVerification(newUser);
 
-    if (!emailSent) {
+    if (!emailResult.success) {
       return res.status(500).json({
         message: "Erreur lors de l'envoi de l'email de vérification",
       });
     }
 
-    // 9. Réponse de succès
+    // 8. Réponse de succès
     res.status(201).json({
       message:
         "Compte créé avec succès ! Vérifiez votre email pour activer votre compte.",
@@ -137,42 +137,112 @@ export const verifyEmail = async (req, res) => {
       { expiresIn: "7d" }
     );
 
-    // Réponse HTML jolie pour le navigateur
-    res.status(200).send(`
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <title>Email vérifié - Progfit</title>
-        <style>
-          body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background: #f5f5f5; }
-          .container { background: white; padding: 40px; border-radius: 10px; max-width: 500px; margin: 0 auto; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-          .success { color: #28a745; font-size: 24px; margin-bottom: 20px; }
-          .info { color: #666; margin-bottom: 30px; }
-          .token { background: #f8f9fa; padding: 15px; border-radius: 5px; word-break: break-all; font-family: monospace; }
-        </style>
-      </head>
-      <body>
-        <div class="container">
-          <h1 class="success">✅ Email vérifié avec succès !</h1>
-          <p class="info">Votre compte <strong>${
-            user.email
-          }</strong> est maintenant actif.</p>
-          <p><strong>Nom :</strong> ${user.nom}</p>
-          <p><strong>Niveau :</strong> ${user.niveau}</p>
-          <p><strong>Objectifs :</strong> ${user.objectifs.join(", ")}</p>
-          <p class="info">Votre token d'authentification :</p>
-          <div class="token">${jwtToken}</div>
-          <p style="margin-top: 20px; color: #999; font-size: 14px;">
-            Vous pouvez fermer cette page et commencer à utiliser Progfit !
-          </p>
-        </div>
-      </body>
-      </html>
-    `);
+    // 6. Envoyer la page HTML de confirmation
+    const htmlPage = generateVerificationSuccessPage(user, jwtToken);
+    res.status(200).send(htmlPage);
   } catch (error) {
     console.error("Erreur lors de la vérification email:", error);
     res.status(500).json({
       message: "Erreur serveur lors de la vérification",
+    });
+  }
+};
+
+// Fonction pour mettre à jour le profil utilisateur (niveau et objectifs)
+export const updateProfile = async (req, res) => {
+  const { niveau, objectifs } = req.body;
+
+  try {
+    // 1. Récupérer l'utilisateur depuis le token JWT
+    const token = req.header("Authorization")?.replace("Bearer ", "");
+
+    if (!token) {
+      return res.status(401).json({
+        message: "Token d'authentification requis",
+      });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.userId;
+
+    // 2. Validation des champs
+    const niveauxValides = ["debutant", "intermediaire", "avance"];
+    const objectifsValides = [
+      "perte de poids",
+      "prise de masse",
+      "entretien",
+      "force",
+    ];
+
+    if (!niveau || !niveauxValides.includes(niveau.toLowerCase())) {
+      return res.status(400).json({
+        message:
+          "Niveau invalide. Choisissez parmi : débutant, intermédiaire, avancé",
+      });
+    }
+
+    if (!objectifs || !Array.isArray(objectifs) || objectifs.length === 0) {
+      return res.status(400).json({
+        message: "Veuillez sélectionner au moins un objectif",
+      });
+    }
+
+    // Vérifier que tous les objectifs sont valides
+    const objectifsInvalides = objectifs.filter(
+      (obj) => !objectifsValides.includes(obj.toLowerCase())
+    );
+
+    if (objectifsInvalides.length > 0) {
+      return res.status(400).json({
+        message: `Objectifs invalides : ${objectifsInvalides.join(
+          ", "
+        )}. Choisissez parmi : perte de poids, prise de masse, entretien, force`,
+      });
+    }
+
+    // 3. Mettre à jour l'utilisateur
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        niveau: niveau.toLowerCase(),
+        objectifs: objectifs.map((obj) => obj.toLowerCase()),
+        profileCompleted: true,
+      },
+      {
+        new: true,
+        select: "-motDePasse -emailVerificationToken -emailVerificationExpires",
+      }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({
+        message: "Utilisateur non trouvé",
+      });
+    }
+
+    // 4. Réponse de succès
+    res.status(200).json({
+      message: "Profil mis à jour avec succès !",
+      user: {
+        id: updatedUser._id,
+        nom: updatedUser.nom,
+        email: updatedUser.email,
+        niveau: updatedUser.niveau,
+        objectifs: updatedUser.objectifs,
+        profileCompleted: updatedUser.profileCompleted,
+        emailVerified: updatedUser.emailVerified,
+      },
+    });
+  } catch (error) {
+    if (error.name === "JsonWebTokenError") {
+      return res.status(401).json({
+        message: "Token d'authentification invalide",
+      });
+    }
+
+    console.error("Erreur lors de la mise à jour du profil:", error);
+    res.status(500).json({
+      message: "Erreur serveur lors de la mise à jour du profil",
     });
   }
 };
@@ -192,5 +262,30 @@ export const cleanExpiredTokens = async () => {
     console.log(`${result.modifiedCount} tokens expirés nettoyés`);
   } catch (error) {
     console.error("Erreur lors du nettoyage des tokens:", error);
+  }
+};
+
+// Fonction utilitaire pour nettoyer les objectifs par défaut des utilisateurs existants
+export const resetDefaultObjectives = async () => {
+  try {
+    // Réinitialiser les objectifs de tous les utilisateurs qui n'ont pas complété leur profil
+    const result = await User.updateMany(
+      {
+        profileCompleted: { $ne: true },
+        objectifs: { $in: ["entretien"] },
+      },
+      {
+        $set: {
+          objectifs: [],
+        },
+      }
+    );
+    console.log(
+      `${result.modifiedCount} utilisateurs avec objectifs par défaut nettoyés`
+    );
+    return result.modifiedCount;
+  } catch (error) {
+    console.error("Erreur lors du nettoyage des objectifs par défaut:", error);
+    return 0;
   }
 };

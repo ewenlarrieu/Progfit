@@ -51,7 +51,8 @@ Le serveur tourne sur `http://localhost:5000`
 {
   "username": "John Doe",
   "email": "john@example.com",
-  "password": "MonMotDePasse123!"
+  "password": "MonMotDePasse123!",
+  "confirmPassword": "MonMotDePasse123!"
 }
 ```
 
@@ -71,7 +72,7 @@ Le serveur tourne sur `http://localhost:5000`
 
 **Erreurs possibles :**
 
-- `400` : Champs manquants, format email invalide, mot de passe faible, email déjà utilisé
+- `400` : Champs manquants, mots de passe différents, format email invalide, mot de passe faible, email déjà utilisé
 - `500` : Erreur serveur ou envoi email
 
 **Validation mot de passe :**
@@ -91,13 +92,61 @@ Le serveur tourne sur `http://localhost:5000`
 - `token` : Token reçu par email
 
 **Réponse succès (200) :**
-Page HTML avec confirmation + token JWT
+Page HTML avec confirmation + token JWT pour tests
 
 **Erreurs possibles :**
 
 - `400` : Token invalide, expiré ou compte déjà vérifié
 
-## 🔧 Test avec Insomnia/Postman
+#### Mise à jour du profil
+
+**PUT** `/api/auth/update-profile`
+
+**Headers :**
+
+```
+Authorization: Bearer <jwt_token>
+Content-Type: application/json
+```
+
+**Body (JSON) :**
+
+```json
+{
+  "niveau": "intermediaire",
+  "objectifs": ["prise de masse", "force"]
+}
+```
+
+**Réponse succès (200) :**
+
+```json
+{
+  "message": "Profil mis à jour avec succès !",
+  "user": {
+    "id": "64f1234567890abcdef",
+    "nom": "John Doe",
+    "email": "john@example.com",
+    "niveau": "intermediaire",
+    "objectifs": ["prise de masse", "force"],
+    "profileCompleted": true,
+    "emailVerified": true
+  }
+}
+```
+
+**Options disponibles :**
+
+- **Niveaux** : `debutant`, `intermediaire`, `avance`
+- **Objectifs** : `perte de poids`, `prise de masse`, `entretien`, `force`
+
+**Erreurs possibles :**
+
+- `401` : Token manquant ou invalide
+- `400` : Niveau ou objectifs invalides
+- `404` : Utilisateur non trouvé
+
+## 🔧 Test avec Insomnia
 
 ### 1. Test d'inscription
 
@@ -108,7 +157,8 @@ Content-Type: application/json
 {
   "username": "Test User",
   "email": "test@example.com",
-  "password": "TestPass123!"
+  "password": "TestPass123!",
+  "confirmPassword": "TestPass123!"
 }
 ```
 
@@ -116,28 +166,55 @@ Content-Type: application/json
 
 1. Vérifiez votre boîte mail
 2. Cliquez sur le lien de vérification
-3. Ou testez directement : `GET http://localhost:5000/api/auth/verify-email/TOKEN`
+3. Copiez le token JWT affiché sur la page
+4. Ou testez directement : `GET http://localhost:5000/api/auth/verify-email/TOKEN`
 
-### 3. Tests d'erreurs
+### 3. Test mise à jour profil
+
+```
+PUT http://localhost:5000/api/auth/update-profile
+Authorization: Bearer <COLLER_LE_TOKEN_JWT_ICI>
+Content-Type: application/json
+
+{
+  "niveau": "avance",
+  "objectifs": ["prise de masse", "force"]
+}
+```
+
+### 4. Tests d'erreurs
 
 ```json
+// Mots de passe différents
+{
+  "username": "Test",
+  "email": "test@example.com",
+  "password": "TestPass123!",
+  "confirmPassword": "AutrePass456!"
+}
+
 // Email invalide
 {
   "username": "Test",
   "email": "email-invalide",
-  "password": "TestPass123!"
+  "password": "TestPass123!",
+  "confirmPassword": "TestPass123!"
 }
 
 // Mot de passe faible
 {
   "username": "Test",
   "email": "test@example.com",
-  "password": "123"
+  "password": "123",
+  "confirmPassword": "123"
 }
 
 // Champs manquants
 {
-  "username": "Test"
+  "username": "Test",
+  "email": "test@example.com",
+  "password": "TestPass123!"
+  // confirmPassword manquant
 }
 ```
 
@@ -155,7 +232,7 @@ back-end/
 ├── routes/
 │   └── authRoutes.js         # Routes d'authentification
 ├── utils/
-│   ├── email.js              # Service d'envoi d'emails
+│   ├── email.js              # Service d'envoi d'emails + HTML pages
 │   └── verifyPW.js           # Validation mot de passe
 ├── data/
 │   ├── exercices.json        # Données exercices (à compléter)
@@ -168,19 +245,38 @@ back-end/
 ## 🛡️ Sécurité
 
 - ✅ Hachage bcrypt des mots de passe
+- ✅ Confirmation de mot de passe obligatoire
 - ✅ Validation stricte des entrées
 - ✅ Protection CORS activée
 - ✅ Vérification email obligatoire
-- ✅ Tokens JWT avec expiration
-- ✅ Sanitisation des données
+- ✅ Tokens JWT avec expiration (7 jours)
+- ✅ Sanitisation des données (trim, lowercase)
+- ✅ Code modulaire et sécurisé
 
 ## 🔄 Prochaines étapes
 
-1. Implémenter la fonction `login`
-2. Créer middleware d'authentification
+1. Implémenter la fonction `login` complète
+2. Créer middleware d'authentification réutilisable
 3. Développer les routes programmes/exercices
 4. Ajouter système de reset mot de passe
-5. Créer le frontend React
+5. Optimiser les validations avec middleware
+6. Créer le frontend React
+
+## 🏗️ Architecture
+
+Le code suit une architecture modulaire avec séparation des responsabilités :
+
+- **Controllers** : Logique métier et validation
+- **Models** : Schémas de données MongoDB
+- **Utils** : Services réutilisables (email, validation)
+- **Routes** : Configuration des endpoints API
+
+## 🧪 Workflow complet de test
+
+1. **Inscription** → Email de vérification envoyé
+2. **Vérification email** → Compte activé + Token JWT récupéré
+3. **Mise à jour profil** → Niveau et objectifs définis
+4. **Utilisateur complet** → Prêt pour l'utilisation
 
 ## 🐛 Debug
 
@@ -189,4 +285,4 @@ Pour voir les logs détaillés, activez le mode debug dans `authController.js` e
 ---
 
 **Auteur :** Ewen Larrieu  
-**Version :** 1.0.0
+**Version :** 2.0.0 - Authentification complète avec profil utilisateur
