@@ -1,9 +1,11 @@
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
+import crypto from "crypto";
 import verifyPW from "../utils/verifyPW.js";
 import {
   handleEmailVerification,
   generateVerificationSuccessPage,
+  handlePasswordResetEmail,
 } from "../utils/email.js";
 
 export const register = async (req, res) => {
@@ -93,6 +95,228 @@ export const register = async (req, res) => {
   }
 };
 
+// Fonction de connexion
+export const login = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // 1. Validation des champs obligatoires
+    if (!email || !password) {
+      return res.status(400).json({
+        message: "Email et mot de passe sont obligatoires",
+      });
+    }
+
+    // 2. Validation format email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({
+        message: "Format d'email invalide",
+      });
+    }
+
+    // 3. Trouver l'utilisateur par email
+    const user = await User.findOne({ email: email.toLowerCase().trim() });
+
+    if (!user) {
+      return res.status(401).json({
+        message: "Email ou mot de passe incorrect",
+      });
+    }
+
+    // 4. Vérifier le mot de passe
+    const isValidPassword = await user.comparePassword(password);
+
+    if (!isValidPassword) {
+      return res.status(401).json({
+        message: "Email ou mot de passe incorrect",
+      });
+    }
+
+    // 5. Vérifier si l'email est vérifié
+    if (!user.emailVerified) {
+      return res.status(403).json({
+        message:
+          "Veuillez vérifier votre email avant de vous connecter. Vérifiez votre boîte de réception.",
+        emailVerified: false,
+      });
+    }
+
+    // 6. Générer le token JWT
+    const token = jwt.sign(
+      {
+        userId: user._id,
+        email: user.email,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
+
+    // 7. Réponse de succès avec les données utilisateur
+    res.status(200).json({
+      message: "Connexion réussie !",
+      token,
+      user: {
+        id: user._id,
+        nom: user.nom,
+        email: user.email,
+        niveau: user.niveau,
+        objectifs: user.objectifs,
+        profileCompleted: user.profileCompleted,
+        emailVerified: user.emailVerified,
+      },
+    });
+  } catch (error) {
+    console.error("Erreur lors de la connexion:", error);
+    res.status(500).json({
+      message: "Erreur serveur lors de la connexion",
+    });
+  }
+};
+
+// Fonction pour demander la réinitialisation du mot de passe
+export const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    // 1. Validation de l'email
+    if (!email) {
+      return res.status(400).json({
+        message: "L'email est obligatoire",
+      });
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({
+        message: "Format d'email invalide",
+      });
+    }
+
+    // 2. Trouver l'utilisateur
+    const user = await User.findOne({ email: email.toLowerCase().trim() });
+
+    // Toujours renvoyer le même message pour éviter l'énumération d'emails
+    if (!user) {
+      return res.status(200).json({
+        message:
+          "Si cet email existe, un lien de réinitialisation a été envoyé.",
+      });
+    }
+
+    // 3. Vérifier que l'email est vérifié
+    if (!user.emailVerified) {
+      return res.status(400).json({
+        message:
+          "Veuillez d'abord vérifier votre email avant de réinitialiser votre mot de passe.",
+      });
+    }
+
+    // 4. Générer le token de réinitialisation
+    const resetToken = crypto.randomBytes(32).toString("hex");
+
+    // 5. Le token expire dans 30 minutes
+    const resetExpires = new Date();
+    resetExpires.setMinutes(resetExpires.getMinutes() + 30);
+
+    // 5. Sauvegarder le token dans la base
+    user.passwordResetToken = resetToken;
+    user.passwordResetExpires = resetExpires;
+    await user.save();
+
+    // 6. Envoyer l'email de réinitialisation
+    const resetResult = await handlePasswordResetEmail(user, resetToken);
+
+    if (!resetResult.success) {
+      return res.status(500).json({
+        message: "Erreur lors de l'envoi de l'email de réinitialisation",
+      });
+    }
+
+    // 7. Réponse de succès
+    res.status(200).json({
+      message: "Un email de réinitialisation a été envoyé à votre adresse.",
+    });
+  } catch (error) {
+    console.error("Erreur lors de la demande de réinitialisation:", error);
+    res.status(500).json({
+      message: "Erreur serveur lors de la demande de réinitialisation",
+    });
+  }
+};
+
+// Fonction pour réinitialiser le mot de passe avec le token
+export const resetPassword = async (req, res) => {
+  const { token } = req.params;
+  const { password, confirmPassword } = req.body;
+
+  try {
+    // 1. Validation des champs
+    if (!password || !confirmPassword) {
+      return res.status(400).json({
+        message: "Le mot de passe et sa confirmation sont obligatoires",
+      });
+    }
+
+    if (password !== confirmPassword) {
+      return res.status(400).json({
+        message: "Les mots de passe ne correspondent pas",
+      });
+    }
+
+    // 2. Valider le mot de passe
+    if (!verifyPW(password)) {
+      return res.status(400).json({
+        message:
+          "Le mot de passe doit contenir une majuscule, une minuscule, un chiffre et un caractère spécial (minimum 8 caractères)",
+      });
+    }
+
+    // 3. Trouver l'utilisateur avec le token
+    const user = await User.findOne({ passwordResetToken: token });
+
+    // 4. Vérifier si le token existe et n'est pas expiré
+    if (!user || user.passwordResetExpires < Date.now()) {
+      return res.status(400).json({
+        message: "Token de réinitialisation invalide ou expiré",
+      });
+    }
+
+    // 5. Mettre à jour le mot de passe et nettoyer les tokens
+    user.motDePasse = password;
+    user.passwordResetToken = null;
+    user.passwordResetExpires = null;
+    await user.save();
+
+    // 5. Générer un nouveau token JWT pour connexion automatique
+    const jwtToken = jwt.sign(
+      { userId: user._id, email: user.email },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
+
+    // 6. Réponse de succès
+    res.status(200).json({
+      message: "Mot de passe réinitialisé avec succès !",
+      token: jwtToken,
+      user: {
+        id: user._id,
+        nom: user.nom,
+        email: user.email,
+        niveau: user.niveau,
+        objectifs: user.objectifs,
+        profileCompleted: user.profileCompleted,
+        emailVerified: user.emailVerified,
+      },
+    });
+  } catch (error) {
+    console.error("Erreur lors de la réinitialisation:", error);
+    res.status(500).json({
+      message: "Erreur serveur lors de la réinitialisation du mot de passe",
+    });
+  }
+};
+
 // Fonction pour vérifier l'email
 export const verifyEmail = async (req, res) => {
   try {
@@ -134,7 +358,7 @@ export const verifyEmail = async (req, res) => {
     const jwtToken = jwt.sign(
       { userId: user._id, email: user.email },
       process.env.JWT_SECRET,
-      { expiresIn: "7d" }
+      { expiresIn: "1d" }
     );
 
     // 6. Envoyer la page HTML de confirmation

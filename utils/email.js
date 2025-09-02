@@ -3,7 +3,7 @@ import nodemailer from "nodemailer";
 // Configuration du transporteur email
 const createTransporter = () => {
   return nodemailer.createTransport({
-    service: "gmail", // ou votre service email
+    service: "gmail",
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
@@ -44,7 +44,7 @@ export const sendVerificationEmail = async (email, nom, verificationToken) => {
           </p>
           
           <p style="color: #666; font-size: 14px;">
-            Ce lien expire dans 24 heures.
+            Ce lien expire dans 30 minutes.
           </p>
           
           <hr style="margin: 30px 0; border: none; border-top: 1px solid #eee;">
@@ -133,7 +133,7 @@ export const handleEmailVerification = async (user) => {
   try {
     // 1. Générer le token de vérification
     const verificationToken = generateVerificationToken();
-    const verificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24h
+    const verificationExpires = new Date(Date.now() + 30 * 60 * 1000); // 30 minutes
 
     // 2. Mettre à jour l'utilisateur avec les tokens
     user.emailVerificationToken = verificationToken;
@@ -156,6 +156,98 @@ export const handleEmailVerification = async (user) => {
     return {
       success: false,
       verificationToken: null,
+    };
+  }
+};
+
+// Fonction pour envoyer l'email de réinitialisation de mot de passe
+export const sendPasswordResetEmail = async (email, nom, resetToken) => {
+  try {
+    const transporter = createTransporter();
+
+    // Lien vers l'API pour réinitialiser le mot de passe
+    const resetUrl = `${
+      process.env.CLIENT_URL || "http://localhost:3000"
+    }/reset-password/${resetToken}`;
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Réinitialisation de votre mot de passe - Progfit",
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #dc3545;">Réinitialisation de mot de passe</h2>
+          
+          <p>Bonjour ${nom},</p>
+          
+          <p>Vous avez demandé à réinitialiser votre mot de passe pour votre compte Progfit.</p>
+          
+          <p>Pour créer un nouveau mot de passe, cliquez sur le lien ci-dessous :</p>
+          
+          <div style="text-align: center; margin: 30px 0;">
+            <a href="${resetUrl}" 
+               style="background-color: #dc3545; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block;">
+              Réinitialiser mon mot de passe
+            </a>
+          </div>
+          
+          <p style="color: #666; font-size: 14px;">
+            Si le bouton ne fonctionne pas, copiez et collez ce lien dans votre navigateur :<br>
+            <a href="${resetUrl}">${resetUrl}</a>
+          </p>
+          
+          <p style="color: #dc3545; font-size: 14px; font-weight: bold;">
+            ⚠️ Ce lien expire dans 30 minutes pour votre sécurité.
+          </p>
+          
+          <hr style="margin: 30px 0; border: none; border-top: 1px solid #eee;">
+          
+          <p style="color: #666; font-size: 12px;">
+            <strong>Vous n'avez pas demandé cette réinitialisation ?</strong><br>
+            Ignorez cet email, votre mot de passe restera inchangé.
+          </p>
+          
+          <p style="color: #666; font-size: 12px;">
+            Pour votre sécurité, ne partagez jamais ce lien avec personne.
+          </p>
+        </div>
+      `,
+    };
+
+    await transporter.sendMail(mailOptions);
+    console.log(`Email de réinitialisation envoyé à ${email}`);
+    return true;
+  } catch (error) {
+    console.error(
+      "Erreur lors de l'envoi de l'email de réinitialisation:",
+      error
+    );
+    return false;
+  }
+};
+
+// Fonction complète pour gérer la réinitialisation de mot de passe
+export const handlePasswordResetEmail = async (user, resetToken) => {
+  try {
+    // Envoyer l'email de réinitialisation
+    const emailSent = await sendPasswordResetEmail(
+      user.email,
+      user.nom,
+      resetToken
+    );
+
+    return {
+      success: emailSent,
+      resetToken: emailSent ? resetToken : null,
+    };
+  } catch (error) {
+    console.error(
+      "Erreur lors de la gestion de réinitialisation de mot de passe:",
+      error
+    );
+    return {
+      success: false,
+      resetToken: null,
     };
   }
 };
