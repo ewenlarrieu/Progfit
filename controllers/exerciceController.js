@@ -994,7 +994,8 @@ export const addBasicExercices = async (req, res) => {
       },
       {
         nom: "Archer pull-ups",
-        description: "Tractions asymétriques préparant aux tractions à une main",
+        description:
+          "Tractions asymétriques préparant aux tractions à une main",
         groupesMusculaires: ["Dorsaux", "Biceps"],
         instructions: [
           "Prise large à la barre",

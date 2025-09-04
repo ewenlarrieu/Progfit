@@ -992,7 +992,7 @@ export const addMaintenanceAdvancedProgram = async (req, res) => {
       nom: {
         $in: [
           "Méditation en mouvement",
-          "Étirements myofasciaux", 
+          "Étirements myofasciaux",
           "Proprioception avancée",
           "Yoga thérapeutique",
           "Mobilité articulaire complète",
@@ -1000,7 +1000,7 @@ export const addMaintenanceAdvancedProgram = async (req, res) => {
           "Automassage et trigger points",
           "Coordination neuro-motrice",
           "Réhabilitation posturale",
-          "Récupération active"
+          "Récupération active",
         ],
       },
     });
@@ -1027,7 +1027,8 @@ export const addMaintenanceAdvancedProgram = async (req, res) => {
           objectif: "Mobilité thérapeutique et bien-être",
           dureeEstimee: 60,
           exercices: [
-            exercices.find((e) => e.nom === "Mobilité articulaire complète")?._id,
+            exercices.find((e) => e.nom === "Mobilité articulaire complète")
+              ?._id,
             exercices.find((e) => e.nom === "Étirements myofasciaux")?._id,
             exercices.find((e) => e.nom === "Respiration fonctionnelle")?._id,
             exercices.find((e) => e.nom === "Récupération active")?._id,
@@ -1052,7 +1053,8 @@ export const addMaintenanceAdvancedProgram = async (req, res) => {
           dureeEstimee: 65,
           exercices: [
             exercices.find((e) => e.nom === "Yoga thérapeutique")?._id,
-            exercices.find((e) => e.nom === "Automassage et trigger points")?._id,
+            exercices.find((e) => e.nom === "Automassage et trigger points")
+              ?._id,
             exercices.find((e) => e.nom === "Respiration fonctionnelle")?._id,
             exercices.find((e) => e.nom === "Étirements myofasciaux")?._id,
           ].filter(Boolean),
@@ -1064,7 +1066,8 @@ export const addMaintenanceAdvancedProgram = async (req, res) => {
           dureeEstimee: 45,
           exercices: [
             exercices.find((e) => e.nom === "Récupération active")?._id,
-            exercices.find((e) => e.nom === "Mobilité articulaire complète")?._id,
+            exercices.find((e) => e.nom === "Mobilité articulaire complète")
+              ?._id,
             exercices.find((e) => e.nom === "Méditation en mouvement")?._id,
             exercices.find((e) => e.nom === "Réhabilitation posturale")?._id,
           ].filter(Boolean),
@@ -1200,7 +1203,9 @@ export const addStrengthIntermediateProgram = async (req, res) => {
     };
 
     // Sauvegarder le programme
-    const nouveauProgramme = await Programme.create(strengthIntermediateProgram);
+    const nouveauProgramme = await Programme.create(
+      strengthIntermediateProgram
+    );
 
     res.status(201).json({
       message: "Programme Force Intermédiaire créé avec succès !",
@@ -1322,7 +1327,9 @@ export const addMaintenanceIntermediateProgram = async (req, res) => {
     };
 
     // Sauvegarder le programme
-    const nouveauProgramme = await Programme.create(maintenanceIntermediateProgram);
+    const nouveauProgramme = await Programme.create(
+      maintenanceIntermediateProgram
+    );
 
     res.status(201).json({
       message: "Programme Entretien Intermédiaire créé avec succès !",
@@ -1491,10 +1498,16 @@ export const addAllPrograms = async (req, res) => {
       { name: "Strength", func: addStrengthProgram },
       { name: "Strength Intermediate", func: addStrengthIntermediateProgram },
       { name: "Strength Advanced", func: addStrengthAdvancedProgram },
-      { name: "Maintenance Intermediate", func: addMaintenanceIntermediateProgram },
-      { name: "Weight Loss Intermediate", func: addWeightLossIntermediateProgram },
+      {
+        name: "Maintenance Intermediate",
+        func: addMaintenanceIntermediateProgram,
+      },
+      {
+        name: "Weight Loss Intermediate",
+        func: addWeightLossIntermediateProgram,
+      },
       { name: "Mass Gain Advanced", func: addMassGainAdvancedProgram },
-      { name: "Maintenance Advanced", func: addMaintenanceAdvancedProgram }
+      { name: "Maintenance Advanced", func: addMaintenanceAdvancedProgram },
     ];
 
     // Fonction helper pour simuler une requête/réponse
@@ -1503,9 +1516,9 @@ export const addAllPrograms = async (req, res) => {
         req: {},
         res: {
           status: (code) => ({
-            json: (data) => ({ statusCode: code, data })
-          })
-        }
+            json: (data) => ({ statusCode: code, data }),
+          }),
+        },
       };
     };
 
@@ -1514,7 +1527,7 @@ export const addAllPrograms = async (req, res) => {
       try {
         const { req, res } = createMockReqRes();
         const result = await func(req, res);
-        
+
         if (result && result.statusCode === 201) {
           results.push(`✅ ${name}: créé avec succès`);
         } else if (result && result.statusCode === 400) {
@@ -1534,15 +1547,14 @@ export const addAllPrograms = async (req, res) => {
       summary: {
         total: programFunctions.length,
         success: results.length,
-        errors: errors.length
-      }
+        errors: errors.length,
+      },
     });
-
   } catch (error) {
     console.error("Erreur lors de l'ajout de tous les programmes:", error);
     res.status(500).json({
       message: "Erreur serveur lors de l'ajout des programmes",
-      error: error.message
+      error: error.message,
     });
   }
 };
