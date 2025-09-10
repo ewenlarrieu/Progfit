@@ -2,8 +2,8 @@ import express from "express";
 import {
   getAllExercices,
   getExerciceById,
-  addBasicExercices,
   deleteAllExercices,
+  addExercicesFromJSON,
 } from "../controllers/exerciceController.js";
 
 const router = express.Router();
@@ -11,8 +11,8 @@ const router = express.Router();
 // Route pour récupérer tous les exercices
 router.get("/", getAllExercices);
 
-// Route pour ajouter les exercices de base (setup initial)
-router.post("/add-basic", addBasicExercices);
+// Route pour ajouter des exercices via JSON
+router.post("/add-from-json", addExercicesFromJSON);
 
 // Route pour supprimer tous les exercices (réinitialisation)
 router.delete("/delete-all", deleteAllExercices);

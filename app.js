@@ -5,7 +5,8 @@ import cors from "cors";
 import authRoutes from "./routes/authRoutes.js";
 import exerciceRoutes from "./routes/exerciceRoutes.js";
 import programmeRoutes from "./routes/programmeRoutes.js";
-import seanceRoutes from "./routes/seanceRoutes.js";
+
+import userProgrammeRoutes from "./routes/userProgrammeRoutes.js";
 
 dotenv.config();
 
@@ -18,7 +19,8 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/exercices", exerciceRoutes);
 app.use("/api/programmes", programmeRoutes);
-app.use("/api/seances", seanceRoutes);
+
+app.use("/api/user-programmes", userProgrammeRoutes);
 
 const PORT = process.env.PORT || 5000;
 

@@ -1,0 +1,966 @@
+{
+  "exercices": [
+    {
+      "nom": "Pompes",
+      "description": "Exercice de base pour les pectoraux, épaules et triceps",
+      "groupesMusculaires": ["Pectoraux", "Épaules", "Triceps"],
+      "instructions": [
+        "Placez-vous en position de planche, mains au sol à largeur d'épaules",
+        "Gardez le corps bien droit des talons à la tête",
+        "Descendez en pliant les bras jusqu'à ce que la poitrine touche presque le sol",
+        "Poussez pour remonter à la position de départ",
+        "Répétez le mouvement de manière contrôlée"
+      ],
+      "series": 3,
+      "repetitions": "8-15",
+      "niveau": "Débutant"
+    },
+    {
+      "nom": "Squats",
+      "description": "Exercice fondamental pour les jambes et fessiers",
+      "groupesMusculaires": ["Quadriceps", "Fessiers", "Ischio-jambiers"],
+      "instructions": [
+        "Debout, pieds écartés à largeur d'épaules",
+        "Descendez comme si vous vous asseyiez sur une chaise",
+        "Gardez le dos droit et les genoux alignés avec les pieds",
+        "Descendez jusqu'à ce que les cuisses soient parallèles au sol",
+        "Remontez en poussant sur les talons"
+      ],
+      "series": 3,
+      "repetitions": "12-20",
+      "niveau": "Débutant"
+    },
+    {
+      "nom": "Planche",
+      "description": "Exercice de gainage pour les abdominaux et le core",
+      "groupesMusculaires": ["Abdominaux", "Corps entier"],
+      "instructions": [
+        "Placez-vous en position de planche sur les avant-bras",
+        "Gardez le corps bien droit des talons à la tête",
+        "Contractez les abdominaux et les fessiers",
+        "Respirez normalement pendant l'exercice",
+        "Maintenez la position sans cambrer le dos"
+      ],
+      "series": 3,
+      "repetitions": "30-60 secondes",
+      "duree": 30,
+      "niveau": "Débutant"
+    },
+    {
+      "nom": "Tractions",
+      "description": "Exercice pour le dos et les biceps",
+      "groupesMusculaires": ["Dorsaux", "Biceps"],
+      "instructions": [
+        "Suspendez-vous à une barre, mains en pronation",
+        "Tirez votre corps vers le haut jusqu'à ce que le menton dépasse la barre",
+        "Descendez de manière contrôlée",
+        "Gardez les épaules actives et évitez de vous balancer"
+      ],
+      "series": 3,
+      "repetitions": "3-8",
+      "niveau": "Intermédiaire"
+    },
+    {
+      "nom": "Fentes",
+      "description": "Exercice unilatéral pour les jambes",
+      "groupesMusculaires": ["Quadriceps", "Fessiers", "Ischio-jambiers"],
+      "instructions": [
+        "Debout, faites un grand pas en avant",
+        "Descendez en pliant les deux genoux à 90°",
+        "Le genou arrière ne doit pas toucher le sol",
+        "Poussez sur le talon avant pour revenir debout",
+        "Alternez les jambes ou faites toutes les répétitions d'un côté"
+      ],
+      "series": 3,
+      "repetitions": "10-15 par jambe",
+      "niveau": "Débutant"
+    },
+    {
+      "nom": "Dips",
+      "description": "Exercice pour les triceps et pectoraux",
+      "groupesMusculaires": ["Triceps", "Pectoraux", "Épaules"],
+      "instructions": [
+        "Placez les mains sur une chaise ou un banc derrière vous",
+        "Tendez les jambes devant vous",
+        "Descendez en pliant les bras",
+        "Remontez en poussant avec les triceps",
+        "Gardez le dos près du support"
+      ],
+      "series": 3,
+      "repetitions": "8-12",
+      "niveau": "Intermédiaire"
+    },
+    {
+      "nom": "Mountain Climbers",
+      "description": "Exercice cardio et de renforcement",
+      "groupesMusculaires": ["Abdominaux", "Corps entier"],
+      "instructions": [
+        "Placez-vous en position de planche",
+        "Amenez alternativement les genoux vers la poitrine",
+        "Gardez les hanches basses",
+        "Maintenez un rythme rapide",
+        "Respirez de manière régulière"
+      ],
+      "series": 3,
+      "repetitions": "20-30 par jambe",
+      "niveau": "Intermédiaire"
+    },
+    {
+      "nom": "Burpees",
+      "description": "Exercice complet alliant force et cardio",
+      "groupesMusculaires": ["Corps entier"],
+      "instructions": [
+        "Debout, descendez en squat et placez les mains au sol",
+        "Sautez pour étendre les jambes en position de planche",
+        "Faites une pompe (optionnel)",
+        "Ramenez les pieds vers les mains",
+        "Sautez en l'air avec les bras tendus vers le haut"
+      ],
+      "series": 3,
+      "repetitions": "5-10",
+      "niveau": "Avancé"
+    },
+    {
+      "nom": "Pompes surélevées",
+      "description": "Variante des pompes avec les pieds surélevés pour plus d'intensité",
+      "groupesMusculaires": ["Pectoraux", "Épaules", "Triceps"],
+      "instructions": [
+        "Placez vos pieds sur une chaise ou un banc",
+        "Mains au sol en position de pompe",
+        "Descendez jusqu'à ce que la poitrine touche presque le sol",
+        "Poussez pour remonter",
+        "Gardez le corps bien aligné"
+      ],
+      "series": 4,
+      "repetitions": "6-12",
+      "niveau": "Débutant"
+    },
+    {
+      "nom": "Squats sautés",
+      "description": "Squats explosifs pour développer la puissance des jambes",
+      "groupesMusculaires": ["Quadriceps", "Fessiers", "Mollets"],
+      "instructions": [
+        "Position de squat classique",
+        "Descendez en squat",
+        "Explosez vers le haut en sautant",
+        "Atterrissez en douceur en position squat",
+        "Répétez immédiatement"
+      ],
+      "series": 4,
+      "repetitions": "8-15",
+      "niveau": "Débutant"
+    },
+    {
+      "nom": "Pike push-ups",
+      "description": "Pompes en position pike pour cibler les épaules",
+      "groupesMusculaires": ["Épaules", "Triceps"],
+      "instructions": [
+        "Placez-vous en position de V inversé (pike)",
+        "Mains et pieds au sol, fesses vers le haut",
+        "Descendez la tête vers le sol en pliant les bras",
+        "Poussez pour remonter",
+        "Gardez les jambes tendues"
+      ],
+      "series": 3,
+      "repetitions": "5-10",
+      "niveau": "Débutant"
+    },
+    {
+      "nom": "Étirements des bras",
+      "description": "Étirements pour maintenir la flexibilité des bras et épaules",
+      "groupesMusculaires": ["Épaules", "Triceps"],
+      "instructions": [
+        "Tendez un bras devant vous",
+        "Tirez doucement le bras vers la poitrine avec l'autre main",
+        "Maintenez l'étirement 15-30 secondes",
+        "Répétez de l'autre côté",
+        "Effectuez des rotations d'épaules lentes"
+      ],
+      "series": 2,
+      "repetitions": "15-30 secondes par bras",
+      "duree": 30,
+      "niveau": "Débutant"
+    },
+    {
+      "nom": "Marche sur place",
+      "description": "Exercice cardio doux pour l'échauffement et l'entretien",
+      "groupesMusculaires": ["Corps entier"],
+      "instructions": [
+        "Marchez sur place en levant bien les genoux",
+        "Balancez les bras naturellement",
+        "Maintenez un rythme modéré",
+        "Respirez profondément",
+        "Gardez le dos droit"
+      ],
+      "series": 3,
+      "repetitions": "2-3 minutes",
+      "duree": 120,
+      "niveau": "Débutant"
+    },
+    {
+      "nom": "Étirements des jambes",
+      "description": "Étirements pour maintenir la souplesse des jambes",
+      "groupesMusculaires": ["Ischio-jambiers", "Mollets", "Quadriceps"],
+      "instructions": [
+        "Assis, tendez une jambe devant vous",
+        "Penchez-vous doucement vers l'avant",
+        "Maintenez l'étirement sans forcer",
+        "Répétez de l'autre côté",
+        "Étirez également les mollets en position debout"
+      ],
+      "series": 2,
+      "repetitions": "20-30 secondes par jambe",
+      "duree": 30,
+      "niveau": "Débutant"
+    },
+    {
+      "nom": "Rotation du tronc",
+      "description": "Exercice de mobilité pour le dos et les abdominaux",
+      "groupesMusculaires": ["Abdominaux", "Dorsaux"],
+      "instructions": [
+        "Debout, pieds écartés à largeur d'épaules",
+        "Mains sur les hanches ou bras croisés",
+        "Tournez doucement le tronc de gauche à droite",
+        "Gardez les hanches fixes",
+        "Mouvement lent et contrôlé"
+      ],
+      "series": 2,
+      "repetitions": "10-15 de chaque côté",
+      "niveau": "Débutant"
+    },
+    {
+      "nom": "Pompes diamant",
+      "description": "Pompes avec les mains en forme de diamant pour cibler les triceps",
+      "groupesMusculaires": ["Triceps", "Pectoraux", "Épaules"],
+      "instructions": [
+        "Placez les mains en forme de diamant sous la poitrine",
+        "Gardez le corps bien droit",
+        "Descendez lentement jusqu'à toucher les mains",
+        "Poussez avec force pour remonter",
+        "Mouvement lent et contrôlé"
+      ],
+      "series": 3,
+      "repetitions": "3-8",
+      "niveau": "Débutant"
+    },
+    {
+      "nom": "Squats isométriques",
+      "description": "Squats avec maintien en position basse pour la force",
+      "groupesMusculaires": ["Quadriceps", "Fessiers"],
+      "instructions": [
+        "Descendez en position squat",
+        "Maintenez la position basse",
+        "Cuisses parallèles au sol",
+        "Respirez profondément",
+        "Gardez le dos droit"
+      ],
+      "series": 3,
+      "repetitions": "20-45 secondes",
+      "duree": 30,
+      "niveau": "Débutant"
+    },
+    {
+      "nom": "Planche latérale",
+      "description": "Planche sur le côté pour renforcer les obliques",
+      "groupesMusculaires": ["Abdominaux", "Dorsaux"],
+      "instructions": [
+        "Allongez-vous sur le côté",
+        "Soulevez le corps en appui sur l'avant-bras",
+        "Gardez le corps bien aligné",
+        "Maintenez la position",
+        "Répétez de l'autre côté"
+      ],
+      "series": 2,
+      "repetitions": "15-30 secondes par côté",
+      "duree": 20,
+      "niveau": "Débutant"
+    },
+    {
+      "nom": "Relevés de jambes",
+      "description": "Exercice pour renforcer les abdominaux inférieurs",
+      "groupesMusculaires": ["Abdominaux"],
+      "instructions": [
+        "Allongez-vous sur le dos, mains sous les fesses",
+        "Soulevez les jambes tendues vers le plafond",
+        "Descendez lentement sans toucher le sol",
+        "Gardez le dos collé au sol",
+        "Mouvement lent et contrôlé"
+      ],
+      "series": 3,
+      "repetitions": "5-12",
+      "niveau": "Débutant"
+    },
+    {
+      "nom": "Superman",
+      "description": "Exercice pour renforcer le dos et les fessiers",
+      "groupesMusculaires": ["Dorsaux", "Fessiers"],
+      "instructions": [
+        "Allongez-vous sur le ventre",
+        "Tendez les bras devant vous",
+        "Soulevez simultanément bras et jambes",
+        "Maintenez la position 2-3 secondes",
+        "Redescendez lentement"
+      ],
+      "series": 3,
+      "repetitions": "8-15",
+      "niveau": "Débutant"
+    },
+    {
+      "nom": "Burpees complets",
+      "description": "Burpees avec saut et pompe pour un cardio intense",
+      "groupesMusculaires": ["Corps entier"],
+      "instructions": [
+        "Debout, descendez en squat et placez les mains au sol",
+        "Sautez pour étendre les jambes en planche",
+        "Faites une pompe complète",
+        "Ramenez les pieds en squat d'un saut",
+        "Sautez haut avec les bras levés"
+      ],
+      "series": 4,
+      "repetitions": "8-15",
+      "niveau": "Intermédiaire"
+    },
+    {
+      "nom": "Mountain Climbers rapides",
+      "description": "Mountain climbers à rythme élevé pour brûler les calories",
+      "groupesMusculaires": ["Corps entier", "Abdominaux"],
+      "instructions": [
+        "Position de planche, bras tendus",
+        "Alternez rapidement genoux vers poitrine",
+        "Gardez les hanches basses et stables",
+        "Maintenez un rythme très rapide",
+        "Respirez de façon rythmée"
+      ],
+      "series": 4,
+      "repetitions": "30-45 secondes",
+      "duree": 40,
+      "niveau": "Intermédiaire"
+    },
+    {
+      "nom": "Jumping Jacks",
+      "description": "Saut avec écart de jambes et bras pour le cardio",
+      "groupesMusculaires": ["Corps entier", "Mollets"],
+      "instructions": [
+        "Debout, pieds joints, bras le long du corps",
+        "Sautez en écartant jambes et levant les bras",
+        "Revenez à la position de départ en sautant",
+        "Maintenez un rythme constant et rapide",
+        "Atterrissez sur la pointe des pieds"
+      ],
+      "series": 4,
+      "repetitions": "20-40",
+      "niveau": "Intermédiaire"
+    },
+    {
+      "nom": "Pompes sautées",
+      "description": "Pompes explosives avec saut des mains",
+      "groupesMusculaires": ["Pectoraux", "Épaules", "Triceps"],
+      "instructions": [
+        "Position de pompe classique",
+        "Descendez normalement",
+        "Poussez explosif pour décoller les mains",
+        "Atterrissez en douceur en position pompe",
+        "Répétez immédiatement"
+      ],
+      "series": 3,
+      "repetitions": "5-10",
+      "niveau": "Intermédiaire"
+    },
+    {
+      "nom": "Squats jump 180°",
+      "description": "Squats avec saut et rotation pour coordination et cardio",
+      "groupesMusculaires": ["Quadriceps", "Fessiers", "Mollets"],
+      "instructions": [
+        "Position squat, descendez normalement",
+        "Explosez en sautant avec rotation 180°",
+        "Atterrissez face à l'opposé en position squat",
+        "Alternez le sens de rotation",
+        "Gardez l'équilibre à l'atterrissage"
+      ],
+      "series": 3,
+      "repetitions": "8-16",
+      "niveau": "Intermédiaire"
+    },
+    {
+      "nom": "Planche dynamique",
+      "description": "Alternance planche haute et planche basse",
+      "groupesMusculaires": ["Abdominaux", "Épaules", "Triceps"],
+      "instructions": [
+        "Commencez en planche sur avant-bras",
+        "Montez en planche haute, un bras puis l'autre",
+        "Redescendez en planche basse, un bras puis l'autre",
+        "Alternez le bras qui commence",
+        "Gardez le corps bien aligné"
+      ],
+      "series": 3,
+      "repetitions": "8-15",
+      "niveau": "Intermédiaire"
+    },
+    {
+      "nom": "Pompes archer",
+      "description": "Pompes unilatérales pour développer la force asymétrique",
+      "groupesMusculaires": ["Pectoraux", "Triceps", "Épaules"],
+      "instructions": [
+        "Position pompe, mains écartées largement",
+        "Descendez en déplaçant le poids vers un bras",
+        "L'autre bras reste tendu sur le côté",
+        "Poussez avec le bras de travail",
+        "Alternez les côtés à chaque répétition"
+      ],
+      "series": 3,
+      "repetitions": "4-8 par côté",
+      "niveau": "Intermédiaire"
+    },
+    {
+      "nom": "Squats bulgares",
+      "description": "Squats unilatéraux avec pied arrière surélevé",
+      "groupesMusculaires": ["Quadriceps", "Fessiers", "Ischio-jambiers"],
+      "instructions": [
+        "Placez le pied arrière sur une chaise",
+        "Descendez en fléchissant la jambe avant",
+        "Le genou avant ne dépasse pas les orteils",
+        "Poussez avec la jambe avant pour remonter",
+        "Faites toutes les répétitions d'un côté puis changez"
+      ],
+      "series": 3,
+      "repetitions": "8-12 par jambe",
+      "niveau": "Intermédiaire"
+    },
+    {
+      "nom": "Dips triceps avancés",
+      "description": "Dips avec jambes tendues et amplitude maximale",
+      "groupesMusculaires": ["Triceps", "Pectoraux", "Épaules"],
+      "instructions": [
+        "Mains sur une chaise, jambes tendues loin devant",
+        "Descendez profondément en pliant les bras",
+        "Gardez le dos près de la chaise",
+        "Remontez en contractant fort les triceps",
+        "Amplitude complète pour maximiser l'hypertrophie"
+      ],
+      "series": 4,
+      "repetitions": "8-15",
+      "niveau": "Intermédiaire"
+    },
+    {
+      "nom": "Pike push-ups avancés",
+      "description": "Pike push-ups avec pieds surélevés",
+      "groupesMusculaires": ["Épaules", "Triceps"],
+      "instructions": [
+        "Pieds sur une chaise, mains au sol",
+        "Position pike (V inversé) prononcée",
+        "Descendez la tête vers le sol",
+        "Poussez fort pour remonter",
+        "Travail intense des épaules"
+      ],
+      "series": 3,
+      "repetitions": "5-10",
+      "niveau": "Intermédiaire"
+    },
+    {
+      "nom": "Squats pistolet assistés",
+      "description": "Squats sur une jambe avec assistance",
+      "groupesMusculaires": ["Quadriceps", "Fessiers", "Mollets"],
+      "instructions": [
+        "Tenez-vous à un support stable",
+        "Tendez une jambe devant vous",
+        "Descendez en squat sur une jambe",
+        "Utilisez le support pour l'équilibre",
+        "Remontez en poussant avec la jambe de travail"
+      ],
+      "series": 3,
+      "repetitions": "3-8 par jambe",
+      "niveau": "Intermédiaire"
+    },
+    {
+      "nom": "Tractions négatives",
+      "description": "Phase négative des tractions pour développer la force",
+      "groupesMusculaires": ["Dorsaux", "Biceps"],
+      "instructions": [
+        "Sautez pour arriver en position haute de traction",
+        "Descendez très lentement (5-8 secondes)",
+        "Contrôlez la descente avec les dorsaux",
+        "Répétez en sautant à nouveau en haut",
+        "Focus sur la phase excentrique"
+      ],
+      "series": 3,
+      "repetitions": "3-6",
+      "niveau": "Intermédiaire"
+    },
+    {
+      "nom": "Handstand push-ups assistés",
+      "description": "Pompes en équilibre sur les mains avec assistance",
+      "groupesMusculaires": ["Épaules", "Triceps", "Dorsaux"],
+      "instructions": [
+        "Placez les pieds contre un mur en position handstand",
+        "Descendez la tête vers le sol en contrôlant",
+        "Poussez pour remonter en position haute",
+        "Utilisez le mur pour l'équilibre",
+        "Mouvement très lent et contrôlé"
+      ],
+      "series": 3,
+      "repetitions": "2-5",
+      "niveau": "Intermédiaire"
+    },
+    {
+      "nom": "Muscle-ups progression",
+      "description": "Progression vers le muscle-up complet",
+      "groupesMusculaires": ["Dorsaux", "Pectoraux", "Triceps"],
+      "instructions": [
+        "Commencez par une traction haute",
+        "Tirez le corps au-dessus de la barre",
+        "Transition vers position de dips",
+        "Poussez pour finir en position haute",
+        "Utilisez l'élan si nécessaire au début"
+      ],
+      "series": 3,
+      "repetitions": "1-3",
+      "niveau": "Intermédiaire"
+    },
+    {
+      "nom": "Pistol squats complets",
+      "description": "Squats complets sur une jambe",
+      "groupesMusculaires": ["Quadriceps", "Fessiers", "Mollets"],
+      "instructions": [
+        "Tendez une jambe devant vous",
+        "Descendez en squat complet sur une jambe",
+        "Gardez la jambe tendue parallèle au sol",
+        "Remontez en poussant avec la jambe de travail",
+        "Utilisez un support si nécessaire"
+      ],
+      "series": 3,
+      "repetitions": "3-8 par jambe",
+      "niveau": "Intermédiaire"
+    },
+    {
+      "nom": "Planche avancée",
+      "description": "Planche avec variations et temps prolongé",
+      "groupesMusculaires": ["Abdominaux", "Épaules", "Corps entier"],
+      "instructions": [
+        "Position planche standard",
+        "Maintenez 60-120 secondes",
+        "Levez alternativement bras et jambes",
+        "Gardez le corps parfaitement aligné",
+        "Respirez de manière contrôlée"
+      ],
+      "series": 3,
+      "repetitions": "60-120 secondes",
+      "duree": 90,
+      "niveau": "Intermédiaire"
+    },
+    {
+      "nom": "L-sit progression",
+      "description": "Position L-sit pour développer la force du core",
+      "groupesMusculaires": ["Abdominaux", "Épaules", "Triceps"],
+      "instructions": [
+        "Assis, mains au sol à côté des hanches",
+        "Soulevez les jambes tendues devant vous",
+        "Décollent le corps du sol avec les bras",
+        "Maintenez la position L",
+        "Commencez avec jambes pliées si nécessaire"
+      ],
+      "series": 3,
+      "repetitions": "10-30 secondes",
+      "duree": 20,
+      "niveau": "Intermédiaire"
+    },
+    {
+      "nom": "One-arm push-ups progression",
+      "description": "Progression vers les pompes à un bras",
+      "groupesMusculaires": ["Pectoraux", "Triceps", "Épaules"],
+      "instructions": [
+        "Écartez largement les jambes pour l'équilibre",
+        "Placez une main dans le dos",
+        "Descendez lentement sur un bras",
+        "Poussez pour remonter",
+        "Commencez par des pompes inclinées à un bras"
+      ],
+      "series": 3,
+      "repetitions": "1-5 par bras",
+      "niveau": "Intermédiaire"
+    },
+    {
+      "nom": "Yoga flow basique",
+      "description": "Enchaînement de postures de yoga pour la mobilité",
+      "groupesMusculaires": ["Corps entier"],
+      "instructions": [
+        "Enchaînez chien tête en bas, planche, cobra",
+        "Mouvements fluides et contrôlés",
+        "Respirez profondément à chaque transition",
+        "Maintenez chaque posture 5-10 secondes",
+        "Répétez la séquence plusieurs fois"
+      ],
+      "series": 3,
+      "repetitions": "5-8 cycles",
+      "niveau": "Intermédiaire"
+    },
+    {
+      "nom": "Étirements dynamiques",
+      "description": "Étirements actifs pour améliorer la mobilité articulaire",
+      "groupesMusculaires": ["Corps entier"],
+      "instructions": [
+        "Balancement contrôlé des jambes",
+        "Rotations des bras et des épaules",
+        "Flexions latérales du tronc",
+        "Mouvements amples et progressifs",
+        "Ne forcez jamais dans la douleur"
+      ],
+      "series": 2,
+      "repetitions": "10-15 par mouvement",
+      "niveau": "Intermédiaire"
+    },
+    {
+      "nom": "Cardio modéré",
+      "description": "Exercice cardiovasculaire à intensité modérée",
+      "groupesMusculaires": ["Corps entier"],
+      "instructions": [
+        "Marche rapide ou jogging léger sur place",
+        "Mouvements de bras coordonnés",
+        "Maintenez une intensité modérée",
+        "Respirez de façon rythmée",
+        "Adaptez l'intensité selon votre forme"
+      ],
+      "series": 3,
+      "repetitions": "3-5 minutes",
+      "duree": 240,
+      "niveau": "Intermédiaire"
+    },
+    {
+      "nom": "Renforcement fonctionnel",
+      "description": "Exercices de renforcement pour les gestes du quotidien",
+      "groupesMusculaires": ["Corps entier"],
+      "instructions": [
+        "Squats avec rotation du tronc",
+        "Pas chassés latéraux",
+        "Montées de genoux alternées",
+        "Mouvements multi-plans",
+        "Focus sur la coordination"
+      ],
+      "series": 3,
+      "repetitions": "10-20 par exercice",
+      "niveau": "Intermédiaire"
+    },
+    {
+      "nom": "Équilibre avancé",
+      "description": "Exercices d'équilibre pour la proprioception",
+      "groupesMusculaires": ["Corps entier", "Mollets"],
+      "instructions": [
+        "Équilibre sur une jambe, yeux fermés",
+        "Mouvements de bras en équilibre",
+        "Transferts de poids contrôlés",
+        "Variations sur surfaces instables",
+        "Progressez graduellement en difficulté"
+      ],
+      "series": 3,
+      "repetitions": "30-60 secondes par exercice",
+      "duree": 45,
+      "niveau": "Intermédiaire"
+    },
+    {
+      "nom": "Récupération active",
+      "description": "Exercices de récupération et relaxation",
+      "groupesMusculaires": ["Corps entier"],
+      "instructions": [
+        "Étirements passifs prolongés",
+        "Respiration profonde et contrôlée",
+        "Relâchement progressif des tensions",
+        "Mouvements lents et doux",
+        "Concentration sur la détente"
+      ],
+      "series": 2,
+      "repetitions": "2-3 minutes par zone",
+      "duree": 150,
+      "niveau": "Intermédiaire"
+    },
+    {
+      "nom": "Méditation en mouvement",
+      "description": "Exercices de conscience corporelle et méditation active",
+      "groupesMusculaires": ["Corps entier"],
+      "instructions": [
+        "Mouvements lents et conscients",
+        "Concentration sur la respiration",
+        "Coordination mouvement-respiration",
+        "Présence mentale totale",
+        "Transitions fluides entre postures"
+      ],
+      "series": 3,
+      "repetitions": "5-10 minutes",
+      "duree": 300,
+      "niveau": "Avancé"
+    },
+    {
+      "nom": "Étirements myofasciaux",
+      "description": "Étirements avancés pour la santé des fascias",
+      "groupesMusculaires": ["Corps entier"],
+      "instructions": [
+        "Étirements en spirales et torsions",
+        "Maintien prolongé des positions",
+        "Respiration profonde pendant l'étirement",
+        "Mobilisation des chaînes musculaires",
+        "Release des tensions profondes"
+      ],
+      "series": 2,
+      "repetitions": "45-90 secondes par position",
+      "duree": 60,
+      "niveau": "Avancé"
+    },
+    {
+      "nom": "Proprioception avancée",
+      "description": "Exercices complexes d'équilibre et proprioception",
+      "groupesMusculaires": ["Corps entier", "Abdominaux"],
+      "instructions": [
+        "Équilibre sur surfaces instables",
+        "Yeux fermés avec perturbations",
+        "Mouvements multi-plans simultanés",
+        "Défis d'équilibre progressifs",
+        "Intégration sensorielle"
+      ],
+      "series": 3,
+      "repetitions": "30-60 secondes par exercice",
+      "duree": 45,
+      "niveau": "Avancé"
+    },
+    {
+      "nom": "Yoga thérapeutique",
+      "description": "Séquences de yoga pour la santé et la récupération",
+      "groupesMusculaires": ["Corps entier"],
+      "instructions": [
+        "Postures de restauration",
+        "Séquences anti-stress",
+        "Étirements thérapeutiques",
+        "Relaxation guidée",
+        "Harmonisation énergétique"
+      ],
+      "series": 2,
+      "repetitions": "10-15 minutes",
+      "duree": 600,
+      "niveau": "Avancé"
+    },
+    {
+      "nom": "Mobilité articulaire complète",
+      "description": "Routine complète de mobilité pour toutes les articulations",
+      "groupesMusculaires": ["Corps entier"],
+      "instructions": [
+        "Rotations articulaires contrôlées",
+        "Mobilisation en amplitude complète",
+        "Mouvements circulaires et spiralés",
+        "Progression graduelle d'amplitude",
+        "Activation des stabilisateurs"
+      ],
+      "series": 2,
+      "repetitions": "8-12 répétitions par articulation",
+      "niveau": "Avancé"
+    },
+    {
+      "nom": "Respiration fonctionnelle",
+      "description": "Techniques respiratoires avancées pour la performance",
+      "groupesMusculaires": ["Abdominaux", "Corps entier"],
+      "instructions": [
+        "Respiration diaphragmatique profonde",
+        "Coordination respiration-mouvement",
+        "Techniques de récupération respiratoire",
+        "Respiration 4-7-8 pour la relaxation",
+        "Activation du système parasympathique"
+      ],
+      "series": 3,
+      "repetitions": "5-10 cycles respiratoires",
+      "duree": 300,
+      "niveau": "Avancé"
+    },
+    {
+      "nom": "Automassage et trigger points",
+      "description": "Techniques d'automassage pour la récupération musculaire",
+      "groupesMusculaires": ["Corps entier"],
+      "instructions": [
+        "Utilisation de balle ou rouleau imaginaire",
+        "Pression sur les points de tension",
+        "Mouvements de massage circulaires",
+        "Release des adhérences",
+        "Amélioration de la circulation"
+      ],
+      "series": 2,
+      "repetitions": "30-60 secondes par zone",
+      "duree": 45,
+      "niveau": "Avancé"
+    },
+    {
+      "nom": "Coordination neuro-motrice",
+      "description": "Exercices complexes de coordination et agilité mentale",
+      "groupesMusculaires": ["Corps entier"],
+      "instructions": [
+        "Mouvements croisés complexes",
+        "Défis de coordination bras-jambes",
+        "Séquences de mouvements mémorisées",
+        "Réactions à des stimuli visuels",
+        "Activation de la neuroplasticité"
+      ],
+      "series": 3,
+      "repetitions": "10-15 répétitions par pattern",
+      "niveau": "Avancé"
+    },
+    {
+      "nom": "Réhabilitation posturale",
+      "description": "Exercices correctifs pour l'amélioration posturale",
+      "groupesMusculaires": ["Abdominaux", "Dorsaux"],
+      "instructions": [
+        "Correction des déséquilibres musculaires",
+        "Renforcement des muscles posturaux",
+        "Étirements des muscles raccourcis",
+        "Activation des chaînes profondes",
+        "Intégration posturale dynamique"
+      ],
+      "series": 3,
+      "repetitions": "12-20 répétitions",
+      "niveau": "Avancé"
+    },
+    {
+      "nom": "One-arm push-ups",
+      "description": "Pompes à une main pour une force maximale",
+      "groupesMusculaires": ["Pectoraux", "Épaules", "Triceps"],
+      "instructions": [
+        "Position pompe classique, retirer une main",
+        "Placer la main libre dans le dos",
+        "Descendre lentement en contrôlant",
+        "Pousser avec force pour remonter",
+        "Alterner les bras entre les séries"
+      ],
+      "series": 3,
+      "repetitions": "1-5 répétitions par bras",
+      "niveau": "Avancé"
+    },
+    {
+      "nom": "Handstand push-ups complets",
+      "description": "Pompes en équilibre sur les mains sans assistance",
+      "groupesMusculaires": ["Épaules", "Triceps", "Abdominaux"],
+      "instructions": [
+        "Équilibre en handstand contre le mur",
+        "Descendre en fléchissant les bras",
+        "Toucher le sommet de la tête au sol",
+        "Pousser pour remonter en position haute",
+        "Maintenir l'équilibre tout au long"
+      ],
+      "series": 3,
+      "repetitions": "3-8 répétitions",
+      "niveau": "Avancé"
+    },
+    {
+      "nom": "Muscle-ups stricts",
+      "description": "Muscle-ups complets sans élan",
+      "groupesMusculaires": ["Dorsaux", "Biceps", "Épaules"],
+      "instructions": [
+        "Suspension complète à la barre",
+        "Traction stricte jusqu'au sternum",
+        "Transition fluide au-dessus de la barre",
+        "Dips pour verrouiller les bras",
+        "Redescendre en contrôlant"
+      ],
+      "series": 3,
+      "repetitions": "1-5 répétitions",
+      "niveau": "Avancé"
+    },
+    {
+      "nom": "Pistol squats avec poids",
+      "description": "Squats à une jambe avec charge additionnelle",
+      "groupesMusculaires": ["Quadriceps", "Fessiers", "Abdominaux"],
+      "instructions": [
+        "Tenir un poids devant la poitrine",
+        "Lever une jambe devant soi",
+        "Descendre sur une jambe uniquement",
+        "Remonter sans toucher l'autre pied",
+        "Alterner les jambes"
+      ],
+      "series": 3,
+      "repetitions": "5-10 répétitions par jambe",
+      "niveau": "Avancé"
+    },
+    {
+      "nom": "Human flag",
+      "description": "Drapeau humain pour la force du tronc",
+      "groupesMusculaires": ["Abdominaux", "Dorsaux", "Épaules"],
+      "instructions": [
+        "Saisir une barre verticale avec les deux mains",
+        "Lever le corps à l'horizontale",
+        "Maintenir la position drapeau",
+        "Corps parfaitement aligné",
+        "Engagement total du core"
+      ],
+      "series": 3,
+      "repetitions": "5-15 secondes",
+      "niveau": "Avancé"
+    },
+    {
+      "nom": "Front lever",
+      "description": "Lever frontal en suspension horizontale",
+      "groupesMusculaires": ["Dorsaux", "Abdominaux", "Épaules"],
+      "instructions": [
+        "Suspension à la barre, bras tendus",
+        "Lever les jambes à l'horizontale",
+        "Corps parfaitement droit",
+        "Maintenir la position statique",
+        "Redescendre en contrôlant"
+      ],
+      "series": 3,
+      "repetitions": "5-20 secondes",
+      "niveau": "Avancé"
+    },
+    {
+      "nom": "Planche maltaise",
+      "description": "Planche avancée bras tendus vers l'avant",
+      "groupesMusculaires": ["Épaules", "Pectoraux", "Abdominaux"],
+      "instructions": [
+        "Position pompe, mains vers l'avant",
+        "Lever le corps en planche horizontale",
+        "Bras complètement tendus",
+        "Corps rigide et aligné",
+        "Maintenir sans fléchir"
+      ],
+      "series": 3,
+      "repetitions": "3-10 secondes",
+      "niveau": "Avancé"
+    },
+    {
+      "nom": "One-arm handstand",
+      "description": "Équilibre sur une main",
+      "groupesMusculaires": ["Épaules", "Abdominaux", "Corps entier"],
+      "instructions": [
+        "Handstand standard en premier",
+        "Déplacer le poids sur une main",
+        "Lever l'autre main lentement",
+        "Maintenir l'équilibre",
+        "Alterner les bras"
+      ],
+      "series": 3,
+      "repetitions": "2-10 secondes par main",
+      "niveau": "Avancé"
+    },
+    {
+      "nom": "Archer pull-ups",
+      "description": "Tractions asymétriques préparant aux tractions à une main",
+      "groupesMusculaires": ["Dorsaux", "Biceps"],
+      "instructions": [
+        "Prise large à la barre",
+        "Tirer vers un côté",
+        "Un bras tire, l'autre tend",
+        "Alterner à chaque répétition",
+        "Contrôler la descente"
+      ],
+      "series": 3,
+      "repetitions": "3-8 répétitions par côté",
+      "niveau": "Avancé"
+    },
+    {
+      "nom": "Weighted dips",
+      "description": "Dips avec poids additionnel",
+      "groupesMusculaires": ["Pectoraux", "Triceps", "Épaules"],
+      "instructions": [
+        "Dips classiques avec poids attaché",
+        "Descente contrôlée et profonde",
+        "Remontée explosive",
+        "Maintenir le corps vertical",
+        "Progression graduelle du poids"
+      ],
+      "series": 3,
+      "repetitions": "5-12 répétitions",
+      "niveau": "Avancé"
+    }
+  ]
+}

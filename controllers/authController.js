@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import BlacklistedToken from "../models/BlacklistedToken.js";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import verifyPW from "../utils/verifyPW.js";
@@ -511,5 +512,74 @@ export const resetDefaultObjectives = async () => {
   } catch (error) {
     console.error("Erreur lors du nettoyage des objectifs par défaut:", error);
     return 0;
+  }
+};
+
+// Déconnexion de l'utilisateur (logout)
+export const logout = async (req, res) => {
+  try {
+    const token = req.headers.authorization?.split(" ")[1];
+
+    if (!token) {
+      return res.status(401).json({
+        message: "Token d'authentification requis",
+      });
+    }
+
+    // Vérifier que le token est valide
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (error) {
+      return res.status(401).json({
+        message: "Token invalide",
+      });
+    }
+
+    // Vérifier si le token est déjà dans la blacklist
+    const isBlacklisted = await BlacklistedToken.findOne({ token });
+    if (isBlacklisted) {
+      return res.status(400).json({
+        message: "Vous êtes déjà déconnecté",
+      });
+    }
+
+    // Ajouter le token à la blacklist
+    const expirationDate = new Date(decoded.exp * 1000); // Convertir timestamp en date
+
+    await BlacklistedToken.create({
+      token: token,
+      expiresAt: expirationDate,
+    });
+
+    res.status(200).json({
+      message: "Déconnexion réussie",
+    });
+  } catch (error) {
+    console.error("Erreur lors de la déconnexion:", error);
+    res.status(500).json({
+      message: "Erreur serveur lors de la déconnexion",
+    });
+  }
+};
+
+// Middleware pour vérifier si un token est blacklisté
+export const checkBlacklistedToken = async (req, res, next) => {
+  try {
+    const token = req.headers.authorization?.split(" ")[1];
+
+    if (token) {
+      const isBlacklisted = await BlacklistedToken.findOne({ token });
+      if (isBlacklisted) {
+        return res.status(401).json({
+          message: "Token révoqué. Veuillez vous reconnecter.",
+        });
+      }
+    }
+
+    next();
+  } catch (error) {
+    console.error("Erreur lors de la vérification du token blacklisté:", error);
+    next();
   }
 };
