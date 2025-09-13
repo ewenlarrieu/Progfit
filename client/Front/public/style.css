@@ -9,7 +9,8 @@
 
 }
 
-/* Style de la navbar */
+/* Style de la n/* Style pour la section carte */
+
 nav {
     background-color: #E22807;
     font-family: 'Poppins', sans-serif;
@@ -203,4 +204,275 @@ body img,
     font-weight: medium;
     color: black;
     text-align: center;
+}
+
+
+/* Style pour les p dans la section-2 */
+.section-2 {
+    padding: 2rem 0;
+    background-color: white;
+    position: relative;
+}
+
+.section-2-content {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    position: relative;
+    margin-bottom: 5rem;
+}
+
+.section-2-text {
+    margin-left: 5rem;
+    margin-top: 7rem;
+}
+
+.section-2 p {
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    margin: 10px;
+    ;
+    margin-bottom: 1.5rem;
+    font-size: 40px;
+}
+
+
+
+.section-2 p:last-child {
+    font-size: 30px;
+    font-weight: normal;
+    max-width: 650px;
+}
+
+.section-2 span {
+    color: #E22807;
+}
+
+.section-2 img {
+    position: absolute;
+    right: 0;
+    top: 7rem;
+    width: 550px;
+    height: auto;
+    border-radius: 12px 0 0 12px;
+}
+
+.section-2-content-2 p {
+    margin-left: 5rem;
+    font-size: 30px;
+    font-weight: normal;
+}
+
+.section-2-content-2 p:last-child {
+    margin-left: 5rem;
+    max-width: 900px;
+    font-size: 30px;
+    font-weight: normal;
+}
+
+/* Style pour le paragraphe "Pour tous les objectifs" */
+.Objectifs-p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 36px;
+    font-weight: bolder;
+    text-align: center;
+    margin: 7rem auto;
+    color: black;
+    letter-spacing: 0.3rem;
+    width: 100%;
+    text-decoration: underline;
+    text-decoration-color: black;
+    text-underline-offset: 8px;
+    text-decoration-thickness: 3px;
+}
+
+/* Style pour la section carte */
+
+
+
+
+
+
+
+.section-carte {
+    padding: 2rem 0;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+
+.carousel-container {
+    display: flex;
+    transition: transform 0.5s ease;
+    gap: 2.5rem;
+    padding: 0 2rem;
+    will-change: transform;
+}
+
+.carte {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    flex-shrink: 0;
+    width: 320px;
+}
+
+
+.carte img {
+    width: 320px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+}
+
+.carte p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 26px;
+    font-weight: bold;
+    color: black;
+    margin: 0;
+    margin-bottom: 0.5rem;
+}
+
+.description-carte {
+    font-size: 20px !important;
+    font-weight: normal !important;
+    color: #666 !important;
+    line-height: 1.4;
+    max-width: 300px;
+    word-wrap: break-word;
+    white-space: normal;
+    margin-bottom: 0 !important;
+}
+
+/* Style pour les boutons gauche/droite */
+.Bouttons-Gauche-Droite {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 3rem 0;
+}
+
+.btn-gauche,
+.btn-droite {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #E22807;
+    background-color: white;
+    color: #E22807;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-gauche:hover,
+.btn-droite:hover {
+    background-color: #E22807;
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Indicateurs de pagination */
+.carousel-indicators {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 2rem;
+    padding: 0 2rem;
+}
+
+.indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #E0E0E0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.indicator.active {
+    background-color: #E22807;
+    transform: scale(1.2);
+}
+
+.indicator:hover {
+    background-color: #E22807;
+    opacity: 0.7;
+}
+
+.last-p {
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    margin-left: 3rem;
+    margin-top: 8rem;
+    margin-bottom: 3rem;
+    font-size: 40px;
+}
+
+.last-p span {
+    color: #c41e06;
+}
+
+/* Section last-section avec texte superposé sur image */
+.last-section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 3rem;
+    gap: 2rem;
+}
+
+.last-section img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+.last-section-card {
+    position: relative;
+    z-index: 2;
+    background-color: rgba(255, 255, 255, 0.15);
+    padding: 3rem 2.5rem;
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 900px;
+    text-align: left;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.last-section-card h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 40px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    letter-spacing: 0.2rem;
+}
+
+.last-section-card p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 25px;
+    line-height: 1.7;
+    color: white;
+    margin: 0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
 }
