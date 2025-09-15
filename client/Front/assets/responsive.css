@@ -547,27 +547,27 @@
 /* Écrans intermédiaires */
 @media (max-width: 1500px) {
     .last-section {
-        padding: 2rem;
-        gap: 1.2rem;
+        padding: 1.5rem;
+        gap: 1rem;
         height: 100vh;
         overflow: hidden;
         justify-content: center;
     }
 
     .last-section-card {
-        max-width: 800px;
-        padding: 2rem 1.8rem;
-        max-height: 28vh;
+        max-width: 650px;
+        padding: 1.5rem 1.5rem;
+        max-height: 26vh;
         overflow: hidden;
     }
 
     .last-section-card h2 {
-        font-size: 32px;
-        margin-bottom: 1rem;
+        font-size: 28px;
+        margin-bottom: 0.8rem;
     }
 
     .last-section-card p {
-        font-size: 20px;
+        font-size: 16px;
         line-height: 1.5;
     }
 }
@@ -575,45 +575,50 @@
 /* Tablettes et écrans moyens */
 @media (max-width: 1193px) {
     .last-section {
-        padding: 2.5rem;
-        gap: 1.8rem;
+        padding: 1.5rem;
+        gap: 1rem;
     }
 
     .last-section-card {
-        max-width: 750px;
-        padding: 2.5rem 2rem;
+        max-width: 600px;
+        padding: 1.5rem 1.5rem;
+        max-height: 24vh;
+        overflow: hidden;
     }
 
     .last-section-card h2 {
-        font-size: 28px;
-        margin-bottom: 1.2rem;
+        font-size: 24px;
+        margin-bottom: 0.8rem;
     }
 
     .last-section-card p {
-        font-size: 18px;
+        font-size: 15px;
+        line-height: 1.4;
     }
 }
 
 /* Tablettes petites */
 @media (max-width: 968px) {
     .last-section {
-        padding: 2rem;
-        gap: 1.5rem;
+        padding: 1.2rem;
+        gap: 0.8rem;
     }
 
     .last-section-card {
-        max-width: 650px;
-        padding: 2rem 1.5rem;
+        max-width: 500px;
+        padding: 1.2rem 1.2rem;
+        max-height: 22vh;
+        overflow: hidden;
     }
 
     .last-section-card h2 {
-        font-size: 24px;
-        margin-bottom: 1rem;
+        font-size: 20px;
+        margin-bottom: 0.6rem;
     }
 
     .last-section-card p {
-        font-size: 16px;
-        line-height: 1.6;
+        font-size: 14px;
+        line-height: 1.3;
     }
 }
 
@@ -744,5 +749,290 @@
     .last-section-card p {
         font-size: 11px;
         line-height: 1.1;
+    }
+}
+
+/* ==================== FOOTER RESPONSIVE ==================== */
+
+/* Écrans intermédiaires */
+@media (max-width: 1500px) {
+    .footer {
+        margin-top: 3rem;
+    }
+}
+
+/* Tablettes et écrans moyens */
+@media (max-width: 1193px) {
+    .footer {
+        margin-top: 3rem;
+    }
+
+    .footer-content {
+        grid-template-columns: 2fr 1fr 1fr 1.2fr;
+        gap: 2.5rem;
+        padding: 3.5rem 2rem 2rem;
+    }
+
+    .footer-logo h3 {
+        font-size: 26px;
+    }
+
+    .footer-description {
+        font-size: 15px;
+        max-width: 280px;
+    }
+}
+
+/* Tablettes petites */
+@media (max-width: 968px) {
+    .footer {
+        margin-top: 2.5rem;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        padding: 3rem 1.5rem 2rem;
+    }
+
+    .footer-section:first-child {
+        grid-column: 1 / -1;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
+    .footer-description {
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .social-links {
+        justify-content: center;
+    }
+
+    .footer-bottom-content {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+}
+
+/* Mobile large */
+@media (max-width: 768px) {
+    .footer {
+        margin-top: 2rem;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 2.5rem 1rem 1.5rem;
+        text-align: center;
+    }
+
+    .footer-section:first-child {
+        grid-column: auto;
+        margin-bottom: 1.5rem;
+    }
+
+    .footer-logo {
+        justify-content: center;
+    }
+
+    .footer-logo h3 {
+        font-size: 24px;
+    }
+
+    .footer-description {
+        font-size: 14px;
+        max-width: 350px;
+    }
+
+    .social-links a {
+        width: 40px;
+        height: 40px;
+    }
+
+    .footer-section h4 {
+        font-size: 18px;
+        margin-bottom: 1rem;
+    }
+
+    .footer-section h4::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .footer-links a {
+        font-size: 14px;
+    }
+
+    .contact-info {
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+    }
+
+    .footer-bottom-links {
+        gap: 1.5rem;
+    }
+}
+
+/* Mobile moyen */
+@media (max-width: 480px) {
+    .footer {
+        margin-top: 1.5rem;
+    }
+
+    .footer-content {
+        padding: 2rem 0.8rem 1.5rem;
+        gap: 1.5rem;
+    }
+
+    .footer-logo h3 {
+        font-size: 22px;
+    }
+
+    .footer-description {
+        font-size: 13px;
+        max-width: 300px;
+    }
+
+    .social-links {
+        gap: 0.8rem;
+    }
+
+    .social-links a {
+        width: 38px;
+        height: 38px;
+    }
+
+    .footer-section h4 {
+        font-size: 16px;
+    }
+
+    .footer-links a {
+        font-size: 13px;
+    }
+
+    .contact-info p {
+        font-size: 13px;
+    }
+
+    .footer-bottom-content {
+        padding: 0 0.8rem;
+    }
+
+    .footer-bottom p,
+    .footer-bottom-links a {
+        font-size: 13px;
+    }
+
+    .footer-bottom-links {
+        gap: 1rem;
+    }
+}
+
+/* Mobile petit */
+@media (max-width: 357px) {
+    .footer-content {
+        padding: 1.5rem 0.6rem 1rem;
+    }
+
+    .footer-logo img {
+        width: 35px;
+        height: 35px;
+    }
+
+    .footer-logo h3 {
+        font-size: 20px;
+    }
+
+    .footer-description {
+        font-size: 12px;
+        max-width: 280px;
+    }
+
+    .social-links a {
+        width: 35px;
+        height: 35px;
+    }
+
+    .footer-section h4 {
+        font-size: 15px;
+    }
+
+    .footer-links a {
+        font-size: 12px;
+    }
+
+    .contact-info p {
+        font-size: 12px;
+    }
+
+    .footer-bottom p,
+    .footer-bottom-links a {
+        font-size: 12px;
+    }
+}
+
+/* Mobile très petit */
+@media (max-width: 320px) {
+    .footer-content {
+        padding: 1.5rem 0.4rem 1rem;
+    }
+
+    .footer-logo h3 {
+        font-size: 18px;
+    }
+
+    .footer-description {
+        font-size: 11px;
+        max-width: 260px;
+    }
+
+    .social-links {
+        gap: 0.6rem;
+    }
+
+    .social-links a {
+        width: 32px;
+        height: 32px;
+    }
+
+    .footer-section h4 {
+        font-size: 14px;
+        margin-bottom: 0.8rem;
+    }
+
+    .footer-links li {
+        margin-bottom: 0.6rem;
+    }
+
+    .footer-links a {
+        font-size: 11px;
+    }
+
+    .contact-info {
+        margin-top: 1rem;
+        padding-top: 1rem;
+    }
+
+    .contact-info p {
+        font-size: 11px;
+        margin-bottom: 0.6rem;
+    }
+
+    .footer-bottom-content {
+        padding: 0 0.4rem;
+    }
+
+    .footer-bottom p,
+    .footer-bottom-links a {
+        font-size: 11px;
+    }
+
+    .footer-bottom-links {
+        gap: 0.8rem;
     }
 }

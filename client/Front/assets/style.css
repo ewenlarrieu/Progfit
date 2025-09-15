@@ -6,7 +6,13 @@
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
 
+body,
+html {
+    width: 100%;
+    overflow-x: hidden;
 }
 
 /* Style de la n/* Style pour la section carte */
@@ -430,8 +436,9 @@ body img,
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    padding: 3rem;
-    gap: 2rem;
+    padding: 2rem;
+    gap: 1.5rem;
+    overflow: hidden;
 }
 
 .last-section img {
@@ -448,31 +455,224 @@ body img,
     position: relative;
     z-index: 2;
     background-color: rgba(255, 255, 255, 0.15);
-    padding: 3rem 2.5rem;
+    padding: 2rem 2rem;
     border-radius: 20px;
     backdrop-filter: blur(15px);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     width: 100%;
-    max-width: 900px;
+    max-width: 700px;
+    max-height: 25vh;
     text-align: left;
     border: 1px solid rgba(255, 255, 255, 0.3);
+    overflow: hidden;
 }
 
 .last-section-card h2 {
     font-family: 'Poppins', sans-serif;
-    font-size: 40px;
+    font-size: 32px;
     font-weight: bold;
     color: #ffffff;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    letter-spacing: 0.2rem;
+    letter-spacing: 0.1rem;
 }
 
 .last-section-card p {
     font-family: 'Poppins', sans-serif;
-    font-size: 25px;
-    line-height: 1.7;
+    font-size: 18px;
+    line-height: 1.5;
     color: white;
     margin: 0;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+/* ==================== FOOTER STYLES ==================== */
+
+.footer {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    margin-top: 4rem;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 2rem 2rem;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    gap: 3rem;
+}
+
+/* Section logo et description */
+.footer-section .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+}
+
+.footer-logo img {
+    width: 40px;
+    height: 40px;
+    filter: brightness(0) invert(1);
+}
+
+.footer-logo h3 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #E22807;
+    margin: 0;
+}
+
+.footer-description {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #cccccc;
+    margin-bottom: 2rem;
+    max-width: 300px;
+}
+
+/* Réseaux sociaux */
+.social-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    background: rgba(226, 40, 7, 0.1);
+    border: 2px solid rgba(226, 40, 7, 0.3);
+    border-radius: 50%;
+    color: #E22807;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.social-links a:hover {
+    background: #E22807;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(226, 40, 7, 0.3);
+}
+
+/* Titres des sections */
+.footer-section h4 {
+    font-size: 20px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.footer-section h4::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background: linear-gradient(90deg, #E22807, #ff4520);
+    border-radius: 2px;
+}
+
+/* Listes de liens */
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-links a {
+    color: #cccccc;
+    text-decoration: none;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.footer-links a:hover {
+    color: #E22807;
+    padding-left: 8px;
+}
+
+.footer-links a::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 2px;
+    background: #E22807;
+    transition: width 0.3s ease;
+}
+
+.footer-links a:hover::before {
+    width: 4px;
+}
+
+/* Informations de contact */
+.contact-info {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.contact-info p {
+    font-size: 14px;
+    color: #cccccc;
+    margin-bottom: 0.8rem;
+}
+
+.contact-info strong {
+    color: #E22807;
+}
+
+/* Footer bottom */
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2rem 0;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.footer-bottom-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-bottom p {
+    font-size: 14px;
+    color: #999999;
+    margin: 0;
+}
+
+.footer-bottom-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.footer-bottom-links a {
+    font-size: 14px;
+    color: #999999;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-bottom-links a:hover {
+    color: #E22807;
 }
