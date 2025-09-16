@@ -1,0 +1,53 @@
+/* Responsive helpers for the Register page */
+
+/* Utility: stack columns on small screens, row on medium+ */
+.responsive-row {
+    display: flex;
+    gap: 1.75rem;
+    /* roughly Tailwind gap-7 */
+}
+
+@media (max-width: 767px) {
+    .responsive-row {
+        flex-direction: column;
+    }
+
+    .responsive-card {
+        padding: 1.25rem !important;
+        /* reduce padding on small screens */
+    }
+
+    .responsive-title {
+        font-size: 1.5rem !important;
+        /* reduce title size */
+    }
+
+    .responsive-input {
+        font-size: 16px !important;
+    }
+}
+
+@media (min-width: 768px) {
+    .responsive-card {
+        padding: 2rem !important;
+    }
+
+    .responsive-title {
+        font-size: 1.875rem !important;
+        /* 30px roughly */
+    }
+}
+
+/* Utility to cap the card width on small screens */
+.responsive-card-width {
+    max-width: 48rem;
+    /* ~768px */
+    width: 100%;
+}
+
+/* Small helper to ensure icon size scales on small screens */
+.responsive-icon img {
+    width: 3.5rem;
+    /* 56px */
+    height: 3.5rem;
+}

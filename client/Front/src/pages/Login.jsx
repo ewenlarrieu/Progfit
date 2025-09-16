@@ -1,190 +1,111 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React from 'react'
+import Logo from '../components/common/Logo'
+import profileIcon from '/assets/img/iconamoon_profile-fill.png'
+import { useNavigate } from 'react-router-dom'
 
-const Login = () => {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  });
-  const [errors, setErrors] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-    // Nettoyer l'erreur lors de la saisie
-    if (errors[name]) {
-      setErrors(prev => ({
-        ...prev,
-        [name]: ''
-      }));
-    }
-  };
-
-  const validateForm = () => {
-    const newErrors = {};
-
-    if (!formData.email.trim()) {
-      newErrors.email = 'L\'email est requis';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Format d\'email invalide';
-    }
-
-    if (!formData.password.trim()) {
-      newErrors.password = 'Le mot de passe est requis';
-    } else if (formData.password.length < 6) {
-      newErrors.password = 'Le mot de passe doit contenir au moins 6 caractères';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    if (!validateForm()) return;
-
-    setIsLoading(true);
-    
-    try {
-      // Simulation d'une requête API
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // TODO: Remplacer par votre logique d'authentification
-      console.log('Données de connexion:', formData);
-      
-      // Redirection vers le dashboard
-      navigate('/dashboard');
-    } catch (error) {
-      setErrors({ general: 'Erreur de connexion. Veuillez réessayer.' });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
+export default function Login() {
+  const navigate = useNavigate()
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md mx-auto">
-        <div className="text-center mb-8">
-          <div className="mx-auto w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mb-4">
-            <span className="text-white text-2xl font-bold">💪</span>
+      <div className="min-h-screen relative">
+        {/* Image d'arrière-plan floue pour remplir les espaces */}
+        <div 
+          className="absolute inset-0 w-full h-screen opacity-80 blur-sm bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: 'url(/assets/img/unsplash_sHfo3WOgGTU.png)',
+          }}
+        ></div>
+        
+        {/* Image principale nette avec object-contain */}
+        
+        
+        <div className="absolute inset-0 flex items-center justify-center z-20">
+          <div className="bg-white p-8 rounded-lg shadow-lg max-w-3xl w-full mx-4 text-center">
+            <Logo/>
+            <p className="font-bold text-black mt-7 text-3xl tracking-widest" style={{fontFamily: 'Poppins, sans-serif'}}>Connectez-vous</p>
+  
+            <div className="w-30 h-30 rounded-full mx-auto mt-4 flex items-center justify-center relative">
+              {/* Fond orange avec opacité */}
+              <div className="absolute inset-0 bg-[#FF7D66] opacity-61 rounded-full"></div>
+              {/* Icône sans opacité */}
+              <img src={profileIcon} alt="Profile icon" className="w-16 h-16 relative z-10" />
+            </div>
+  
+  
+            <div className="mt-8 space-y-6">
+              {/* Email */}
+              <div className="flex justify-center">
+                <div className="w-full max-w-sm">
+                  <p className='text-black font-medium tracking-widest text-[22px] mb-2 text-left' style={{fontFamily: 'Poppins, sans-serif', letterSpacing: '10%'}}>Email</p>
+                  <input 
+                    type="email" 
+                    placeholder="Email" 
+                    className="border border-black rounded-3xl p-2 w-full block placeholder-[#5A5A5A] text-black" 
+                    style={{boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)'}}
+                  />
+                </div>
+              </div>
+
+              {/* Mot de passe (sous l'email) */}
+              <div className="flex justify-center">
+                <div className="w-full max-w-sm">
+                  <p className='text-black font-medium tracking-widest text-[22px] mb-2 text-left' style={{fontFamily: 'Poppins, sans-serif', letterSpacing: '10%'}}>Mot de passe</p>
+                  <input 
+                    type="password" 
+                    placeholder="Mot de passe" 
+                    className="border border-black rounded-3xl p-2 w-full block placeholder-[#5A5A5A] text-black" 
+                    style={{boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)'}}
+                  />
+                </div>
+              </div>
+            </div>
+      <div className='mt-6 text-center'>
+        <button 
+          className='text-[18px] text-black font-medium underline transition-transform duration-150 ease-in-out hover:scale-105 inline-block' 
+          style={{fontFamily: 'Poppins, sans-serif'}}
+          onClick={() =>navigate('/ForgotPassword')}
+        >
+          Mot de passe oublier
+        </button>
+      </div>
+  
+             
+  
+  
+         
+  
+            {/* Bouton Continuer */}
+            <div className="mt-10 text-center">
+              <button 
+                className="px-13 py-1.5 bg-[#E22807] text-white rounded-4xl font-semibold text-[28px] transition-transform duration-150 ease-in-out hover:scale-105 active:scale-95 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2" 
+                style={{fontFamily: 'Poppins, sans-serif',
+                  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)'
+                }}
+                
+              >
+                Continuer
+              </button>
+            </div>
+            <div className='mt-6 text-center '>
+              <p className='text-[18px] text-black font-medium' style={{fontFamily: 'Poppins, sans-serif'}}>Vous n'avez pas de compte ?
+                  
+              </p>
+            </div>
+            <div className="mt-6 text-center">
+              <button 
+                className="px-13 py-1.5 bg-black text-white rounded-4xl font-semibold text-[28px] transition-transform duration-150 ease-in-out hover:scale-105 active:scale-95 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF7D66]" 
+                style={{fontFamily: 'Poppins, sans-serif',
+                  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)'
+                }}
+                onClick={() => navigate('/register')}
+              >
+                Crée un compte
+              </button>
+            </div>
+  
           </div>
-          <h2 className="text-3xl font-extrabold text-gray-900">
-            Connexion à Progfit
-          </h2>
-          <p className="mt-2 text-sm text-gray-600">
-            Connectez-vous pour accéder à vos programmes personnalisés
-          </p>
-        </div>
-
-        <div className="bg-white py-8 px-6 shadow-xl rounded-xl">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {errors.general && (
-              <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm">
-                {errors.general}
-              </div>
-            )}
-
-            {/* Email */}
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                Adresse email
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors ${
-                  errors.email ? 'border-red-300 bg-red-50' : 'border-gray-300'
-                }`}
-                placeholder="votre@email.com"
-              />
-              {errors.email && (
-                <p className="mt-1 text-sm text-red-600">{errors.email}</p>
-              )}
-            </div>
-
-            {/* Mot de passe */}
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                Mot de passe
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                value={formData.password}
-                onChange={handleChange}
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors ${
-                  errors.password ? 'border-red-300 bg-red-50' : 'border-gray-300'
-                }`}
-                placeholder="••••••••"
-              />
-              {errors.password && (
-                <p className="mt-1 text-sm text-red-600">{errors.password}</p>
-              )}
-            </div>
-
-            {/* Options */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember-me"
-                  name="remember-me"
-                  type="checkbox"
-                  className="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded"
-                />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                  Se souvenir de moi
-                </label>
-              </div>
-              <div className="text-sm">
-                <a href="#" className="font-medium text-red-600 hover:text-red-500">
-                  Mot de passe oublié ?
-                </a>
-              </div>
-            </div>
-
-            {/* Bouton de soumission */}
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
-            >
-              {isLoading ? (
-                <>
-                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  Connexion...
-                </>
-              ) : (
-                'Se connecter'
-              )}
-            </button>
-          </form>
-
-          {/* Lien vers inscription */}
-          <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
-              Pas encore de compte ?{' '}
-              <Link to="/signup" className="font-medium text-red-600 hover:text-red-500">
-                Créer un compte
-              </Link>
-            </p>
-          </div>
+         
         </div>
       </div>
-    </div>
-  );
-};
-
-export default Login;
+    )
+   
+}

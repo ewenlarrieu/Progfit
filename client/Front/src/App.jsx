@@ -8,9 +8,11 @@ import Register from './pages/Register';
 import Programs from './pages/Programs';
 import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
+import ForgotPassword from './pages/ForgotPassword';
 
 // Import des composants communs
-import Layout from './components/common/Layout';
+
+
 
 function App() {
   return (
@@ -20,22 +22,23 @@ function App() {
           {/* Pages d'authentification (sans header/footer) */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path='/ForgotPassword' element={<ForgotPassword/>} />
           
           {/* Pages principales (avec header/footer) */}
           <Route path="/programs" element={
-            <Layout>
+          
               <Programs />
-            </Layout>
+        
           } />
           <Route path="/dashboard" element={
-            <Layout>
+           
               <Dashboard />
-            </Layout>
+           
           } />
           <Route path="/profile" element={
-            <Layout>
+           
               <Profile />
-            </Layout>
+          
           } />
           
           {/* Redirection par défaut vers la page d'accueil HTML */}
