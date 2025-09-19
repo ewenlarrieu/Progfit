@@ -9,6 +9,9 @@ import Programs from './pages/Programs';
 import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
 import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
+import DetailsProgramms from './pages/DetailsProgramms';
+import SeanceEntrainement from './pages/SeanceEntrainement';
 
 // Import des composants communs
 
@@ -19,10 +22,14 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
+          {/* Route par défaut */}
+          <Route path="/" element={<Login />} />
+          
           {/* Pages d'authentification (sans header/footer) */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path='/ForgotPassword' element={<ForgotPassword/>} />
+          <Route path='/reset-password/:token' element={<ResetPassword/>} />
           
           {/* Pages principales (avec header/footer) */}
           <Route path="/programs" element={
@@ -40,29 +47,23 @@ function App() {
               <Profile />
           
           } />
+           <Route path="/detailsprogramms" element={
+           
+              <DetailsProgramms />
           
-          {/* Redirection par défaut vers la page d'accueil HTML */}
-          <Route path="*" element={<RedirectToHome />} />
+          } />
+          <Route path="/SeanceEntrainement" element={
+           
+              <SeanceEntrainement />
+          
+          } />
+          
+          {/* Redirection par défaut vers login pour les routes non trouvées */}
+          <Route path="*" element={<Login />} />
         </Routes>
       </div>
     </Router>
   );
 }
-
-// Composant pour rediriger vers la page d'accueil HTML
-const RedirectToHome = () => {
-  React.useEffect(() => {
-    window.location.href = '/index.html';
-  }, []);
-  
-  return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="text-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-red-600 mx-auto"></div>
-        <p className="mt-4 text-gray-600">Redirection vers la page d'accueil...</p>
-      </div>
-    </div>
-  );
-};
 
 export default App;

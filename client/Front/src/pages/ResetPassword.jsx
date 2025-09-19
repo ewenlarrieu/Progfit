@@ -1,37 +1,59 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Logo from '../components/common/Logo'
 import profileIcon from '/assets/img/iconamoon_profile-fill.png'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
-export default function ForgotPassword() {
+export default function ResetPassword() {
   const navigate = useNavigate()
-  const [email, setEmail] = useState('')
+  const { token } = useParams()
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleForgotPassword = async (e) => {
+  useEffect(() => {
+    // Vérifier si le token est présent
+    if (!token) {
+      setError('Token de réinitialisation manquant')
+      return
+    }
+  }, [token])
+
+  const handleResetPassword = async (e) => {
     e.preventDefault()
     setError('')
     setMessage('')
     setIsLoading(true)
 
+    // Vérifier que les mots de passe correspondent
+    if (password !== confirmPassword) {
+      setError('Les mots de passe ne correspondent pas')
+      setIsLoading(false)
+      return
+    }
+
     try {
-      const response = await fetch('http://localhost:5000/api/auth/forgot-password', {
+      const response = await fetch(`http://localhost:5000/api/auth/reset-password/${token}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ password, confirmPassword }),
       })
 
       const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.message || 'Erreur lors de l\'envoi de l\'email')
+        throw new Error(data.message || 'Erreur lors de la réinitialisation du mot de passe')
       }
 
-      setMessage(data.message || 'Si cet email existe, un lien de réinitialisation a été envoyé.')
+      setMessage('Mot de passe réinitialisé avec succès ! Redirection vers la page de connexion...')
+      
+      // Rediriger vers la page de connexion après 2 secondes
+      setTimeout(() => {
+        navigate('/login')
+      }, 2000)
     } catch (err) {
       setError(err.message)
     } finally {
@@ -54,7 +76,7 @@ export default function ForgotPassword() {
           <div className="absolute inset-0 flex items-center justify-center z-20">
             <div className="bg-white p-8 rounded-lg shadow-lg max-w-3xl w-full mx-4 text-center">
               <Logo/>
-              <p className="font-bold text-black mt-7 text-3xl tracking-widest" style={{fontFamily: 'Poppins, sans-serif'}}>Mot de passe oublier</p>
+              <p className="font-bold text-black mt-7 text-3xl tracking-widest" style={{fontFamily: 'Poppins, sans-serif'}}>Réinitialiser le mot de passe</p>
     
               <div className="w-30 h-30 rounded-full mx-auto mt-4 flex items-center justify-center relative">
                 {/* Fond orange avec opacité */}
@@ -64,16 +86,27 @@ export default function ForgotPassword() {
               </div>
     
     
-              <form onSubmit={handleForgotPassword} className="mt-8 space-y-6">
-                {/* Email */}
-                <div className="flex justify-center">
+              <form onSubmit={handleResetPassword} className="mt-8 space-y-6">
+                <div className="flex flex-col items-center space-y-6">
                   <div className="w-full max-w-sm">
-                    <p className='text-black font-medium tracking-widest text-[22px] mb-2 text-left' style={{fontFamily: 'Poppins, sans-serif', letterSpacing: '10%'}}>Email</p>
+                    <p className='text-black font-medium tracking-widest text-[18px] mb-2 text-left' style={{fontFamily: 'Poppins, sans-serif', letterSpacing: '10%'}}>Entrez votre nouveau mot de passe</p>
                     <input 
-                      type="email" 
-                      placeholder="Email" 
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      type="password" 
+                      placeholder="Nouveau mot de passe" 
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                      className="border border-black rounded-3xl p-2 w-full block placeholder-[#5A5A5A] text-black" 
+                      style={{boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)'}}
+                    />
+                  </div>
+                  <div className="w-full max-w-sm">
+                    <p className='text-black font-medium tracking-widest text-[16px] mb-2 text-left' style={{fontFamily: 'Poppins, sans-serif', letterSpacing: '10%'}}>Confirmez votre nouveau mot de passe</p>
+                    <input 
+                      type="password" 
+                      placeholder="Confirmez votre nouveau mot de passe" 
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
                       required
                       className="border border-black rounded-3xl p-2 w-full block placeholder-[#5A5A5A] text-black" 
                       style={{boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)'}}
@@ -88,13 +121,13 @@ export default function ForgotPassword() {
                 <div className="mt-10 text-center">
                   <button 
                     type="submit"
-                    disabled={isLoading}
+                    disabled={isLoading || !token}
                     className="px-13 py-1.5 bg-[#E22807] text-white rounded-4xl font-semibold text-[28px] transition-transform duration-150 ease-in-out hover:scale-105 active:scale-95 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed" 
                     style={{fontFamily: 'Poppins, sans-serif',
                       boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)'
                     }}
                   >
-                    {isLoading ? 'Envoi...' : 'Continuer'}
+                    {isLoading ? 'Réinitialisation...' : 'Réinitialiser'}
                   </button>
                 </div>
               </form>
