@@ -104,19 +104,12 @@ export const generateVerificationSuccessPage = (user, jwtToken) => {
           user.objectifs.join(", ") || "Aucun (à définir)"
         }</p>
         
-        <div class="dev-section">
-          <h3>🔧 Zone de développement</h3>
-          <p><strong>Token JWT pour tests API :</strong></p>
-          <div class="token">${jwtToken}</div>
-          <p style="font-size: 12px; color: #856404; margin-top: 10px;">
-            Copiez ce token pour tester la route PUT /api/auth/update-profile
-          </p>
-        </div>
+        
         
         <p class="info">Vous pouvez maintenant vous connecter à votre compte et commencer votre parcours fitness !</p>
         <a href="${
-          process.env.CLIENT_URL || "http://localhost:3000"
-        }/login" class="btn">
+          process.env.CLIENT_URL || "http://localhost:5173"
+        }/app.html#/login" class="btn">
           Se connecter à Progfit
         </a>
         <p style="margin-top: 20px; color: #999; font-size: 14px;">
@@ -167,8 +160,8 @@ export const sendPasswordResetEmail = async (email, nom, resetToken) => {
 
     // Lien vers l'API pour réinitialiser le mot de passe
     const resetUrl = `${
-      process.env.CLIENT_URL || "http://localhost:3000"
-    }/reset-password/${resetToken}`;
+      process.env.CLIENT_URL || "http://localhost:5173"
+    }/app.html#/reset-password/${resetToken}`;
 
     const mailOptions = {
       from: process.env.EMAIL_USER,
@@ -191,10 +184,7 @@ export const sendPasswordResetEmail = async (email, nom, resetToken) => {
             </a>
           </div>
           
-          <p style="color: #666; font-size: 14px;">
-            Si le bouton ne fonctionne pas, copiez et collez ce lien dans votre navigateur :<br>
-            <a href="${resetUrl}">${resetUrl}</a>
-          </p>
+      
           
           <p style="color: #dc3545; font-size: 14px; font-weight: bold;">
             ⚠️ Ce lien expire dans 30 minutes pour votre sécurité.

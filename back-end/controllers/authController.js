@@ -10,7 +10,8 @@ import {
 } from "../utils/email.js";
 
 export const register = async (req, res) => {
-  const { username, email, password, confirmPassword } = req.body;
+  const { username, email, password, confirmPassword, niveau, objectifs } =
+    req.body;
 
   try {
     // 1. Validation des champs obligatoires
@@ -59,16 +60,32 @@ export const register = async (req, res) => {
       });
     }
 
-    // 6. Créer l'utilisateur avec email non vérifié (sans objectifs par défaut)
+    // 6. Validation du niveau et des objectifs
+    const niveauxValides = ["debutant", "intermediaire", "avance"];
+    const objectifsValides = [
+      "perte de poids",
+      "prise de masse",
+      "entretien",
+      "force",
+    ];
+
+    const niveauFinal =
+      niveau && niveauxValides.includes(niveau) ? niveau : "debutant";
+    const objectifsFinal = Array.isArray(objectifs)
+      ? objectifs.filter((obj) => objectifsValides.includes(obj))
+      : [];
+
+    // 7. Créer l'utilisateur avec email non vérifié
     const newUser = await User.create({
       nom: username.trim(),
       email: email.toLowerCase().trim(),
       motDePasse: password,
-      niveau: "debutant",
-      objectifs: [], // Tableau vide, sera rempli lors de updateProfile
+      niveau: niveauFinal,
+      objectifs: objectifsFinal,
+      profileCompleted: objectifsFinal.length > 0, // True si objectifs fournis
     });
 
-    // 7. Gérer la vérification email (génération token + envoi email)
+    // 8. Gérer la vérification email (génération token + envoi email)
     const emailResult = await handleEmailVerification(newUser);
 
     if (!emailResult.success) {
@@ -77,7 +94,7 @@ export const register = async (req, res) => {
       });
     }
 
-    // 8. Réponse de succès
+    // 9. Réponse de succès
     res.status(201).json({
       message:
         "Compte créé avec succès ! Vérifiez votre email pour activer votre compte.",
@@ -85,7 +102,10 @@ export const register = async (req, res) => {
         id: newUser._id,
         nom: newUser.nom,
         email: newUser.email,
+        niveau: newUser.niveau,
+        objectifs: newUser.objectifs,
         emailVerified: newUser.emailVerified,
+        profileCompleted: newUser.profileCompleted,
       },
     });
   } catch (error) {
