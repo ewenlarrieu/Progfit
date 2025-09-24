@@ -85,9 +85,9 @@ export default function Register() {
     <div className="min-h-screen relative">
       {/* Image d'arrière-plan floue pour remplir les espaces */}
       <div 
-        className="absolute inset-0 w-full h-screen opacity-80 blur-sm bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 w-full h-screen   bg-cover "
         style={{
-          backgroundImage: 'url(/assets/img/unsplash_sHfo3WOgGTU.png)',
+          backgroundImage: 'url(/assets/img/unsplash_j8fVoo3i8xk.png)',
         }}
       ></div>
       
