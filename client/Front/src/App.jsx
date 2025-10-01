@@ -47,7 +47,7 @@ function App() {
               <Profile />
           
           } />
-           <Route path="/detailsprogramms" element={
+           <Route path="/detailsprogramms/:id" element={
            
               <DetailsProgramms />
           

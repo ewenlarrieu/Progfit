@@ -1,8 +1,105 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import NavBar from '../components/common/NavBar'
 
 export default function DetailsProgramms() {
+  const { id } = useParams();
+  const [programme, setProgramme] = useState(null);
+
+  useEffect(() => {
+    if (id) {
+      fetch(`http://localhost:5000/api/programmes/${id}`)
+        .then(res => res.json())
+        .then(data => setProgramme(data.programme))
+        .catch(err => console.error('Erreur:', err));
+    }
+  }, [id]);
+
+  if (!programme) {
+    return (
+      <div className="flex min-h-screen bg-gray-50">
+        <NavBar />
+        <div className="flex-1 md:ml-64 p-8 flex justify-center items-center">
+          <p className="text-black text-xl">Chargement...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div><NavBar/></div>
+    <div className="flex min-h-screen bg-gray-50">
+      <NavBar />
+      <div 
+        className="flex-1 md:ml-64 p-4 sm:p-6 md:p-8" 
+        style={{ fontFamily: 'Poppins, sans-serif'}}
+      >
+        {/* Header programme */}
+        <div className="mb-10">
+          <h1 className="text-black font-bold text-2xl sm:text-3xl md:text-4xl">
+            Programme <span className="text-[#E22807]">{programme.nom}</span>
+          </h1>
+          <p className="text-black text-lg sm:text-xl mt-2 font-medium">
+            Durée : <span className="text-[#E22807] font-semibold">{programme.duree} semaines</span>
+          </p>
+          <p className="text-gray-600 mt-4 text-sm sm:text-base max-w-2xl">
+            Voici un aperçu détaillé de votre programme. Retrouvez les objectifs, 
+            la durée, ainsi que la structure de vos séances hebdomadaires.
+          </p>
+        </div>
+
+        {/* Informations principales */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
+          <div className="bg-white rounded-lg shadow p-4 sm:p-6 text-center">
+            <p className="text-black font-bold text-lg sm:text-xl">Catégorie</p>
+            <p className="text-[#E22807] mt-2 text-base sm:text-lg">{programme.objectif}</p>
+          </div>
+          <div className="bg-white rounded-lg shadow p-4 sm:p-6 text-center">
+            <p className="text-black font-bold text-lg sm:text-xl">Niveau</p>
+            <p className="text-[#E22807] mt-2 text-base sm:text-lg">{programme.niveau}</p>
+          </div>
+           <div className="bg-white rounded-lg shadow p-4 sm:p-6 text-center">
+            <p className="text-black font-bold text-lg sm:text-xl">Nombre d'exercices par semaine</p>
+            <p className="text-[#E22807] mt-2 text-base sm:text-lg">
+              {programme.seances ? 
+                programme.seances.reduce((total, seance) => 
+                  total + (seance.exercices ? seance.exercices.length : 0), 0
+                ) 
+                : 0
+              }
+            </p>
+          </div>
+          
+      
+        </div>
+
+        {/* Planning hebdomadaire */}
+        <h2 className="text-black text-2xl sm:text-3xl md:text-4xl font-bold underline mb-6">
+          Planning hebdomadaire
+        </h2>
+        <p className="text-gray-700 text-lg mb-8 text-center">
+          Ce programme est à réaliser pendant <span className="font-semibold text-[#E22807]">{programme.duree} semaines</span> consécutives pour obtenir des résultats optimaux.
+        </p>
+        <div className="flex flex-col items-center justify-center gap-8 w-full min-h-[60vh] mt-12">
+          {programme.seances && programme.seances.map((seance, index) => (
+            <div key={index} className="bg-white border-2 border-black rounded-lg p-8 min-h-24 w-full max-w-5xl transition-all duration-300">
+              <p className='text-[#E22807] font-bold text-3xl mb-7'>Jour {seance.jour}</p>
+              <p className='font-bold text-black text-2xl mb-7'>Objectif : {seance.nom}</p>
+              <p className='font-normal text-black text-2xl mb-7'>Durée estimée : {seance.dureeEstimee}min</p>
+              <p className='font-normal text-black text-2xl'>Nombre d'exercices : {seance.exercices ? seance.exercices.length : 0}</p>
+            </div>
+          ))}
+        </div>
+        
+        {/* Bouton pour commencer le programme */}
+        <div className="flex justify-center mt-12 mb-8">
+          <button 
+            className="bg-[#E22807] hover:bg-red-700 text-white font-bold py-4 px-8 rounded-lg text-xl transition-colors duration-300 shadow-lg"
+           
+          >
+            Commencer ce programme
+          </button>
+        </div>
+      </div>
+    </div>
   )
 }
