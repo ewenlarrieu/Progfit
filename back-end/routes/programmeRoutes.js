@@ -4,6 +4,7 @@ import {
   getProgrammesByLevel,
   getProgrammeDetails,
   deleteAllProgrammes,
+  assignExercisesToProgrammes,
 } from "../controllers/programmeController.js";
 
 const router = express.Router();
@@ -16,6 +17,9 @@ router.delete("/delete-all", deleteAllProgrammes);
 
 // Route pour récupérer programmes par niveau
 router.get("/niveau/:niveau", getProgrammesByLevel);
+
+// Route pour assigner automatiquement les exercices aux programmes
+router.post("/assign-exercices", assignExercisesToProgrammes);
 
 // Route pour récupérer un programme avec détails complets
 router.get("/:id", getProgrammeDetails);
