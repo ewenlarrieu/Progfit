@@ -52,6 +52,11 @@ function App() {
               <DetailsProgramms />
           
           } />
+          <Route path="/seance-entrainement/:id" element={
+           
+              <SeanceEntrainement />
+          
+          } />
           <Route path="/SeanceEntrainement" element={
            
               <SeanceEntrainement />

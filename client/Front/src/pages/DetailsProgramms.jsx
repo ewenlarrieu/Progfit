@@ -1,10 +1,41 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import NavBar from '../components/common/NavBar'
 
 export default function DetailsProgramms() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [programme, setProgramme] = useState(null);
+
+  const handleCommencerProgramme = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      
+      const response = await fetch('http://localhost:5000/api/user-programmes/inscrire', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          programmeId: id
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Inscription réussie, naviguer vers la page séance d'entraînement
+        navigate(`/seance-entrainement/${id}`);
+      } else {
+        // Afficher l'erreur
+        alert(data.message || 'Erreur lors de l\'inscription au programme');
+      }
+    } catch (error) {
+      console.error('Erreur:', error);
+      alert('Erreur lors de l\'inscription au programme');
+    }
+  };
 
   useEffect(() => {
     if (id) {
@@ -94,7 +125,7 @@ export default function DetailsProgramms() {
         <div className="flex justify-center mt-12 mb-8">
           <button 
             className="bg-[#E22807] hover:bg-red-700 text-white font-bold py-4 px-8 rounded-lg text-xl transition-colors duration-300 shadow-lg"
-           
+            onClick={handleCommencerProgramme}
           >
             Commencer ce programme
           </button>
