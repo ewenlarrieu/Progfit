@@ -56,6 +56,7 @@ export const inscrireAuProgramme = async (req, res) => {
       dateDebut: new Date(),
       progression: 0,
       statut: "actif",
+      seancesTerminees: [],
     };
 
     await user.save();
@@ -395,6 +396,11 @@ export const terminerSeance = async (req, res) => {
       });
     }
 
+    // Initialiser seancesTerminees si ce n'est pas un array
+    if (!Array.isArray(user.programmeActuel.seancesTerminees)) {
+      user.programmeActuel.seancesTerminees = [];
+    }
+
     // Vérifier si la séance n'est pas déjà terminée
     const seanceDejaTerminee = user.programmeActuel.seancesTerminees.find(
       (s) => s.seanceIndex === seanceIndex
@@ -402,7 +408,7 @@ export const terminerSeance = async (req, res) => {
 
     if (seanceDejaTerminee) {
       return res.status(400).json({
-        message: "Cette séance a déjà été marquée comme terminée",
+        message: `Cette séance a déjà été marquée comme terminée`,
         dateTerminee: seanceDejaTerminee.dateTerminee,
       });
     }
