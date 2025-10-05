@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import NavBar from '../components/common/NavBar'
 
 
 export default function SeanceEntrainement() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [programme, setProgramme] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -90,7 +91,7 @@ export default function SeanceEntrainement() {
         if (response.ok) {
           alert('Félicitations ! Programme terminé avec succès ! 🎉');
           // Rediriger vers la page programmes
-          window.location.href = '/#/programs';
+          navigate('/programs');
         } else {
           alert(data.message || 'Erreur lors de la finalisation du programme');
         }
@@ -119,7 +120,7 @@ export default function SeanceEntrainement() {
         if (response.ok) {
           alert('Programme annulé avec succès !');
           // Rediriger vers la page programmes
-          window.location.href = '/#/programs';
+          navigate('/programs');
         } else {
           alert(data.message || 'Erreur lors de l\'annulation du programme');
         }
@@ -157,29 +158,8 @@ export default function SeanceEntrainement() {
             }
           }
         } else {
-          // Sinon, récupérer le programme actuel de l'utilisateur
-          const token = localStorage.getItem('token');
-          const response = await fetch('http://localhost:5000/api/user-programmes/actuel', {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          });
-          
-          if (response.ok) {
-            const data = await response.json();
-            if (data.programmeActuel && data.programmeActuel.programmeId) {
-              setProgramme(data.programmeActuel.programmeId);
-              // Récupérer aussi les séances terminées
-              if (data.programmeActuel.seancesTerminees) {
-                const seancesTermineesIndex = data.programmeActuel.seancesTerminees.map(s => s.seanceIndex);
-                setSeancesTerminees(seancesTermineesIndex);
-              }
-            } else {
-              setError('Vous n\'avez pas de programme actuel. Allez dans la section Programmes pour en commencer un.');
-            }
-          } else {
-            setError('Erreur lors de la récupération du programme actuel.');
-          }
+          // Pas d'ID fourni, afficher un message d'erreur spécifique
+          setError('Aucun programme sélectionné. Veuillez choisir un programme depuis la page programmes.');
         }
       } catch (err) {
         console.error('Erreur:', err);
@@ -207,14 +187,18 @@ export default function SeanceEntrainement() {
     return (
       <div className="flex min-h-screen bg-gray-50">
         <NavBar />
-        <div className="flex-1 md:ml-64 p-8 flex justify-center items-center">
-          <div className="text-center max-w-md">
-            <p className="text-red-600 text-xl mb-4">{error}</p>
+        <div className="flex-1 md:ml-64 p-8 flex flex-col justify-center items-center">
+          <div className="text-center bg-white p-8 rounded-lg shadow-md max-w-md">
+            <div className="text-6xl mb-4">🏋️‍♂️</div>
+            <h2 className="text-black text-2xl font-bold mb-4">Séance d'entraînement</h2>
+            <p className="text-gray-600 mb-6">
+              {error}
+            </p>
             <button 
-              onClick={() => window.location.href = '/#/programs'} 
-              className="bg-[#E22807] hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+              onClick={() => navigate('/programs')}
+              className="bg-[#E22807] text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors font-medium"
             >
-              Aller aux Programmes
+              Choisir un programme
             </button>
           </div>
         </div>

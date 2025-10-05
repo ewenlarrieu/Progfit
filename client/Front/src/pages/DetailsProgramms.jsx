@@ -46,6 +46,30 @@ export default function DetailsProgramms() {
     }
   }, [id]);
 
+  // Si pas d'ID, afficher un message d'erreur
+  if (!id) {
+    return (
+      <div className="flex min-h-screen bg-gray-50">
+        <NavBar />
+        <div className="flex-1 md:ml-64 p-8 flex flex-col justify-center items-center">
+          <div className="text-center bg-white p-8 rounded-lg shadow-md max-w-md">
+            <div className="text-6xl mb-4">⚠️</div>
+            <h2 className="text-black text-2xl font-bold mb-4">Programme non trouvé</h2>
+            <p className="text-gray-600 mb-6">
+              Veuillez sélectionner un programme depuis la page programmes pour voir ses détails.
+            </p>
+            <button 
+              onClick={() => navigate('/programs')}
+              className="bg-[#E22807] text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors font-medium"
+            >
+              Aller aux programmes
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (!programme) {
     return (
       <div className="flex min-h-screen bg-gray-50">
