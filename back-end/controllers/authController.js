@@ -583,6 +583,50 @@ export const logout = async (req, res) => {
   }
 };
 
+// Récupérer le profil de l'utilisateur
+export const getProfile = async (req, res) => {
+  try {
+    const token = req.headers.authorization?.split(" ")[1];
+
+    if (!token) {
+      return res.status(401).json({
+        message: "Token d'authentification requis",
+      });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.userId;
+
+    const user = await User.findById(userId).select(
+      "-password -refreshToken -emailVerificationToken -passwordResetToken -passwordResetExpiry"
+    );
+
+    if (!user) {
+      return res.status(404).json({
+        message: "Utilisateur non trouvé",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      user: {
+        id: user._id,
+        nom: user.nom,
+        email: user.email,
+        niveau: user.niveau,
+        objectifs: user.objectifs,
+        emailVerified: user.emailVerified,
+        createdAt: user.createdAt,
+      },
+    });
+  } catch (error) {
+    console.error("Erreur lors de la récupération du profil:", error);
+    res.status(500).json({
+      message: "Erreur serveur lors de la récupération du profil",
+    });
+  }
+};
+
 // Middleware pour vérifier si un token est blacklisté
 export const checkBlacklistedToken = async (req, res, next) => {
   try {

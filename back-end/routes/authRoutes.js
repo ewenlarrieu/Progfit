@@ -7,6 +7,7 @@ import {
   updateProfile,
   forgotPassword,
   resetPassword,
+  getProfile,
 } from "../controllers/authController.js";
 
 const router = express.Router();
@@ -31,5 +32,8 @@ router.post("/reset-password/:token", resetPassword);
 
 // Route de mise à jour du profil (niveau et objectifs)
 router.put("/update-profile", updateProfile);
+
+// Route pour récupérer le profil de l'utilisateur
+router.get("/profile", getProfile);
 
 export default router;
