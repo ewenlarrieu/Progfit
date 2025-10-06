@@ -16,6 +16,7 @@ export default function Register() {
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [rgpdConsent, setRgpdConsent] = useState(false)
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -40,6 +41,12 @@ export default function Register() {
 
     if (formData.password !== formData.confirmPassword) {
       setError('Les mots de passe ne correspondent pas')
+      setIsLoading(false)
+      return
+    }
+
+    if (!rgpdConsent) {
+      setError('Vous devez accepter la politique de confidentialité pour créer un compte')
       setIsLoading(false)
       return
     }
@@ -206,6 +213,31 @@ export default function Register() {
                   <option value="entretien" className="text-black">Entretien</option>
                   <option value="force" className="text-black">Force</option>
                 </select>
+              </div>
+            </div>
+
+            {/* Consentement RGPD */}
+            <div className="mt-8 bg-gray-50 p-4 rounded-lg border">
+              <div className="flex items-start">
+                <input
+                  type="checkbox"
+                  id="rgpdConsent"
+                  checked={rgpdConsent}
+                  onChange={(e) => setRgpdConsent(e.target.checked)}
+                  className="mt-1 mr-3 w-4 h-4 text-[#E22807] border-gray-300 rounded focus:ring-[#E22807]"
+                  required
+                />
+                <label htmlFor="rgpdConsent" className="text-sm text-gray-700 leading-relaxed">
+                  J'accepte que mes données personnelles soient collectées et traitées conformément à la{' '}
+                  <a 
+                    href="#/politique-confidentialite" 
+                    target="_blank"
+                    className="text-[#E22807] underline hover:text-[#c41e06] font-medium"
+                  >
+                    politique de confidentialité
+                  </a>
+                  . Je comprends que je peux exercer mes droits RGPD à tout moment.
+                </label>
               </div>
             </div>
 

@@ -158,8 +158,29 @@ export default function SeanceEntrainement() {
             }
           }
         } else {
-          // Pas d'ID fourni, afficher un message d'erreur spécifique
-          setError('Aucun programme sélectionné. Veuillez choisir un programme depuis la page programmes.');
+          // Pas d'ID fourni, récupérer le programme actuel de l'utilisateur
+          const token = localStorage.getItem('token');
+          const programmeActuelResponse = await fetch('http://localhost:5000/api/user-programmes/actuel', {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+          
+          if (programmeActuelResponse.ok) {
+            const programmeData = await programmeActuelResponse.json();
+            if (programmeData.programmeActuel && programmeData.programmeActuel.programmeId) {
+              setProgramme(programmeData.programmeActuel.programmeId);
+              // Récupérer les séances terminées
+              if (programmeData.programmeActuel.seancesTerminees) {
+                const seancesTermineesIndex = programmeData.programmeActuel.seancesTerminees.map(s => s.seanceIndex);
+                setSeancesTerminees(seancesTermineesIndex);
+              }
+            } else {
+              setError('Aucun programme actuel trouvé. Veuillez choisir un programme depuis la page programmes.');
+            }
+          } else {
+            setError('Erreur lors de la récupération du programme actuel.');
+          }
         }
       } catch (err) {
         console.error('Erreur:', err);

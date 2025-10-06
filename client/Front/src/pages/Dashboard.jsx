@@ -170,7 +170,7 @@ export default function Dashboard() {
               </div>
               <div className="flex justify-center mt-6">
                 <button 
-                  onClick={() => dashboardData.programmeActuel ? navigate(`/seance-entrainement/${dashboardData.programmeActuel._id}`) : navigate('/programs')}
+                  onClick={() => dashboardData.programmeActuel ? navigate('/seance-entrainement') : navigate('/programs')}
                   className="bg-[#E22807] hover:bg-[#c41c00] text-white font-semibold py-2 px-4 sm:px-6 rounded-lg transition-colors duration-200"
                   disabled={!dashboardData.programmeActuel}
                 >
