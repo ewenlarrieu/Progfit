@@ -1,5 +1,4 @@
 import User from "../models/User.js";
-import BlacklistedToken from "../models/BlacklistedToken.js";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import verifyPW from "../utils/verifyPW.js";
@@ -170,7 +169,7 @@ export const login = async (req, res) => {
         email: user.email,
       },
       process.env.JWT_SECRET,
-      { expiresIn: "1d" }
+      { expiresIn: "7d" }
     );
 
     // 7. Réponse de succès avec les données utilisateur
@@ -313,7 +312,7 @@ export const resetPassword = async (req, res) => {
     const jwtToken = jwt.sign(
       { userId: user._id, email: user.email },
       process.env.JWT_SECRET,
-      { expiresIn: "1d" }
+      { expiresIn: "7d" }
     );
 
     // 6. Réponse de succès
@@ -379,7 +378,7 @@ export const verifyEmail = async (req, res) => {
     const jwtToken = jwt.sign(
       { userId: user._id, email: user.email },
       process.env.JWT_SECRET,
-      { expiresIn: "1d" }
+      { expiresIn: "7d" }
     );
 
     // 6. Envoyer la page HTML de confirmation
@@ -556,21 +555,7 @@ export const logout = async (req, res) => {
       });
     }
 
-    // Vérifier si le token est déjà dans la blacklist
-    const isBlacklisted = await BlacklistedToken.findOne({ token });
-    if (isBlacklisted) {
-      return res.status(400).json({
-        message: "Vous êtes déjà déconnecté",
-      });
-    }
-
-    // Ajouter le token à la blacklist
-    const expirationDate = new Date(decoded.exp * 1000); // Convertir timestamp en date
-
-    await BlacklistedToken.create({
-      token: token,
-      expiresAt: expirationDate,
-    });
+    // Token vérifié et décodé avec succès
 
     res.status(200).json({
       message: "Déconnexion réussie",
@@ -624,26 +609,5 @@ export const getProfile = async (req, res) => {
     res.status(500).json({
       message: "Erreur serveur lors de la récupération du profil",
     });
-  }
-};
-
-// Middleware pour vérifier si un token est blacklisté
-export const checkBlacklistedToken = async (req, res, next) => {
-  try {
-    const token = req.headers.authorization?.split(" ")[1];
-
-    if (token) {
-      const isBlacklisted = await BlacklistedToken.findOne({ token });
-      if (isBlacklisted) {
-        return res.status(401).json({
-          message: "Token révoqué. Veuillez vous reconnecter.",
-        });
-      }
-    }
-
-    next();
-  } catch (error) {
-    console.error("Erreur lors de la vérification du token blacklisté:", error);
-    next();
   }
 };

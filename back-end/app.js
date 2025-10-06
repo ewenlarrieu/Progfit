@@ -12,7 +12,34 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+// Configuration CORS sécurisée
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Liste des domaines autorisés
+    const allowedOrigins = [
+      "http://localhost:3000", // React dev server
+      "http://localhost:5173", // Vite dev server
+      "http://127.0.0.1:3000",
+      "http://127.0.0.1:5173",
+      // Ajoutez ici votre domaine de production quand vous déployez
+      // 'https://mondomaine.com'
+    ];
+
+    // Autoriser les requêtes sans origin (ex: applications mobiles, Postman)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Accès refusé par la politique CORS"));
+    }
+  },
+  credentials: true, // Permet l'envoi de cookies et headers d'authentification
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Routes
