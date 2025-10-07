@@ -22,7 +22,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (
-    <Router>
+    <Router basename="/Progfit">
       <div className="App">
         <Routes>
           {/* Route par défaut - Page d'accueil */}
