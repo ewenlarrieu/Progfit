@@ -23,9 +23,9 @@ const corsOptions = {
       "http://127.0.0.1:3000",
       "http://127.0.0.1:5173",
       "http://127.0.0.1:5174",
-      // Domaines Render de production (à mettre à jour après déploiement)
-      "https://progfit-frontend.onrender.com", // Frontend
-      "https://progfit-backend.onrender.com", // Backend
+      // Domaines Render de production
+      "https://progfit-1.onrender.com", // Frontend
+      "https://progfit.onrender.com", // Backend
     ];
 
     // Autoriser les requêtes sans origin (ex: applications mobiles, Postman)

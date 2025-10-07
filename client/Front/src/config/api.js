@@ -4,7 +4,7 @@ const API_CONFIG = {
     baseURL: "http://localhost:5000",
   },
   production: {
-    baseURL: "https://progfit-backend.onrender.com",
+    baseURL: "https://progfit.onrender.com",
   },
 };
 
