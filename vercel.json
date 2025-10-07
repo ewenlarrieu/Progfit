@@ -1,13 +1,19 @@
 {
+  "buildCommand": "cd client/Front && npm install && npm run build",
+  "outputDirectory": "client/Front/dist",
   "functions": {
     "back-end/app.js": {
-      "runtime": "nodejs18.x"
+      "runtime": "@vercel/node"
     }
   },
   "routes": [
     {
       "src": "/api/(.*)",
       "dest": "/back-end/app.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/client/Front/dist/$1"
     }
   ]
 }
