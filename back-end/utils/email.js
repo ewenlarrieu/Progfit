@@ -17,7 +17,10 @@ export const sendVerificationEmail = async (email, nom, verificationToken) => {
     const transporter = createTransporter();
 
     // URL de vérification pointant vers l'API backend
-    const verificationUrl = `http://localhost:5000/api/auth/verify-email/${verificationToken}`;
+    const baseUrl = process.env.NODE_ENV === 'production' 
+      ? 'https://progfit-backend.onrender.com' 
+      : 'http://localhost:5000';
+    const verificationUrl = `${baseUrl}/api/auth/verify-email/${verificationToken}`;
 
     const mailOptions = {
       from: process.env.EMAIL_USER,
