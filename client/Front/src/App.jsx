@@ -1,8 +1,9 @@
 ﻿import React from 'react';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 
 // Import des pages
+import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Programs from './pages/Programs';
@@ -24,8 +25,8 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          {/* Route par défaut */}
-          <Route path="/" element={<Login />} />
+          {/* Route par défaut - Page d'accueil */}
+          <Route path="/" element={<Home />} />
           
           {/* Pages d'authentification (sans header/footer) */}
           <Route path="/login" element={<Login />} />

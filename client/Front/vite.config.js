@@ -7,14 +7,6 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
     port: 5173,
-    open: "/index.html",
-  },
-  build: {
-    rollupOptions: {
-      input: {
-        app: "./app.html",
-        index: "./index.html",
-      },
-    },
+    open: true,
   },
 });
