@@ -28,11 +28,7 @@ const progressionSchema = new mongoose.Schema(
       min: 1,
       // Durée en minutes
     },
-    notes: {
-      type: String,
-      trim: true,
-      maxlength: 500,
-    },
+
     statut: {
       type: String,
       enum: ["terminé", "abandonné"],

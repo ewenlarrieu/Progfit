@@ -108,8 +108,8 @@ export const generateVerificationSuccessPage = (user, jwtToken) => {
         
         <p class="info">Vous pouvez maintenant vous connecter à votre compte et commencer votre parcours fitness !</p>
         <a href="${
-          process.env.CLIENT_URL || "http://localhost:5173"
-        }/app.html#/login" class="btn">
+          process.env.CLIENT_URL || "http://localhost:5174"
+        }/login" class="btn">
           Se connecter à Progfit
         </a>
         <p style="margin-top: 20px; color: #999; font-size: 14px;">
@@ -160,8 +160,8 @@ export const sendPasswordResetEmail = async (email, nom, resetToken) => {
 
     // Lien vers l'API pour réinitialiser le mot de passe
     const resetUrl = `${
-      process.env.CLIENT_URL || "http://localhost:5173"
-    }/app.html#/reset-password/${resetToken}`;
+      process.env.CLIENT_URL || "http://localhost:5174"
+    }/reset-password/${resetToken}`;
 
     const mailOptions = {
       from: process.env.EMAIL_USER,

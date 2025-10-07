@@ -81,7 +81,7 @@ export const register = async (req, res) => {
       motDePasse: password,
       niveau: niveauFinal,
       objectifs: objectifsFinal,
-      profileCompleted: objectifsFinal.length > 0, // True si objectifs fournis
+      profileCompleted: objectifsFinal.length > 0,
     });
 
     // 8. Gérer la vérification email (génération token + envoi email)
@@ -215,8 +215,6 @@ export const forgotPassword = async (req, res) => {
 
     // 2. Trouver l'utilisateur
     const user = await User.findOne({ email: email.toLowerCase().trim() });
-
-    // Toujours renvoyer le même message pour éviter l'énumération d'emails
     if (!user) {
       return res.status(200).json({
         message:
@@ -438,9 +436,7 @@ export const updateProfile = async (req, res) => {
 
     if (objectifsInvalides.length > 0) {
       return res.status(400).json({
-        message: `Objectifs invalides : ${objectifsInvalides.join(
-          ", "
-        )}. Choisissez parmi : perte de poids, prise de masse, entretien, force`,
+        message: `Objectifs invalides : Choisissez parmi : perte de poids, prise de masse, entretien, force`,
       });
     }
 
@@ -473,8 +469,6 @@ export const updateProfile = async (req, res) => {
         email: updatedUser.email,
         niveau: updatedUser.niveau,
         objectifs: updatedUser.objectifs,
-        profileCompleted: updatedUser.profileCompleted,
-        emailVerified: updatedUser.emailVerified,
       },
     });
   } catch (error) {
@@ -531,40 +525,6 @@ export const resetDefaultObjectives = async () => {
   } catch (error) {
     console.error("Erreur lors du nettoyage des objectifs par défaut:", error);
     return 0;
-  }
-};
-
-// Déconnexion de l'utilisateur (logout)
-export const logout = async (req, res) => {
-  try {
-    const token = req.headers.authorization?.split(" ")[1];
-
-    if (!token) {
-      return res.status(401).json({
-        message: "Token d'authentification requis",
-      });
-    }
-
-    // Vérifier que le token est valide
-    let decoded;
-    try {
-      decoded = jwt.verify(token, process.env.JWT_SECRET);
-    } catch (error) {
-      return res.status(401).json({
-        message: "Token invalide",
-      });
-    }
-
-    // Token vérifié et décodé avec succès
-
-    res.status(200).json({
-      message: "Déconnexion réussie",
-    });
-  } catch (error) {
-    console.error("Erreur lors de la déconnexion:", error);
-    res.status(500).json({
-      message: "Erreur serveur lors de la déconnexion",
-    });
   }
 };
 

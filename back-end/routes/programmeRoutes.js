@@ -5,7 +5,6 @@ import {
   getAllProgrammes,
   getProgrammesByLevel,
   getProgrammeDetails,
-  deleteAllProgrammes,
   assignExercisesToProgrammes,
 } from "../controllers/programmeController.js";
 
@@ -19,9 +18,6 @@ router.delete("/:id", deleteProgrammeById);
 
 // Route pour récupérer tous les programmes
 router.get("/", getAllProgrammes);
-
-// Route pour supprimer tous les programmes (réinitialisation)
-router.delete("/delete-all", deleteAllProgrammes);
 
 // Route pour récupérer programmes par niveau
 router.get("/niveau/:niveau", getProgrammesByLevel);

@@ -2,7 +2,6 @@ import express from "express";
 import {
   register,
   login,
-  logout,
   verifyEmail,
   updateProfile,
   forgotPassword,
@@ -17,9 +16,6 @@ router.post("/register", register);
 
 // Route de connexion
 router.post("/login", login);
-
-// Route de déconnexion
-router.post("/logout", logout);
 
 // Route de vérification d'email
 router.get("/verify-email/:token", verifyEmail);

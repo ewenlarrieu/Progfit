@@ -415,20 +415,3 @@ export const assignExercisesToProgrammes = async (req, res) => {
     });
   }
 };
-
-// Supprimer tous les programmes (fonction utilitaire)
-export const deleteAllProgrammes = async (req, res) => {
-  try {
-    const result = await Programme.deleteMany({});
-
-    res.status(200).json({
-      message: `Tous les programmes ont été supprimés avec succès`,
-      deletedCount: result.deletedCount,
-    });
-  } catch (error) {
-    console.error("Erreur lors de la suppression des programmes:", error);
-    res.status(500).json({
-      message: "Erreur serveur lors de la suppression des programmes",
-    });
-  }
-};
