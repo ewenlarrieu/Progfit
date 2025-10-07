@@ -16,8 +16,8 @@ export const sendVerificationEmail = async (email, nom, verificationToken) => {
   try {
     const transporter = createTransporter();
 
-    // URL de vérification pointant vers l'API backend en production
-    const verificationUrl = `https://progfit.onrender.com/api/auth/verify-email/${verificationToken}`;
+    // URL de vérification pointant vers l'API backend
+    const verificationUrl = `http://localhost:5000/api/auth/verify-email/${verificationToken}`;
 
     const mailOptions = {
       from: process.env.EMAIL_USER,
@@ -108,7 +108,7 @@ export const generateVerificationSuccessPage = (user, jwtToken) => {
         
         <p class="info">Vous pouvez maintenant vous connecter à votre compte et commencer votre parcours fitness !</p>
         <a href="${
-          process.env.CLIENT_URL || "https://progfit-1.onrender.com"
+          process.env.CLIENT_URL || "http://localhost:3000"
         }/login" class="btn">
           Se connecter à Progfit
         </a>
@@ -160,7 +160,7 @@ export const sendPasswordResetEmail = async (email, nom, resetToken) => {
 
     // Lien vers l'API pour réinitialiser le mot de passe
     const resetUrl = `${
-      process.env.CLIENT_URL || "https://progfit-1.onrender.com"
+      process.env.CLIENT_URL || "http://localhost:3000"
     }/reset-password/${resetToken}`;
 
     const mailOptions = {

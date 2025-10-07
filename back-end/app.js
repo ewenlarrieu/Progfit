@@ -22,10 +22,7 @@ const corsOptions = {
       "http://localhost:5174", // Vite dev server (port alternatif)
       "http://127.0.0.1:3000",
       "http://127.0.0.1:5173",
-      "http://127.0.0.1:5174",
-      // Domaines Render de production
-      "https://progfit-1.onrender.com", // Frontend
-      "https://progfit.onrender.com", // Backend
+      "http://127.0.0.1:5174"
     ];
 
     // Autoriser les requêtes sans origin (ex: applications mobiles, Postman)
@@ -60,8 +57,8 @@ mongoose
   })
   .catch((err) => console.log(err));
 
-// Démarrage du serveur pour Render
-const PORT = process.env.PORT || 3001;
+// Démarrage du serveur
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Serveur lancé sur le port ${PORT} 🚀`);
 });
