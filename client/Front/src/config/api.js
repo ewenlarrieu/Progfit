@@ -9,8 +9,9 @@ const API_CONFIG = {
 };
 
 // Détection automatique de l'environnement
-const isDevelopment =
-  import.meta.env.DEV || window.location.hostname === "localhost";
+const isDevelopment = 
+  window.location.hostname === "localhost" || 
+  window.location.hostname === "127.0.0.1";
 const environment = isDevelopment ? "development" : "production";
 
 export const API_BASE_URL = API_CONFIG[environment].baseURL;
@@ -36,6 +37,7 @@ export const API_ENDPOINTS = {
     terminer: `${API_BASE_URL}/api/user-programmes/terminer`,
     abandonner: `${API_BASE_URL}/api/user-programmes/abandonner`,
     terminerSeance: `${API_BASE_URL}/api/user-programmes/seance/terminer`,
+    semaineSuivante: `${API_BASE_URL}/api/user-programmes/semaine-suivante`,
   },
 };
 

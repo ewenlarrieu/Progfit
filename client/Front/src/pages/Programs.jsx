@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../components/common/NavBar';
+import { API_ENDPOINTS } from '../config/api';
 
 import imgProgramme1 from '../components/common/imgProgramms/imgProgramme1.png';
 import imgProgramme2 from '../components/common/imgProgramms/imgProgramme2.png';
@@ -39,7 +40,7 @@ export default function Programs() {
   };
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/programmes')
+    fetch(API_ENDPOINTS.programmes.getAll)
       .then(res => {
         if (!res.ok) throw new Error('Erreur réseau');
         return res.json();

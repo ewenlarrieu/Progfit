@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import NavBar from '../components/common/NavBar'
 import profileIcon from '/assets/img/iconamoon_profile-fill.png'
+import { API_ENDPOINTS } from '../config/api'
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ export default function Dashboard() {
         const token = localStorage.getItem('token');
         
         // Récupérer les données du profil utilisateur
-        const profileResponse = await fetch('http://localhost:5000/api/auth/profile', {
+        const profileResponse = await fetch(API_ENDPOINTS.auth.profile, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -31,7 +32,7 @@ export default function Dashboard() {
         }
 
         // Récupérer le programme actuel et les séances
-        const programmeResponse = await fetch('http://localhost:5000/api/user-programmes/actuel', {
+        const programmeResponse = await fetch(API_ENDPOINTS.userProgrammes.actuel, {
           headers: {
             'Authorization': `Bearer ${token}`
           }

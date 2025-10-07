@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Logo from '../components/common/Logo'
 import profileIcon from '/assets/img/iconamoon_profile-fill.png'
 import { useNavigate, useParams } from 'react-router-dom'
+import { API_ENDPOINTS } from '../config/api'
 
 export default function ResetPassword() {
   const navigate = useNavigate()
@@ -34,7 +35,7 @@ export default function ResetPassword() {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/auth/reset-password/${token}`, {
+      const response = await fetch(API_ENDPOINTS.auth.resetPassword(token), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

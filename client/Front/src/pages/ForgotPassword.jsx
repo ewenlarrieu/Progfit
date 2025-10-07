@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Logo from '../components/common/Logo'
 import profileIcon from '/assets/img/iconamoon_profile-fill.png'
 import { useNavigate } from 'react-router-dom'
+import { API_ENDPOINTS } from '../config/api'
 
 export default function ForgotPassword() {
   const navigate = useNavigate()
@@ -17,7 +18,7 @@ export default function ForgotPassword() {
     setIsLoading(true)
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/forgot-password', {
+      const response = await fetch(API_ENDPOINTS.auth.forgotPassword, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

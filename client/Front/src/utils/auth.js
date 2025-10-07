@@ -1,3 +1,5 @@
+import { API_ENDPOINTS } from '../config/api';
+
 // Fonction utilitaire pour vérifier si l'utilisateur est connecté
 export const isAuthenticated = () => {
   const token = localStorage.getItem("token");
@@ -28,7 +30,7 @@ export const verifyToken = async () => {
   }
 
   try {
-    const response = await fetch("http://localhost:5000/api/auth/profile", {
+    const response = await fetch(API_ENDPOINTS.auth.profile, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

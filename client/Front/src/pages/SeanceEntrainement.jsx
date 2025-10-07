@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import NavBar from '../components/common/NavBar'
+import { API_ENDPOINTS } from '../config/api'
 
 
 export default function SeanceEntrainement() {
@@ -16,7 +17,7 @@ export default function SeanceEntrainement() {
       try {
         const token = localStorage.getItem('token');
         
-        const response = await fetch('http://localhost:5000/api/user-programmes/seance/terminer', {
+        const response = await fetch(API_ENDPOINTS.userProgrammes.terminerSeance, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -49,7 +50,7 @@ export default function SeanceEntrainement() {
       try {
         const token = localStorage.getItem('token');
         
-        const response = await fetch('http://localhost:5000/api/user-programmes/semaine-suivante', {
+        const response = await fetch(API_ENDPOINTS.userProgrammes.semaineSuivante, {
           method: 'PUT',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -78,7 +79,7 @@ export default function SeanceEntrainement() {
       try {
         const token = localStorage.getItem('token');
         
-        const response = await fetch('http://localhost:5000/api/user-programmes/terminer', {
+        const response = await fetch(API_ENDPOINTS.userProgrammes.terminer, {
           method: 'PUT',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -107,7 +108,7 @@ export default function SeanceEntrainement() {
       try {
         const token = localStorage.getItem('token');
         
-        const response = await fetch('http://localhost:5000/api/user-programmes/abandonner', {
+        const response = await fetch(API_ENDPOINTS.userProgrammes.abandonner, {
           method: 'PUT',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -138,13 +139,13 @@ export default function SeanceEntrainement() {
         
         if (id) {
           // Si on a un ID spécifique, récupérer ce programme
-          const response = await fetch(`http://localhost:5000/api/programmes/${id}`);
+          const response = await fetch(API_ENDPOINTS.programmes.getById(id));
           const data = await response.json();
           setProgramme(data.programme);
           
           // Récupérer aussi les séances terminées de l'utilisateur
           const token = localStorage.getItem('token');
-          const seancesResponse = await fetch('http://localhost:5000/api/user-programmes/actuel', {
+          const seancesResponse = await fetch(API_ENDPOINTS.userProgrammes.actuel, {
             headers: {
               'Authorization': `Bearer ${token}`
             }
@@ -160,7 +161,7 @@ export default function SeanceEntrainement() {
         } else {
           // Pas d'ID fourni, récupérer le programme actuel de l'utilisateur
           const token = localStorage.getItem('token');
-          const programmeActuelResponse = await fetch('http://localhost:5000/api/user-programmes/actuel', {
+          const programmeActuelResponse = await fetch(API_ENDPOINTS.userProgrammes.actuel, {
             headers: {
               'Authorization': `Bearer ${token}`
             }
