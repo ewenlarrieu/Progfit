@@ -23,10 +23,9 @@ const corsOptions = {
       "http://127.0.0.1:3000",
       "http://127.0.0.1:5173",
       "http://127.0.0.1:5174",
-      // Domaines Vercel de production
-      "https://progfit-frontend.vercel.app", // Frontend
-      "https://progfit-backend.vercel.app", // Backend
-      // Note: Remplacez par vos vraies URLs Vercel
+      // Domaines Render de production (à mettre à jour après déploiement)
+      "https://progfit-frontend.onrender.com", // Frontend
+      "https://progfit-backend.onrender.com", // Backend
     ];
 
     // Autoriser les requêtes sans origin (ex: applications mobiles, Postman)
@@ -61,5 +60,8 @@ mongoose
   })
   .catch((err) => console.log(err));
 
-// Export pour Vercel serverless
-export default app;
+// Démarrage du serveur pour Render
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`Serveur lancé sur le port ${PORT} 🚀`);
+});
