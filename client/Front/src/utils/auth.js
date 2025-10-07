@@ -1,5 +1,3 @@
-
-
 // Fonction utilitaire pour vérifier si l'utilisateur est connecté
 export const isAuthenticated = () => {
   const token = localStorage.getItem("token");
@@ -30,13 +28,16 @@ export const verifyToken = async () => {
   }
 
   try {
-    const response = await fetch('https://progfit.onrender.com/api/auth/profile', {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      "https://progfit.onrender.com/api/auth/profile",
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     if (response.ok) {
       return true;

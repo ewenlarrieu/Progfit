@@ -1,8 +1,8 @@
-name: Deploy React App to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [github-pages-deploy]
+    branches: ["github-pages-deploy"]
   workflow_dispatch:
 
 permissions:
@@ -17,11 +17,12 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "18"
@@ -29,12 +30,14 @@ jobs:
           cache-dependency-path: client/Front/package-lock.json
 
       - name: Install dependencies
-        working-directory: client/Front
-        run: npm ci
+        run: |
+          cd client/Front
+          npm ci
 
       - name: Build
-        working-directory: client/Front
-        run: npm run build
+        run: |
+          cd client/Front
+          npm run build
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -53,4 +56,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v3
