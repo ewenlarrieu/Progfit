@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import Logo from '../components/common/Logo'
 import profileIcon from '/assets/img/iconamoon_profile-fill.png'
 import { useNavigate } from 'react-router-dom'
-import { API_ENDPOINTS } from '../config/api'
 
 export default function Register() {
   const navigate = useNavigate()
@@ -56,7 +55,7 @@ export default function Register() {
       // Préparer les objectifs comme tableau
       const objectifs = formData.objectifs ? [formData.objectifs] : []
 
-      const response = await fetch(API_ENDPOINTS.auth.register, {
+      const response = await fetch('https://progfit.onrender.com/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -12,6 +12,12 @@ dotenv.config();
 
 const app = express();
 
+// Debug: Vérifier les variables d'environnement
+console.log("🔍 Debug variables d'environnement:");
+console.log("NODE_ENV:", process.env.NODE_ENV);
+console.log("MONGO_URL existe:", !!process.env.MONGO_URL);
+console.log("JWT_SECRET existe:", !!process.env.JWT_SECRET);
+
 // Configuration CORS sécurisée
 const corsOptions = {
   origin: function (origin, callback) {
@@ -24,7 +30,7 @@ const corsOptions = {
       "http://127.0.0.1:5173",
       "http://127.0.0.1:5174",
       "https://ewenlarrieu.github.io", // GitHub Pages
-      "https://progfit.onrender.com" // URL du backend Render (pour les tests)
+      "https://progfit.onrender.com", // URL du backend Render (pour les tests)
     ];
 
     // Autoriser les requêtes sans origin (ex: applications mobiles, Postman)
@@ -51,13 +57,21 @@ app.use("/api/programmes", programmeRoutes);
 
 app.use("/api/user-programmes", userProgrammeRoutes);
 
-// Connexion MongoDB
+// Connexion MongoDB avec timeout plus long
 mongoose
-  .connect(process.env.MONGO_URL)
+  .connect(process.env.MONGO_URL, {
+    serverSelectionTimeoutMS: 30000, // 30 secondes
+    bufferCommands: false,
+    maxPoolSize: 10,
+    minPoolSize: 5,
+  })
   .then(() => {
     console.log("Connexion à MongoDB réussi ✅");
   })
-  .catch((err) => console.log(err));
+  .catch((err) => {
+    console.error("Erreur connexion MongoDB:", err);
+    process.exit(1);
+  });
 
 // Démarrage du serveur
 const PORT = process.env.PORT || 5000;

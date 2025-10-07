@@ -1,4 +1,4 @@
-import { API_ENDPOINTS } from '../config/api';
+
 
 // Fonction utilitaire pour vérifier si l'utilisateur est connecté
 export const isAuthenticated = () => {
@@ -30,7 +30,7 @@ export const verifyToken = async () => {
   }
 
   try {
-    const response = await fetch(API_ENDPOINTS.auth.profile, {
+    const response = await fetch('https://progfit.onrender.com/api/auth/profile', {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

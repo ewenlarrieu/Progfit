@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import NavBar from '../components/common/NavBar'
-import { API_ENDPOINTS } from '../config/api'
+
 
 export default function DetailsProgramms() {
   const { id } = useParams();
@@ -12,7 +12,7 @@ export default function DetailsProgramms() {
     try {
       const token = localStorage.getItem('token');
       
-      const response = await fetch(API_ENDPOINTS.userProgrammes.inscrire, {
+      const response = await fetch('https://progfit.onrender.com/api/user-programmes/inscrire', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ export default function DetailsProgramms() {
 
   useEffect(() => {
     if (id) {
-      fetch(API_ENDPOINTS.programmes.getById(id))
+      fetch(`https://progfit.onrender.com/api/programmes/${id}`)
         .then(res => res.json())
         .then(data => setProgramme(data.programme))
         .catch(err => console.error('Erreur:', err));

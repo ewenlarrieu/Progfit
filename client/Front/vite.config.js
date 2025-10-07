@@ -10,8 +10,8 @@ export default defineConfig({
     open: true,
   },
   build: {
-    outDir: 'dist',
-    assetsDir: 'assets',
+    outDir: "dist",
+    assetsDir: "assets",
     copyPublicDir: true,
   },
 });
