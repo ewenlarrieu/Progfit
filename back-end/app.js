@@ -23,8 +23,10 @@ const corsOptions = {
       "http://127.0.0.1:3000",
       "http://127.0.0.1:5173",
       "http://127.0.0.1:5174",
-      // Ajoutez ici votre domaine de production quand vous déployez
-      // 'https://mondomaine.com'
+      // Domaines Vercel de production
+      "https://progfit-frontend.vercel.app", // Frontend
+      "https://progfit-backend.vercel.app", // Backend
+      // Note: Remplacez par vos vraies URLs Vercel
     ];
 
     // Autoriser les requêtes sans origin (ex: applications mobiles, Postman)
@@ -51,14 +53,13 @@ app.use("/api/programmes", programmeRoutes);
 
 app.use("/api/user-programmes", userProgrammeRoutes);
 
-const PORT = process.env.PORT || 5000;
-
+// Connexion MongoDB
 mongoose
   .connect(process.env.MONGO_URL)
   .then(() => {
     console.log("Connexion à MongoDB réussi ✅");
-    app.listen(PORT, () =>
-      console.log(`Le serveur tourne sur le port ${PORT}🌐`)
-    );
   })
   .catch((err) => console.log(err));
+
+// Export pour Vercel serverless
+export default app;
