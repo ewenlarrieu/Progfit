@@ -80,12 +80,17 @@ export default function Register() {
       setMessage(data.message || 'Compte créé avec succès ! Un email de vérification a été envoyé à votre adresse.')
       setError('') // Clear any previous errors
       
-      // Rediriger vers la page de connexion après 5 secondes pour laisser le temps de lire
+      // Redirection après succès - délai plus long pour lire le message
       setTimeout(() => {
         navigate('/login')
-      }, 5000)
+      }, 7000)
     } catch (err) {
-      setError(err.message)
+      // Gestion spécifique des erreurs email vs autres erreurs
+      if (err.message.includes('email') || err.message.includes('Email')) {
+        setError(err.message + ' Contactez le support si le problème persiste.')
+      } else {
+        setError(err.message)
+      }
     } finally {
       setIsLoading(false)
     }

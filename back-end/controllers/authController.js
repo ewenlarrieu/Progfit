@@ -84,21 +84,23 @@ export const register = async (req, res) => {
       profileCompleted: objectifsFinal.length > 0,
     });
 
-    // 8. SOLUTION TEMPORAIRE: Activer le compte directement sans email
-    console.log(`⚡ Activation directe du compte pour ${newUser.email} (contournement email)`);
+    // 8. TEST: Vérification email obligatoire avec port 465 SSL
+    console.log(
+      `📧 Tentative d'envoi d'email de vérification pour ${newUser.email} (port 465)...`
+    );
     
-    // Activer automatiquement le compte (solution temporaire)
-    newUser.emailVerified = true;
-    newUser.emailVerificationToken = null;
-    newUser.emailVerificationExpires = null;
-    await newUser.save();
+    const emailResult = await handleEmailVerification(newUser);
+
+    if (!emailResult.success) {
+      console.error(`❌ Échec de l'envoi d'email pour ${newUser.email} - Port 465 bloqué ?`);
+      return res.status(500).json({
+        message: "Erreur lors de l'envoi de l'email de vérification. Le service email semble bloqué sur cette plateforme.",
+      });
+    }
+
+    console.log(`✅ Email de vérification envoyé avec succès pour ${newUser.email} via port 465`);
     
-    // Essayer d'envoyer l'email en arrière-plan (sans bloquer la réponse)
-    handleEmailVerification(newUser).catch(error => {
-      console.error(`❌ Email en arrière-plan échoué pour ${newUser.email}:`, error.message);
-    });
-    
-    const message = "Compte créé avec succès ! Vous pouvez maintenant vous connecter.";
+    const message = "Compte créé avec succès ! Vérifiez votre email pour activer votre compte.";
 
     // 9. Réponse de succès
     res.status(201).json({

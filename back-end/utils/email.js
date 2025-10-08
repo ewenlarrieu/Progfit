@@ -1,18 +1,20 @@
 import nodemailer from "nodemailer";
 
-// Configuration du transporteur email avec fallback
+// Configuration du transporteur email avec port 465 SSL
 const createTransporter = () => {
-  // Essayer d'abord avec le service Gmail simplifié (plus compatible avec les plateformes cloud)
+  console.log("🔧 Tentative connexion SMTP port 465 (SSL)...");
+  
   const transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true, // SSL pour port 465
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
     },
-    pool: true,
-    maxConnections: 1,
-    rateDelta: 20000,
-    rateLimit: 5,
+    connectionTimeout: 60000,
+    greetingTimeout: 30000,
+    socketTimeout: 60000,
   });
 
   return transporter;
