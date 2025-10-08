@@ -2,11 +2,19 @@ import nodemailer from "nodemailer";
 
 // Configuration du transporteur email
 const createTransporter = () => {
-  return nodemailer.createTransport({
-    service: "gmail",
+  return nodemailer.createTransporter({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // true pour 465, false pour autres ports
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
+    },
+    connectionTimeout: 60000, // 60 secondes
+    greetingTimeout: 30000, // 30 secondes
+    socketTimeout: 60000, // 60 secondes
+    tls: {
+      rejectUnauthorized: false,
     },
   });
 };
@@ -17,9 +25,9 @@ export const sendVerificationEmail = async (email, nom, verificationToken) => {
     console.log("🔧 Configuration email:", {
       EMAIL_USER: process.env.EMAIL_USER ? "✅ Défini" : "❌ Manquant",
       EMAIL_PASS: process.env.EMAIL_PASS ? "✅ Défini" : "❌ Manquant",
-      NODE_ENV: process.env.NODE_ENV
+      NODE_ENV: process.env.NODE_ENV,
     });
-    
+
     const transporter = createTransporter();
 
     // URL de vérification pointant vers l'API backend
@@ -76,7 +84,7 @@ export const sendVerificationEmail = async (email, nom, verificationToken) => {
       code: error.code,
       command: error.command,
       response: error.response,
-      responseCode: error.responseCode
+      responseCode: error.responseCode,
     });
     return false;
   }
