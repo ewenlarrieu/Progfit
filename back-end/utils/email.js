@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 
 // Configuration du transporteur email
 const createTransporter = () => {
-  return nodemailer.createTransporter({
+  return nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 587,
     secure: false, // true pour 465, false pour autres ports
