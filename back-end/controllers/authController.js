@@ -84,29 +84,21 @@ export const register = async (req, res) => {
       profileCompleted: objectifsFinal.length > 0,
     });
 
-    // 8. Gérer la vérification email (génération token + envoi email)
-    console.log(
-      `📧 Tentative d'envoi d'email de vérification pour ${newUser.email}...`
-    );
-    const emailResult = await handleEmailVerification(newUser);
-
-    let message;
-    if (!emailResult.success) {
-      console.error(`❌ Échec de l'envoi d'email pour ${newUser.email} - Activation automatique du compte`);
-      
-      // En cas d'échec email, activer automatiquement le compte (solution temporaire)
-      newUser.isEmailVerified = true;
-      newUser.emailVerificationToken = null;
-      newUser.emailVerificationExpires = null;
-      await newUser.save();
-      
-      message = "Compte créé avec succès ! Vous pouvez maintenant vous connecter. (Service d'email temporairement indisponible)";
-    } else {
-      console.log(
-        `✅ Email de vérification envoyé avec succès pour ${newUser.email}`
-      );
-      message = "Compte créé avec succès ! Vérifiez votre email pour activer votre compte.";
-    }
+    // 8. SOLUTION TEMPORAIRE: Activer le compte directement sans email
+    console.log(`⚡ Activation directe du compte pour ${newUser.email} (contournement email)`);
+    
+    // Activer automatiquement le compte (solution temporaire)
+    newUser.isEmailVerified = true;
+    newUser.emailVerificationToken = null;
+    newUser.emailVerificationExpires = null;
+    await newUser.save();
+    
+    // Essayer d'envoyer l'email en arrière-plan (sans bloquer la réponse)
+    handleEmailVerification(newUser).catch(error => {
+      console.error(`❌ Email en arrière-plan échoué pour ${newUser.email}:`, error.message);
+    });
+    
+    const message = "Compte créé avec succès ! Vous pouvez maintenant vous connecter.";
 
     // 9. Réponse de succès
     res.status(201).json({
