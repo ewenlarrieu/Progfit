@@ -24,7 +24,7 @@ const ProtectedRoute = ({ children }) => {
     checkAuth()
   }, [])
   
-  // Affichage de chargement pendant la vérification
+  
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -33,12 +33,12 @@ const ProtectedRoute = ({ children }) => {
     )
   }
   
-  // Si pas de token valide, rediriger vers login
+  
   if (!isValid) {
     return <Navigate to="/login" replace />
   }
   
-  // Si token valide, afficher le composant demandé
+  
   return children
 }
 

@@ -19,9 +19,6 @@ router.delete("/:id", deleteProgrammeById);
 // Route pour récupérer tous les programmes
 router.get("/", getAllProgrammes);
 
-// Route pour récupérer programmes par niveau
-router.get("/niveau/:niveau", getProgrammesByLevel);
-
 // Route pour assigner automatiquement les exercices aux programmes
 router.post("/assign-exercices", assignExercisesToProgrammes);
 

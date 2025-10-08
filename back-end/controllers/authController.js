@@ -3,8 +3,7 @@ import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import verifyPW from "../utils/verifyPW.js";
 import {
-  handleEmailVerification,
-  generateVerificationSuccessPage,
+  // generateVerificationSuccessPage,
   handlePasswordResetEmail,
 } from "../utils/email.js";
 
@@ -84,18 +83,12 @@ export const register = async (req, res) => {
       profileCompleted: objectifsFinal.length > 0,
     });
 
-    // 8. SOLUTION FINALE: Auto-activation (Render bloque les ports SMTP sortants)
-    console.log(
-      `⚡ Auto-activation du compte ${newUser.email} - SMTP bloqué sur Render`
-    );
-
-    // Activer automatiquement le compte (solution définitive pour Render)
+    // Activer automatiquement le compte (solution temporaire)
     newUser.emailVerified = true;
     newUser.emailVerificationToken = null;
     newUser.emailVerificationExpires = null;
     await newUser.save();
 
-    // Log informatif
     console.log(
       `✅ Compte ${newUser.email} activé automatiquement - Prêt à se connecter`
     );
@@ -344,7 +337,9 @@ export const resetPassword = async (req, res) => {
   }
 };
 
-// Fonction pour vérifier l'email
+// ═══════════════════════════════════════════════════════════════
+
+/*
 export const verifyEmail = async (req, res) => {
   try {
     const { token } = req.params;
@@ -398,6 +393,7 @@ export const verifyEmail = async (req, res) => {
     });
   }
 };
+*/
 
 // Fonction pour mettre à jour le profil utilisateur (niveau et objectifs)
 export const updateProfile = async (req, res) => {
@@ -459,7 +455,7 @@ export const updateProfile = async (req, res) => {
       },
       {
         new: true,
-        select: "-motDePasse -emailVerificationToken -emailVerificationExpires",
+        select: "-motDePasse", // -emailVerificationToken -emailVerificationExpires ← OBSOLÈTE avec auto-activation
       }
     );
 
@@ -494,7 +490,11 @@ export const updateProfile = async (req, res) => {
   }
 };
 
-// Fonction utilitaire pour nettoyer les tokens expirés
+// ═══════════════════════════════════════════════════════════════
+// OBSOLÈTE : Nettoyage des tokens de vérification email
+// (Plus nécessaire avec auto-activation)
+// ═══════════════════════════════════════════════════════════════
+/*
 export const cleanExpiredTokens = async () => {
   try {
     const result = await User.updateMany(
@@ -511,6 +511,7 @@ export const cleanExpiredTokens = async () => {
     console.error("Erreur lors du nettoyage des tokens:", error);
   }
 };
+*/
 
 // Fonction utilitaire pour nettoyer les objectifs par défaut des utilisateurs existants
 export const resetDefaultObjectives = async () => {
@@ -552,7 +553,7 @@ export const getProfile = async (req, res) => {
     const userId = decoded.userId;
 
     const user = await User.findById(userId).select(
-      "-password -refreshToken -emailVerificationToken -passwordResetToken -passwordResetExpiry"
+      "-password -refreshToken -passwordResetToken -passwordResetExpiry" // -emailVerificationToken ← OBSOLÈTE avec auto-activation
     );
 
     if (!user) {

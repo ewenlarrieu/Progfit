@@ -1,30 +1,21 @@
-services:services:
-
-  - type: web  - type: web
-
-    name: progfit-backend    name: progfit-backend
-
-    env: node    env: node
-
-    plan: free    plan: free
-
-    buildCommand: npm install    buildCommand: npm install
-
-    startCommand: npm start    startCommand: npm start
-
-    envVars:    envVars:
-
-      - key: NODE_ENV      - key: NODE_ENV
-
-        value: production        value: production
-
-      - key: PORT      - key: MONGO_URL
-
-        value: 10000        sync: false
-
-    autoDeploy: false      - key: JWT_SECRET
+services:
+  - type: web
+    name: progfit-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGO_URL
+        sync: false
+      - key: JWT_SECRET
         sync: false
       - key: EMAIL_USER
         sync: false
       - key: EMAIL_PASS
         sync: false
+    autoDeploy: false

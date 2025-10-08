@@ -20,7 +20,10 @@ const createTransporter = () => {
   return transporter;
 };
 
-// Fonction pour envoyer l'email de vérification
+// ═══════════════════════════════════════════════════════════════
+// OBSOLÈTE : Email de vérification (remplacé par auto-activation)
+// ═══════════════════════════════════════════════════════════════
+/*
 export const sendVerificationEmail = async (email, nom, verificationToken) => {
   try {
     console.log("🔧 Configuration email:", {
@@ -90,8 +93,12 @@ export const sendVerificationEmail = async (email, nom, verificationToken) => {
     return false;
   }
 };
+*/
 
-// Fonction pour générer un token de vérification
+// ═══════════════════════════════════════════════════════════════
+// OBSOLÈTE : Génération de token de vérification (auto-activation maintenant)
+// ═══════════════════════════════════════════════════════════════
+/*
 export const generateVerificationToken = () => {
   return (
     Math.random().toString(36).substring(2, 15) +
@@ -99,8 +106,12 @@ export const generateVerificationToken = () => {
     Date.now().toString(36)
   );
 };
+*/
 
-// Fonction pour générer la page HTML de vérification d'email
+// ═══════════════════════════════════════════════════════════════
+// OBSOLÈTE : Page HTML de confirmation (plus utilisée avec auto-activation)
+// ═══════════════════════════════════════════════════════════════
+/*
 export const generateVerificationSuccessPage = (user, jwtToken) => {
   return `
     <!DOCTYPE html>
@@ -146,8 +157,12 @@ export const generateVerificationSuccessPage = (user, jwtToken) => {
     </html>
   `;
 };
+*/
 
-// Fonction complète pour gérer la vérification email d'un utilisateur
+// ═══════════════════════════════════════════════════════════════
+// OBSOLÈTE : Gestion complète de vérification email (remplacée par auto-activation)
+// ═══════════════════════════════════════════════════════════════
+/*
 export const handleEmailVerification = async (user) => {
   try {
     // 1. Générer le token de vérification
@@ -178,6 +193,7 @@ export const handleEmailVerification = async (user) => {
     };
   }
 };
+*/
 
 // Fonction pour envoyer l'email de réinitialisation de mot de passe
 export const sendPasswordResetEmail = async (email, nom, resetToken) => {

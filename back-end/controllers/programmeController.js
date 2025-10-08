@@ -237,39 +237,6 @@ export const getAllProgrammes = async (req, res) => {
   }
 };
 
-// Récupérer programmes par niveau
-export const getProgrammesByLevel = async (req, res) => {
-  try {
-    const { niveau } = req.params;
-
-    // Valider que le niveau est autorisé
-    const niveauxAutorises = ["Débutant", "Intermédiaire", "Avancé"];
-    if (!niveauxAutorises.includes(niveau)) {
-      return res.status(400).json({
-        message: `Niveau invalide. Les niveaux autorisés sont: ${niveauxAutorises.join(
-          ", "
-        )}`,
-      });
-    }
-
-    const programmes = await Programme.find({ niveau }).sort({ nom: 1 });
-
-    res.status(200).json({
-      message: `Programmes de niveau ${niveau} récupérés avec succès`,
-      count: programmes.length,
-      programmes,
-    });
-  } catch (error) {
-    console.error(
-      "Erreur lors de la récupération des programmes par niveau:",
-      error
-    );
-    res.status(500).json({
-      message: "Erreur serveur lors de la récupération des programmes",
-    });
-  }
-};
-
 // Récupérer un programme avec ses exercices détaillés
 export const getProgrammeDetails = async (req, res) => {
   try {
@@ -303,7 +270,7 @@ export const getProgrammeDetails = async (req, res) => {
 // Assigner des exercices aux programmes selon leur niveau et objectif
 export const assignExercisesToProgrammes = async (req, res) => {
   try {
-    console.log("🔧 Assignation des exercices aux programmes...");
+    console.log(" Assignation des exercices aux programmes");
 
     // Récupérer tous les programmes et exercices
     const programmes = await Programme.find();
@@ -356,7 +323,7 @@ export const assignExercisesToProgrammes = async (req, res) => {
 
     for (const programme of programmes) {
       console.log(
-        `\n🎯 Traitement programme: ${programme.nom} (${programme.niveau} - ${programme.objectif})`
+        `Traitement programme: ${programme.nom} (${programme.niveau} - ${programme.objectif})`
       );
 
       // Sélectionner les exercices appropriés

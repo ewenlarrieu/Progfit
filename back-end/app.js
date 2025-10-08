@@ -12,12 +12,6 @@ dotenv.config();
 
 const app = express();
 
-// Debug: Vérifier les variables d'environnement
-console.log("🔍 Debug variables d'environnement:");
-console.log("NODE_ENV:", process.env.NODE_ENV);
-console.log("MONGO_URL existe:", !!process.env.MONGO_URL);
-console.log("JWT_SECRET existe:", !!process.env.JWT_SECRET);
-
 // Configuration CORS sécurisée
 const corsOptions = {
   origin: function (origin, callback) {
@@ -60,13 +54,13 @@ app.use("/api/user-programmes", userProgrammeRoutes);
 // Connexion MongoDB avec timeout plus long
 mongoose
   .connect(process.env.MONGO_URL, {
-    serverSelectionTimeoutMS: 30000, // 30 secondes
+    serverSelectionTimeoutMS: 30000,
     bufferCommands: false,
     maxPoolSize: 10,
     minPoolSize: 5,
   })
   .then(() => {
-    console.log("Connexion à MongoDB réussi ✅");
+    console.log("Connexion à MongoDB réussi ");
   })
   .catch((err) => {
     console.error("Erreur connexion MongoDB:", err);
@@ -76,5 +70,5 @@ mongoose
 // Démarrage du serveur
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Serveur lancé sur le port ${PORT} 🚀`);
+  console.log(`Serveur lancé sur le port ${PORT} `);
 });

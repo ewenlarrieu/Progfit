@@ -25,7 +25,7 @@ export default function SeanceEntrainement() {
           },
           body: JSON.stringify({
             seanceIndex: seanceIndex,
-            exercicesTermines: [] // Pour l'instant, on peut laisser vide
+            exercicesTermines: [] 
           })
         });
 
@@ -45,34 +45,7 @@ export default function SeanceEntrainement() {
     }
   };
 
-  const handlePasserSemaineSuivante = async () => {
-    if (window.confirm('Félicitations ! Voulez-vous passer à la semaine suivante ?')) {
-      try {
-        const token = localStorage.getItem('token');
-        
-        const response = await fetch('https://progfit.onrender.com/api/user-programmes/semaine-suivante', {
-          method: 'PUT',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        });
 
-        const data = await response.json();
-
-        if (response.ok) {
-          alert(data.message);
-          // Recharger la page pour afficher la nouvelle semaine
-          window.location.reload();
-        } else {
-          alert(data.message || 'Erreur lors du passage à la semaine suivante');
-        }
-      } catch (error) {
-        console.error('Erreur:', error);
-        alert('Erreur lors du passage à la semaine suivante');
-      }
-    }
-  };
 
   const handleTerminerProgramme = async () => {
     if (window.confirm('Félicitations ! Êtes-vous sûr de vouloir marquer ce programme comme terminé ?')) {

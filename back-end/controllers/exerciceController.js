@@ -60,7 +60,7 @@ export const deleteAllExercices = async (req, res) => {
   }
 };
 
-// Ajouter des exercices via JSON depuis le body de la requête
+// Ajouter des exercices
 export const addExercicesFromJSON = async (req, res) => {
   try {
     const { exercices, replaceAll = false } = req.body;
