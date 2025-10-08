@@ -77,13 +77,13 @@ export default function Register() {
         throw new Error(data.message || 'Erreur lors de l\'inscription')
       }
 
-      setMessage(data.message || 'Compte créé avec succès ! Un email de vérification a été envoyé à votre adresse.')
+      setMessage(data.message || 'Compte créé avec succès ! Vous pouvez maintenant vous connecter immédiatement.')
       setError('') // Clear any previous errors
       
-      // Redirection après succès - délai plus long pour lire le message
+      // Redirection après succès - délai réduit car plus besoin de vérifier email
       setTimeout(() => {
         navigate('/login')
-      }, 7000)
+      }, 4000)
     } catch (err) {
       // Gestion spécifique des erreurs email vs autres erreurs
       if (err.message.includes('email') || err.message.includes('Email')) {
@@ -245,6 +245,13 @@ export default function Register() {
                   </Link>
                   . Je comprends que je peux exercer mes droits RGPD à tout moment.
                 </label>
+              </div>
+              
+              {/* Note informative */}
+              <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                <p className="text-sm text-blue-700 text-center">
+                  ℹ️ Votre compte sera activé instantanément après l'inscription. Aucune vérification par email requise !
+                </p>
               </div>
             </div>
 
