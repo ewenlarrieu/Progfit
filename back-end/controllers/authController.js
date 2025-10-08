@@ -88,7 +88,7 @@ export const register = async (req, res) => {
     console.log(`⚡ Activation directe du compte pour ${newUser.email} (contournement email)`);
     
     // Activer automatiquement le compte (solution temporaire)
-    newUser.isEmailVerified = true;
+    newUser.emailVerified = true;
     newUser.emailVerificationToken = null;
     newUser.emailVerificationExpires = null;
     await newUser.save();
