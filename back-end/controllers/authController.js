@@ -85,14 +85,18 @@ export const register = async (req, res) => {
     });
 
     // 8. Gérer la vérification email (génération token + envoi email)
+    console.log(`📧 Tentative d'envoi d'email de vérification pour ${newUser.email}...`);
     const emailResult = await handleEmailVerification(newUser);
 
     if (!emailResult.success) {
+      console.error(`❌ Échec de l'envoi d'email pour ${newUser.email}`);
       return res.status(500).json({
-        message: "Erreur lors de l'envoi de l'email de vérification",
+        message: "Erreur lors de l'envoi de l'email de vérification. Vérifiez la configuration email du serveur.",
       });
     }
 
+    console.log(`✅ Email de vérification envoyé avec succès pour ${newUser.email}`);
+    
     // 9. Réponse de succès
     res.status(201).json({
       message:

@@ -14,6 +14,12 @@ const createTransporter = () => {
 // Fonction pour envoyer l'email de vérification
 export const sendVerificationEmail = async (email, nom, verificationToken) => {
   try {
+    console.log("🔧 Configuration email:", {
+      EMAIL_USER: process.env.EMAIL_USER ? "✅ Défini" : "❌ Manquant",
+      EMAIL_PASS: process.env.EMAIL_PASS ? "✅ Défini" : "❌ Manquant",
+      NODE_ENV: process.env.NODE_ENV
+    });
+    
     const transporter = createTransporter();
 
     // URL de vérification pointant vers l'API backend
@@ -60,11 +66,18 @@ export const sendVerificationEmail = async (email, nom, verificationToken) => {
       `,
     };
 
+    console.log(`📧 Tentative d'envoi email à ${email}...`);
     await transporter.sendMail(mailOptions);
-    console.log(`Email de vérification envoyé à ${email}`);
+    console.log(`✅ Email de vérification envoyé avec succès à ${email}`);
     return true;
   } catch (error) {
-    console.error("Erreur lors de l'envoi de l'email:", error);
+    console.error("❌ Erreur détaillée lors de l'envoi de l'email:", {
+      message: error.message,
+      code: error.code,
+      command: error.command,
+      response: error.response,
+      responseCode: error.responseCode
+    });
     return false;
   }
 };
