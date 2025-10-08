@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Logo from '../components/common/Logo'
 import profileIcon from '/assets/img/iconamoon_profile-fill.png'
 import backgroundImage from '/assets/img/unsplash_j8fVoo3i8xk.png'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 export default function Register() {
   const navigate = useNavigate()
@@ -230,13 +230,13 @@ export default function Register() {
                 />
                 <label htmlFor="rgpdConsent" className="text-sm text-gray-700 leading-relaxed">
                   J'accepte que mes données personnelles soient collectées et traitées conformément à la{' '}
-                  <a 
-                    href="#/politique-confidentialite" 
+                  <Link 
+                    to="/politique-confidentialite" 
                     target="_blank"
                     className="text-[#E22807] underline hover:text-[#c41e06] font-medium"
                   >
                     politique de confidentialité
-                  </a>
+                  </Link>
                   . Je comprends que je peux exercer mes droits RGPD à tout moment.
                 </label>
               </div>
