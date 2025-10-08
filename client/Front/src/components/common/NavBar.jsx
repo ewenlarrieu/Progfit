@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Logo from "./Logo";
+import { removeAuthToken } from "../../utils/auth";
 
 export default function NavBar() {
   const navigate = useNavigate();
@@ -25,8 +26,8 @@ export default function NavBar() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    window.location.href = "/#/login";
+    removeAuthToken();
+    navigate("/login");
   };
 
   // Style conditionnel pour item actif
