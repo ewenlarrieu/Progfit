@@ -3,7 +3,7 @@ import nodemailer from "nodemailer";
 // Configuration du transporteur email avec port 465 SSL
 const createTransporter = () => {
   console.log("🔧 Tentative connexion SMTP port 465 (SSL)...");
-  
+
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 465,

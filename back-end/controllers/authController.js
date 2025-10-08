@@ -85,18 +85,23 @@ export const register = async (req, res) => {
     });
 
     // 8. SOLUTION FINALE: Auto-activation (Render bloque les ports SMTP sortants)
-    console.log(`⚡ Auto-activation du compte ${newUser.email} - SMTP bloqué sur Render`);
-    
+    console.log(
+      `⚡ Auto-activation du compte ${newUser.email} - SMTP bloqué sur Render`
+    );
+
     // Activer automatiquement le compte (solution définitive pour Render)
     newUser.emailVerified = true;
     newUser.emailVerificationToken = null;
     newUser.emailVerificationExpires = null;
     await newUser.save();
-    
+
     // Log informatif
-    console.log(`✅ Compte ${newUser.email} activé automatiquement - Prêt à se connecter`);
-    
-    const message = "Compte créé avec succès ! Vous pouvez maintenant vous connecter immédiatement.";
+    console.log(
+      `✅ Compte ${newUser.email} activé automatiquement - Prêt à se connecter`
+    );
+
+    const message =
+      "Compte créé avec succès ! Vous pouvez maintenant vous connecter immédiatement.";
 
     // 9. Réponse de succès
     res.status(201).json({
