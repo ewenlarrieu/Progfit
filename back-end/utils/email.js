@@ -1,22 +1,21 @@
 import nodemailer from "nodemailer";
 
-// Configuration du transporteur email
+// Configuration du transporteur email avec fallback
 const createTransporter = () => {
-  return nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false, // true pour 465, false pour autres ports
+  // Essayer d'abord avec le service Gmail simplifié (plus compatible avec les plateformes cloud)
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
     },
-    connectionTimeout: 60000, // 60 secondes
-    greetingTimeout: 30000, // 30 secondes
-    socketTimeout: 60000, // 60 secondes
-    tls: {
-      rejectUnauthorized: false,
-    },
+    pool: true,
+    maxConnections: 1,
+    rateDelta: 20000,
+    rateLimit: 5,
   });
+
+  return transporter;
 };
 
 // Fonction pour envoyer l'email de vérification
