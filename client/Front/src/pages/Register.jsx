@@ -77,12 +77,13 @@ export default function Register() {
         throw new Error(data.message || 'Erreur lors de l\'inscription')
       }
 
-      setMessage(data.message || 'Compte créé avec succès ! Vérifiez votre email.')
+      setMessage(data.message || 'Compte créé avec succès ! Un email de vérification a été envoyé à votre adresse.')
+      setError('') // Clear any previous errors
       
-      // Rediriger vers la page de connexion après 3 secondes
+      // Rediriger vers la page de connexion après 5 secondes pour laisser le temps de lire
       setTimeout(() => {
         navigate('/login')
-      }, 3000)
+      }, 5000)
     } catch (err) {
       setError(err.message)
     } finally {
