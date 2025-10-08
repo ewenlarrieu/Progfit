@@ -84,23 +84,19 @@ export const register = async (req, res) => {
       profileCompleted: objectifsFinal.length > 0,
     });
 
-    // 8. TEST: Vérification email obligatoire avec port 465 SSL
-    console.log(
-      `📧 Tentative d'envoi d'email de vérification pour ${newUser.email} (port 465)...`
-    );
+    // 8. SOLUTION FINALE: Auto-activation (Render bloque les ports SMTP sortants)
+    console.log(`⚡ Auto-activation du compte ${newUser.email} - SMTP bloqué sur Render`);
     
-    const emailResult = await handleEmailVerification(newUser);
-
-    if (!emailResult.success) {
-      console.error(`❌ Échec de l'envoi d'email pour ${newUser.email} - Port 465 bloqué ?`);
-      return res.status(500).json({
-        message: "Erreur lors de l'envoi de l'email de vérification. Le service email semble bloqué sur cette plateforme.",
-      });
-    }
-
-    console.log(`✅ Email de vérification envoyé avec succès pour ${newUser.email} via port 465`);
+    // Activer automatiquement le compte (solution définitive pour Render)
+    newUser.emailVerified = true;
+    newUser.emailVerificationToken = null;
+    newUser.emailVerificationExpires = null;
+    await newUser.save();
     
-    const message = "Compte créé avec succès ! Vérifiez votre email pour activer votre compte.";
+    // Log informatif
+    console.log(`✅ Compte ${newUser.email} activé automatiquement - Prêt à se connecter`);
+    
+    const message = "Compte créé avec succès ! Vous pouvez maintenant vous connecter immédiatement.";
 
     // 9. Réponse de succès
     res.status(201).json({
