@@ -85,22 +85,32 @@ export const register = async (req, res) => {
     });
 
     // 8. Gérer la vérification email (génération token + envoi email)
-    console.log(`📧 Tentative d'envoi d'email de vérification pour ${newUser.email}...`);
+    console.log(
+      `📧 Tentative d'envoi d'email de vérification pour ${newUser.email}...`
+    );
     const emailResult = await handleEmailVerification(newUser);
 
+    let message;
     if (!emailResult.success) {
-      console.error(`❌ Échec de l'envoi d'email pour ${newUser.email}`);
-      return res.status(500).json({
-        message: "Erreur lors de l'envoi de l'email de vérification. Vérifiez la configuration email du serveur.",
-      });
+      console.error(`❌ Échec de l'envoi d'email pour ${newUser.email} - Activation automatique du compte`);
+      
+      // En cas d'échec email, activer automatiquement le compte (solution temporaire)
+      newUser.isEmailVerified = true;
+      newUser.emailVerificationToken = null;
+      newUser.emailVerificationExpires = null;
+      await newUser.save();
+      
+      message = "Compte créé avec succès ! Vous pouvez maintenant vous connecter. (Service d'email temporairement indisponible)";
+    } else {
+      console.log(
+        `✅ Email de vérification envoyé avec succès pour ${newUser.email}`
+      );
+      message = "Compte créé avec succès ! Vérifiez votre email pour activer votre compte.";
     }
 
-    console.log(`✅ Email de vérification envoyé avec succès pour ${newUser.email}`);
-    
     // 9. Réponse de succès
     res.status(201).json({
-      message:
-        "Compte créé avec succès ! Vérifiez votre email pour activer votre compte.",
+      message: message,
       user: {
         id: newUser._id,
         nom: newUser.nom,
