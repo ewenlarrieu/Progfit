@@ -20,39 +20,20 @@ const userSchema = new mongoose.Schema(
       required: true,
       minlength: 8,
     },
-    emailVerified: {
-      type: Boolean,
-      default: false,
-    },
-    emailVerificationToken: {
+    role: {
       type: String,
-      default: null,
-    },
-    emailVerificationExpires: {
-      type: Date,
-      default: null,
-    },
-    passwordResetToken: {
-      type: String,
-      default: null,
-    },
-    passwordResetExpires: {
-      type: Date,
-      default: null,
+      enum: ["user", "admin"],
+      default: "user",
     },
     niveau: {
       type: String,
       enum: ["debutant", "intermediaire", "avance"],
       default: "debutant",
     },
-    objectifs: {
-      type: [String],
+    objectif: {
+      type: String,
       enum: ["perte de poids", "prise de masse", "entretien", "force"],
-      default: [],
-    },
-    profileCompleted: {
-      type: Boolean,
-      default: false,
+      required: true,
     },
     programmeActuel: {
       programmeId: {
@@ -78,7 +59,7 @@ const userSchema = new mongoose.Schema(
           seanceIndex: {
             type: Number,
             required: true,
-          }, // Index de la séance dans le programme (0, 1, 2...)
+          },
           dateTerminee: {
             type: Date,
             default: Date.now,

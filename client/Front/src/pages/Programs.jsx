@@ -41,7 +41,7 @@ export default function Programs() {
   useEffect(() => {
     fetch('https://progfit.onrender.com/api/programmes')
       .then(res => {
-        if (!res.ok) throw new Error('Erreur réseau');
+        if (!res.ok) throw new Error('Erreur');
         return res.json();
       })
       .then(data => {

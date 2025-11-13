@@ -15,7 +15,6 @@ const progressionSchema = new mongoose.Schema(
     seanceId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      // Référence à l'ID de la séance dans le programme
     },
     dateRealisation: {
       type: Date,

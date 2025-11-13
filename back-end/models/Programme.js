@@ -5,53 +5,61 @@ const programmeSchema = new mongoose.Schema(
     nom: {
       type: String,
       required: true,
-      trim: true,
     },
     description: {
       type: String,
       required: true,
     },
-    niveau: {
+    difficulte: {
       type: String,
-      enum: ["Débutant", "Intermédiaire", "Avancé"],
+      enum: ["Beginner", "Intermediate", "Advanced"],
       required: true,
     },
     objectif: {
       type: String,
-      enum: ["Perte de poids", "Prise de masse", "Entretien", "Force"],
+      enum: ["perte de poids", "prise de masse", "entretien", "force"],
       required: true,
     },
     duree: {
       type: Number,
       required: true,
-      min: 1,
-      // Durée en semaines
     },
     seances: [
       {
         jour: {
           type: Number,
           required: true,
-          min: 1,
         },
         nom: {
-          type: String,
-          required: true,
-        },
-        objectif: {
           type: String,
           required: true,
         },
         dureeEstimee: {
           type: Number,
           required: true,
-          min: 1,
-          // Durée en minutes
         },
         exercices: [
           {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Exercice",
+            nom: {
+              type: String,
+              required: true,
+            },
+            description: {
+              type: String,
+              required: true,
+            },
+            series: {
+              type: Number,
+              required: true,
+            },
+            repetitions: {
+              type: String,
+              required: true,
+            },
+            repos: {
+              type: String,
+              required: true,
+            },
           },
         ],
       },

@@ -63,7 +63,7 @@ export default function SeanceEntrainement() {
         const data = await response.json();
 
         if (response.ok) {
-          alert('Félicitations ! Programme terminé avec succès ! 🎉');
+          alert('Félicitations ! Programme terminé avec succès ! ');
           // Rediriger vers la page programmes
           navigate('/programs');
         } else {
