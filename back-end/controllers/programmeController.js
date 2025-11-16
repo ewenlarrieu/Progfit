@@ -81,3 +81,27 @@ export const getAllProgrammes = async (req, res) => {
     });
   }
 };
+
+export const deleteProgramme = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deletedProgramme = await Programme.findByIdAndDelete(id);
+
+    if (!deletedProgramme) {
+      return res.status(404).json({
+        message: "Programme not found",
+      });
+    }
+
+    res.status(200).json({
+      message: "Programme deleted successfully",
+      programme: deletedProgramme,
+    });
+  } catch (error) {
+    console.error("Error deleting programme:", error);
+    res.status(500).json({
+      message: "Server error while deleting programme",
+    });
+  }
+};
