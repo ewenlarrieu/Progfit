@@ -105,3 +105,27 @@ export const deleteProgramme = async (req, res) => {
     });
   }
 };
+
+export const getProgrammeById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const programme = await Programme.findById(id);
+
+    if (!programme) {
+      return res.status(404).json({
+        message: "Programe not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      programme,
+    });
+  } catch (error) {
+    console.error("Error getting programme:", error);
+    res.status(500).json({
+      message: "Server error while getting programme",
+    });
+  }
+};
