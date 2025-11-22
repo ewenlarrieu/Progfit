@@ -45,58 +45,25 @@ const userSchema = new mongoose.Schema(
         type: Date,
         default: null,
       },
-      progression: {
+      semaineActuelle: {
         type: Number,
-        default: 0,
+        default: 1,
+      },
+      seancesCompletees: {
+        type: [Number],
+        default: [],
       },
       statut: {
         type: String,
         enum: ["actif", "termine", "pause"],
         default: "actif",
       },
-      seancesTerminees: [
-        {
-          seanceIndex: {
-            type: Number,
-            required: true,
-          },
-          dateTerminee: {
-            type: Date,
-            default: Date.now,
-          },
-          exercicesTermines: [
-            {
-              exerciceId: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "Exercice",
-              },
-              series: {
-                type: Number,
-                default: 0,
-              },
-              repetitions: {
-                type: Number,
-                default: 0,
-              },
-              duree: {
-                type: Number,
-                default: 0,
-              }, // en secondes
-              notes: {
-                type: String,
-                default: "",
-              },
-            },
-          ],
-        },
-      ],
     },
     historiquePrograms: [
       {
         programmeId: { type: mongoose.Schema.Types.ObjectId, ref: "Programme" },
         dateDebut: { type: Date },
         dateFin: { type: Date },
-        progression: { type: Number, default: 0 },
         statut: {
           type: String,
           enum: ["termine", "abandonne"],
