@@ -309,3 +309,92 @@ export const validateWeek = async (req, res) => {
     });
   }
 };
+
+export const cancelLastSeance = async (req, res) => {
+  try {
+    const token = req.headers.authorization?.split(" ")[1];
+
+    if (!token) {
+      return res.status(401).json({
+        message: "Authentication token required",
+      });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.userId;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    if (!user.programmeActuel || !user.programmeActuel.programmeId) {
+      return res.status(400).json({
+        message: "No active programme",
+      });
+    }
+
+    if (user.programmeActuel.seancesCompletees.length === 0) {
+      return res.status(400).json({
+        message: "No completed seances to cancel",
+      });
+    }
+
+    // Remove last completed seance
+    const cancelledJour = user.programmeActuel.seancesCompletees.pop();
+
+    await user.save();
+
+    res.status(200).json({
+      message: `Seance ${cancelledJour} cancelled successfully`,
+      cancelledJour,
+      user: {
+        id: user._id,
+        nom: user.nom,
+        programmeActuel: user.programmeActuel,
+      },
+    });
+  } catch (error) {
+    console.error("Error cancelling seance:", error);
+    res.status(500).json({
+      message: "Server error while cancelling seance",
+    });
+  }
+};
+
+export const getHistoriqueProgrammes = async (req, res) => {
+  try {
+    const token = req.headers.authorization?.split(" ")[1];
+
+    if (!token) {
+      return res.status(401).json({
+        message: "Authentification token required",
+      });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.userId;
+
+    const user = await User.findById(userId).populate(
+      "historiquePrograms.programmeId"
+    );
+
+    if (!user) {
+      return res.status(401).json({
+        message: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      message: "History programs :",
+      histoique: user.historiquePrograms,
+    });
+  } catch (error) {
+    console.error("Error getting history:", error);
+    res.status(500).json({
+      message: "Server error while getting history",
+    });
+  }
+};

@@ -4,14 +4,17 @@ import {
   unsubscribeFromProgramme,
   markSeanceAsCompleted,
   validateWeek,
+  getHistoriqueProgrammes,
+  cancelLastSeance,
 } from "../controllers/userProgrammeController.js";
 
 const router = express.Router();
 
-// Routes spécifiques AVANT les routes avec paramètres
 router.post("/complete-seance", markSeanceAsCompleted);
 router.post("/validate-week", validateWeek);
 router.delete("/unsubscribe", unsubscribeFromProgramme);
 router.post("/:programmeId", subscribeToProgramme);
+router.get("/history", getHistoriqueProgrammes);
+router.delete("/cancel-last-seance", cancelLastSeance);
 
 export default router;
