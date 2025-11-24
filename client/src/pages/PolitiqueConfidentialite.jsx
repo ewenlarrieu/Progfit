@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { isAuthenticated } from '../utils/auth'
 
 export default function PolitiqueConfidentialite() {
   return (
@@ -237,7 +236,7 @@ export default function PolitiqueConfidentialite() {
           {/* Actions utilisateur */}
           <div className="border-t pt-8 mt-8">
             <div className="text-center">
-              {isAuthenticated() ? (
+              {localStorage.getItem('token') ? (
                 <Link 
                   to="/dashboard" 
                   className="bg-[#E22807] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#c41e06] transition-colors"

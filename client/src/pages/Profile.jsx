@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import NavBar from '../components/common/NavBar';
+import React, { useState } from "react";
+import NavBar from '../components/NavBar';
 
 
 const Profile = () => {

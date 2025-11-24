@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import NavBar from '../components/common/NavBar';
+import { useNavigate, Link } from 'react-router-dom';
+import NavBar from '../components/NavBar';
 
-import imgProgramme1 from '../components/common/imgProgramms/imgProgramme1.png';
-import imgProgramme2 from '../components/common/imgProgramms/imgProgramme2.png';
-import imgProgramme3 from '../components/common/imgProgramms/imgProgramme3.png';
-import imgProgramme4 from '../components/common/imgProgramms/imgProgramme4.png';
-import imgProgramme5 from '../components/common/imgProgramms/imgProgramme5.png';
-import imgProgramme6 from '../components/common/imgProgramms/imgProgramme6.png';
-import imgProgramme7 from '../components/common/imgProgramms/imgProgramme7.png';
-import imgProgramme8 from '../components/common/imgProgramms/imgProgramme8.png';
-import imgProgramme9 from '../components/common/imgProgramms/imgProgramme9.png';
-import imgProgramme10 from '../components/common/imgProgramms/imgProgramme10.png';
-import imgProgramme11 from '../components/common/imgProgramms/imgProgramme11.png';
+import imgProgramme1 from '../../imgProgramms/imgProgramme1.png';
+import imgProgramme2 from '../../imgProgramms/imgProgramme2.png';
+import imgProgramme3 from '../../imgProgramms/imgProgramme3.png';
+import imgProgramme4 from '../../imgProgramms/imgProgramme4.png';
+import imgProgramme5 from '../../imgProgramms/imgProgramme5.png';
+import imgProgramme6 from '../../imgProgramms/imgProgramme6.png';
+import imgProgramme7 from '../../imgProgramms/imgProgramme7.png';
+import imgProgramme8 from '../../imgProgramms/imgProgramme8.png';
+import imgProgramme9 from '../../imgProgramms/imgProgramme9.png';
+import imgProgramme10 from '../../imgProgramms/imgProgramme10.png';
+import imgProgramme11 from '../../imgProgramms/imgProgramme11.png';
 
 export default function Programs() {
   const images = [

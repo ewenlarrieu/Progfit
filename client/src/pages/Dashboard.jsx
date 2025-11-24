@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import NavBar from '../components/common/NavBar'
-import profileIcon from '/assets/img/iconamoon_profile-fill.png'
+import NavBar from '../components/NavBar'
+import profileIcon from '../../img/iconamoon_profile-fill.png'
 
 export default function Dashboard() {
   const navigate = useNavigate();

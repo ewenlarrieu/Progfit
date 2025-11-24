@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Logo from '../components/common/Logo';
+import Logo from '../components/Logo';
 
 
 export default function Home() {
