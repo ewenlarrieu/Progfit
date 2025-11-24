@@ -6,17 +6,14 @@ export default function PolitiqueConfidentialite() {
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white shadow-lg rounded-lg p-8">
-          {/* En-tête */}
+
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-[#E22807] mb-4">
               Politique de Confidentialité
             </h1>
-            <p className="text-gray-600">
-              Dernière mise à jour : {new Date().toLocaleDateString('fr-FR')}
-            </p>
           </div>
 
-          {/* Introduction */}
+         
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">1. Introduction</h2>
             <p className="text-gray-600 leading-relaxed">
@@ -27,7 +24,7 @@ export default function PolitiqueConfidentialite() {
             </p>
           </section>
 
-          {/* Responsable du traitement */}
+       
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">2. Responsable du traitement</h2>
             <div className="bg-gray-50 p-4 rounded-lg">
@@ -40,7 +37,7 @@ export default function PolitiqueConfidentialite() {
             </div>
           </section>
 
-          {/* Données collectées */}
+        
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">3. Données personnelles collectées</h2>
             <div className="space-y-4">
@@ -75,30 +72,26 @@ export default function PolitiqueConfidentialite() {
             </div>
           </section>
 
-          {/* Finalités du traitement */}
+   
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">4. Finalités du traitement</h2>
             <div className="space-y-3">
               <div className="flex items-start">
-                <span className="inline-block w-2 h-2 bg-[#E22807] rounded-full mt-2 mr-3"></span>
                 <p className="text-gray-600">
                   <strong>Fourniture du service :</strong> Gérer votre compte, personnaliser votre expérience fitness
                 </p>
               </div>
               <div className="flex items-start">
-                <span className="inline-block w-2 h-2 bg-[#E22807] rounded-full mt-2 mr-3"></span>
                 <p className="text-gray-600">
                   <strong>Suivi de progression :</strong> Enregistrer et analyser vos performances sportives
                 </p>
               </div>
               <div className="flex items-start">
-                <span className="inline-block w-2 h-2 bg-[#E22807] rounded-full mt-2 mr-3"></span>
                 <p className="text-gray-600">
                   <strong>Communication :</strong> Envoi d'emails de vérification et de réinitialisation
                 </p>
               </div>
               <div className="flex items-start">
-                <span className="inline-block w-2 h-2 bg-[#E22807] rounded-full mt-2 mr-3"></span>
                 <p className="text-gray-600">
                   <strong>Sécurité :</strong> Authentification et protection contre les accès non autorisés
                 </p>
@@ -106,10 +99,10 @@ export default function PolitiqueConfidentialite() {
             </div>
           </section>
 
-          {/* Base légale */}
+        
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">5. Base légale du traitement</h2>
-            <div className="bg-blue-50 p-4 rounded-lg">
+            <div >
               <p className="text-gray-700">
                 Le traitement de vos données personnelles est basé sur :
               </p>
@@ -149,7 +142,6 @@ export default function PolitiqueConfidentialite() {
             </div>
           </section>
 
-          {/* Vos droits */}
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">7. Vos droits RGPD</h2>
             <div className="grid md:grid-cols-2 gap-4">
@@ -180,7 +172,7 @@ export default function PolitiqueConfidentialite() {
             </div>
           </section>
 
-          {/* Sécurité */}
+  
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">8. Sécurité des données</h2>
             <div className="bg-yellow-50 p-4 rounded-lg">
@@ -197,24 +189,11 @@ export default function PolitiqueConfidentialite() {
             </div>
           </section>
 
-          {/* Contact et réclamations */}
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">9. Contact et réclamations</h2>
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <p className="text-gray-700 mb-3">
-                Pour exercer vos droits ou pour toute question concernant vos données personnelles :
-              </p>
-              <p className="text-gray-600">
-                <strong>Email :</strong> privacy@progfit.com<br />
-                <strong>Délai de réponse :</strong> 30 jours maximum<br />
-                <strong>Autorité de contrôle :</strong> CNIL (www.cnil.fr)
-              </p>
-            </div>
-          </section>
+ 
 
-          {/* Cookies */}
+     
           <section className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">10. Cookies et technologies similaires</h2>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-4">9. Cookies et technologies similaires</h2>
             <p className="text-gray-600 mb-4">
               Notre application utilise uniquement les cookies et stockage local suivants :
             </p>
@@ -224,7 +203,7 @@ export default function PolitiqueConfidentialite() {
             </ul>
           </section>
 
-          {/* Modifications */}
+          
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">11. Modifications de la politique</h2>
             <p className="text-gray-600">
@@ -233,24 +212,24 @@ export default function PolitiqueConfidentialite() {
             </p>
           </section>
 
-          {/* Actions utilisateur */}
+          
           <div className="border-t pt-8 mt-8">
-            <div className="text-center">
-              {localStorage.getItem('token') ? (
-                <Link 
-                  to="/dashboard" 
-                  className="bg-[#E22807] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#c41e06] transition-colors"
-                >
-                  Retour au Dashboard
-                </Link>
-              ) : (
+            <div className="flex gap-4 justify-center items-center">
+         
+              
                 <Link 
                   to="/login" 
                   className="bg-[#E22807] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#c41e06] transition-colors"
                 >
                   Se connecter
                 </Link>
-              )}
+                  <Link 
+                  to="/register" 
+                  className="bg-[#E22807] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#c41e06] transition-colors"
+                >
+                  S'inscrire
+                </Link>
+              
             </div>
           </div>
         </div>

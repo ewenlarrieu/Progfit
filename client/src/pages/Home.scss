@@ -268,7 +268,7 @@ $spacing-xl: 5rem;
 }
 
 .about-content {
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   color: $text-light;
   line-height: 1.8;
   max-width: 800px;
@@ -280,6 +280,97 @@ $spacing-xl: 5rem;
 
   p {
     margin: 0;
+  }
+}
+
+.for-who-section {
+  @include section-padding;
+  background-color: $white;
+}
+
+.for-who-title {
+  @include title-base(2.5rem, 1.8rem);
+  color: $text-dark;
+  text-align: center;
+  margin-bottom: 4rem;
+
+  @include responsive($mobile) {
+    margin-bottom: 2.5rem;
+  }
+}
+
+.for-who-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $spacing-lg;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  @include responsive($tablet) {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+  }
+}
+
+.for-who-card {
+  background-color: $bg-light;
+  padding: 2.5rem $spacing-md;
+  border-radius: 15px;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba($primary-color, 0.15);
+    border-color: $primary-color;
+
+    .for-who-icon {
+      background-color: $primary-color;
+      color: $white;
+    }
+  }
+
+  &-title {
+    @include title-base(1.5rem, 1.3rem);
+    color: $primary-color;
+    margin-bottom: $spacing-sm;
+  }
+
+  &-description {
+    font-size: 1rem;
+    color: $text-light;
+    line-height: 1.6;
+
+    @include responsive($mobile) {
+      font-size: 0.95rem;
+    }
+  }
+}
+
+.for-who-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1.5rem;
+  background-color: rgba($primary-color, 0.1);
+  border-radius: 50%;
+  @include flex-center;
+  color: $primary-color;
+  transition: all 0.3s ease;
+
+  svg {
+    width: 40px;
+    height: 40px;
+  }
+
+  @include responsive($mobile) {
+    width: 70px;
+    height: 70px;
+
+    svg {
+      width: 35px;
+      height: 35px;
+    }
   }
 }
 
@@ -340,5 +431,49 @@ $spacing-xl: 5rem;
     @include responsive($mobile) {
       font-size: 0.95rem;
     }
+  }
+}
+
+.footer {
+  background-color: $text-dark;
+  padding: $spacing-md $spacing-lg;
+  color: $white;
+
+  @include responsive($mobile) {
+    padding: $spacing-md 1.5rem;
+  }
+}
+
+.footer-content {
+  @include flex-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: $spacing-md;
+
+  @include responsive($mobile) {
+    flex-direction: column;
+    text-align: center;
+    gap: $spacing-sm;
+  }
+}
+
+.footer-text {
+  font-size: 0.95rem;
+  color: rgba($white, 0.8);
+  margin: 0;
+}
+
+.footer-link {
+  background: none;
+  border: none;
+  color: $white;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+  padding: 0;
+
+  &:hover {
+    color: $primary-color;
   }
 }
