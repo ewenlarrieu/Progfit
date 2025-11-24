@@ -1,0 +1,344 @@
+$primary-color: #E22807;
+$primary-hover: #c41e06;
+$text-dark: #333;
+$text-light: #666;
+$bg-light: #f9f9f9;
+$white: #fff;
+$orange: #E22807;
+
+$mobile: 768px;
+$tablet: 968px;
+
+$spacing-sm: 1rem;
+$spacing-md: 2rem;
+$spacing-lg: 3rem;
+$spacing-xl: 5rem;
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin responsive($breakpoint) {
+  @media (max-width: $breakpoint) {
+    @content;
+  }
+}
+
+@mixin button-base {
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  font-size: 1rem;
+
+  @include responsive($mobile) {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+}
+
+@mixin button-hover($translate: -2px) {
+  transform: translateY($translate);
+}
+
+@mixin section-padding {
+  padding: $spacing-xl $spacing-lg;
+
+  @include responsive($mobile) {
+    padding: $spacing-lg 1.5rem;
+  }
+}
+
+@mixin title-base($size, $mobile-size) {
+  font-size: $size;
+  font-weight: 700;
+
+  @include responsive($mobile) {
+    font-size: $mobile-size;
+  }
+}
+
+* {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.home-container {
+  min-height: 100vh;
+  background-color: $white;
+}
+
+.navbar {
+  @include flex-between;
+  padding: 1.5rem $spacing-lg;
+  background-color: $orange;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+  @include responsive($mobile) {
+    flex-direction: column;
+    gap: $spacing-sm;
+    padding: $spacing-sm;
+  }
+
+  &-slogan {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: $white;
+    text-align: center;
+    flex: 1;
+    padding: 0 $spacing-md;
+
+    @include responsive($mobile) {
+      font-size: 0.9rem;
+      padding: 0;
+    }
+  }
+
+  &-buttons {
+    display: flex;
+    gap: $spacing-sm;
+    flex-shrink: 0;
+
+    @include responsive($mobile) {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}
+
+%button-shared {
+  @include button-base;
+}
+
+.btn-register {
+  @extend %button-shared;
+  background-color: $white;
+  color: $primary-color;
+  border: 2px solid $white;
+
+  &:hover {
+    background-color: rgba($white, 0.9);
+    @include button-hover;
+    box-shadow: 0 4px 12px rgba($white, 0.3);
+  }
+}
+
+.btn-login {
+  @extend %button-shared;
+  background-color: $white;
+  color: $primary-color;
+  border: 2px solid $white;
+
+  &:hover {
+    background-color: rgba($white, 0.9);
+    @include button-hover;
+    box-shadow: 0 4px 12px rgba($white, 0.3);
+  }
+}
+
+.btn-try-free,
+.btn-have-account {
+  padding: 1rem 2.5rem;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  font-size: 1.1rem;
+
+  @include responsive($mobile) {
+    padding: 0.9rem $spacing-md;
+    font-size: 1rem;
+    width: 100%;
+  }
+}
+
+.btn-try-free {
+  background-color: $primary-color;
+  color: $white;
+
+  &:hover {
+    background-color: $primary-hover;
+    @include button-hover(-3px);
+    box-shadow: 0 6px 20px rgba($primary-color, 0.4);
+  }
+}
+
+.btn-have-account {
+  background-color: $primary-color;
+  color: $white;
+
+  &:hover {
+    background-color: $primary-hover;
+    @include button-hover(-3px);
+    box-shadow: 0 6px 20px rgba($primary-color, 0.4);
+  }
+}
+
+.hero-section {
+  @include flex-center;
+  flex-direction: column;
+  text-align: center;
+  padding: $spacing-xl $spacing-md;
+  min-height: 70vh;
+  background-image: url('../../img/img-2.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+
+  // Overlay pour améliorer la lisibilité du texte
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    z-index: 0;
+  }
+
+  // Contenu au-dessus de l'overlay
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  @include responsive($mobile) {
+    padding: $spacing-lg 1.5rem;
+    min-height: 60vh;
+  }
+}
+
+.hero-title {
+  @include title-base(3.5rem, 2rem);
+  color: $white;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 2px;
+}
+
+.hero-subtitle {
+  font-size: 1.3rem;
+  color: $white;
+  margin-bottom: $spacing-lg;
+  max-width: 600px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 1px;
+
+  @include responsive($mobile) {
+    font-size: 1rem;
+    margin-bottom: $spacing-md;
+  }
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1.5rem;
+
+  @include responsive($mobile) {
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+    gap: $spacing-sm;
+  }
+}
+
+.about-section {
+  @include section-padding;
+  background-color: $bg-light;
+  text-align: center;
+}
+
+.about-title {
+  @include title-base(2.5rem, 1.8rem);
+  color: $primary-color;
+  margin-bottom: $spacing-md;
+}
+
+.about-content {
+  font-size: 1.1rem;
+  color: $text-light;
+  line-height: 1.8;
+  max-width: 800px;
+  margin: 0 auto;
+
+  @include responsive($mobile) {
+    font-size: 1rem;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.why-section {
+  @include section-padding;
+  background-color: $white;
+}
+
+.why-title {
+  @include title-base(2.5rem, 1.8rem);
+  color: $text-dark;
+  text-align: center;
+  margin-bottom: 4rem;
+
+  @include responsive($mobile) {
+    margin-bottom: 2.5rem;
+  }
+}
+
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $spacing-lg;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  @include responsive($tablet) {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+  }
+}
+
+.why-card {
+  background-color: $bg-light;
+  padding: 2.5rem $spacing-md;
+  border-radius: 15px;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba($primary-color, 0.15);
+    border-color: $primary-color;
+  }
+
+  &-title {
+    @include title-base(1.5rem, 1.3rem);
+    color: $primary-color;
+    margin-bottom: $spacing-sm;
+  }
+
+  &-description {
+    font-size: 1rem;
+    color: $text-light;
+    line-height: 1.6;
+
+    @include responsive($mobile) {
+      font-size: 0.95rem;
+    }
+  }
+}
