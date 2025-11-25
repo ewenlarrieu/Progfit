@@ -2,292 +2,275 @@ import React, { useState } from 'react'
 import Logo from '../components/Logo'
 import profileIcon from '../../img/iconamoon_profile-fill.png'
 import backgroundImage from '../../img/unsplash_j8fVoo3i8xk.png'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { API_URL } from '../config/api';
+
+
 
 export default function Register() {
   const navigate = useNavigate()
+  
+ 
   const [formData, setFormData] = useState({
-    username: '',
+    pseudo: '',
     email: '',
     password: '',
     confirmPassword: '',
     niveau: '',
-    objectifs: ''
+    objectif: ''
   })
-  const [message, setMessage] = useState('')
-  const [error, setError] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const [rgpdConsent, setRgpdConsent] = useState(false)
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }))
+ 
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    })
+    setError('')
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setError('')
-    setMessage('')
-    setIsLoading(true)
+    e.preventDefault() 
+    setError('') 
+    
 
-    // Validation côté client
-    if (!formData.username || !formData.email || !formData.password || !formData.confirmPassword) {
-      setError('Tous les champs obligatoires doivent être remplis')
-      setIsLoading(false)
-      return
-    }
 
-    if (formData.password !== formData.confirmPassword) {
-      setError('Les mots de passe ne correspondent pas')
-      setIsLoading(false)
-      return
-    }
-
-    if (!rgpdConsent) {
-      setError('Vous devez accepter la politique de confidentialité pour créer un compte')
-      setIsLoading(false)
-      return
-    }
+    setLoading(true)
 
     try {
-      // Préparer les objectifs comme tableau
-      const objectifs = formData.objectifs ? [formData.objectifs] : []
-
-      const response = await fetch('https://progfit-backend.onrender.com/api/auth/register', {
+      const response = await fetch(`${API_URL}/api/auth/register`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          username: formData.username,
+          username: formData.pseudo,
           email: formData.email,
           password: formData.password,
           confirmPassword: formData.confirmPassword,
           niveau: formData.niveau,
-          objectifs: objectifs,
-        }),
+          objectif: formData.objectif
+        })
       })
-
       const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.message || 'Erreur lors de l\'inscription')
+        throw new Error(data.message)
       }
 
-      setMessage(data.message || 'Compte créé avec succès ! Vous pouvez maintenant vous connecter immédiatement.')
-      setError('') // Clear any previous errors
+      navigate('/login')
       
-      // Redirection après succès - délai réduit car plus besoin de vérifier email
-      setTimeout(() => {
-        navigate('/login')
-      }, 4000)
-    } catch (err) {
-      // Gestion spécifique des erreurs email vs autres erreurs
-      if (err.message.includes('email') || err.message.includes('Email')) {
-        setError(err.message + ' Contactez le support si le problème persiste.')
-      } else {
-        setError(err.message)
-      }
+    } catch (error) {
+      setError(error.message || 'Erreur lors de l\'inscription. Veuillez réessayer.')
     } finally {
-      setIsLoading(false)
+      setLoading(false)
     }
   }
-  return (
-    <div className="min-h-screen relative">
-      {/* Image d'arrière-plan floue pour remplir les espaces */}
-      <div 
-        className="absolute inset-0 w-full h-screen   bg-cover "
-        style={{
-          backgroundImage: `url(${backgroundImage})`,
-        }}
-      ></div>
-      
-      {/* Image principale nette avec object-contain */}
-      
-      
-      <div className="absolute inset-0 flex items-center justify-center z-20">
-        <div className="bg-white p-8 rounded-lg shadow-lg max-w-3xl w-full mx-4 text-center responsive-card responsive-card-width" >
-          <Logo/>
-          <p className="font-bold text-black mt-7 text-3xl tracking-widest responsive-title" style={{fontFamily: 'Poppins, sans-serif'}}>Crée votre compte</p>
 
-          <div className="w-30 h-30 rounded-full mx-auto mt-4 flex items-center justify-center relative responsive-icon">
-            {/* Fond orange avec opacité */}
-            <div className="absolute inset-0 bg-[#FF7D66] opacity-61 rounded-full"></div>
-            {/* Icône sans opacité */}
-            <img src={profileIcon} alt="Profile icon" className="w-16 h-16 relative z-10" />
+  return (
+    <main className='min-h-screen relative'>
+      
+      <div 
+        className='fixed inset-0 bg-cover '
+        style={{ backgroundImage: `url(${backgroundImage})` }}
+        role="presentation"
+        aria-hidden="true"
+      >
+        <div className="absolute inset-0 bg-black/30"></div>
+      </div>
+
+      
+      <nav className="absolute top-4 left-4 z-30">
+        <button
+          onClick={() => navigate('/')}
+          className="text-white font-semibold bg-black/30 hover:bg-black/50 px-3 py-2 rounded-full transition-colors flex items-center gap-2"
+          aria-label="Retour à la page d'accueil"
+        >
+          Retour
+        </button>
+      </nav>
+
+  
+      <section className="absolute inset-0 flex items-center justify-center z-20 px-4 py-4 sm:py-8" aria-labelledby="register-title">
+        <article className="bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[95vh] overflow-y-auto">
+          
+      
+          <header className='text-center'>
+            <Logo />
+            <h1 id="register-title" className="font-bold text-black mt-2 sm:mt-5 md:mt-7 text-xl sm:text-2xl md:text-3xl tracking-widest">
+              Créer un compte
+            </h1>
+          </header>
+
+          
+          <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full mx-auto mt-2 sm:mt-4 flex items-center justify-center relative" role="img" aria-label="Icône de profil utilisateur">
+            <div className="absolute inset-0 bg-[#FF7D66] opacity-60 rounded-full"></div>
+            <img src={profileIcon} alt="" className="w-10 h-10 sm:w-12 sm:h-12 relative z-10" aria-hidden="true" />
           </div>
 
-          <form onSubmit={handleSubmit}>
-            <div className="flex gap-7 mt-10 responsive-row">
-              {/* Input Pseudo */}
-              <div className="text-left flex-1">
-                <p className='text-black font-medium tracking-widest text-[22px] mb-2 text-left' style={{fontFamily: 'Poppins, sans-serif', letterSpacing: '10%'}}>Votre Pseudo</p>
-                <input 
-                  type="text" 
-                  name="username"
-                  placeholder="Pseudo" 
-                  value={formData.username}
-                  onChange={handleInputChange}
-                  required
-                  className="border border-black rounded-3xl p-2 w-full block placeholder-[#5A5A5A] text-black responsive-input" 
-                  style={{boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)'}}
-                />
-              </div>
-            
-              {/* Input Email */}
-              <div className="text-left flex-1">
-                <p className='text-black font-medium tracking-widest text-[22px] mb-2 text-left' style={{fontFamily: 'Poppins, sans-serif', letterSpacing: '10%'}}>Votre email</p>
-                <input 
-                  type="email" 
-                  name="email"
-                  placeholder="Email" 
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  required
-                  className="border border-black rounded-3xl p-2 w-full block placeholder-[#5A5A5A] text-black responsive-input" 
-                  style={{boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)'}}
-                />
-              </div>
-            </div>
+          
+          <form onSubmit={handleSubmit} className="mt-3 sm:mt-6 md:mt-8 space-y-3 sm:space-y-4 md:space-y-5" aria-label="Formulaire d'inscription">
+            <fieldset>
+              <legend className="sr-only">Informations d'inscription</legend>
 
-            <div className="flex gap-7 mt-10 responsive-row">
-              {/* Input Mot de passe */}
-              <div className="text-left flex-1">
-                <p className='text-black font-medium tracking-widest text-[18px] mb-2 text-left' style={{fontFamily: 'Poppins, sans-serif', letterSpacing: '10%'}}>Mot de Passe</p>
-                <input 
-                  type="password" 
-                  name="password"
-                  placeholder="Mot de passe" 
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  required
-                  className="border border-black rounded-3xl p-2 w-full block placeholder-[#5A5A5A] text-black responsive-input" 
-                  style={{boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)'}}
-                />
+        
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 mb-3 sm:mb-4 md:mb-5">
+                <div>
+                  <label htmlFor="pseudo" className='text-black font-semibold tracking-widest text-base sm:text-lg md:text-xl mb-1 sm:mb-2 block'>
+                    Pseudo
+                  </label>
+                  <input 
+                    id="pseudo"
+                    name="pseudo"
+                    type="text" 
+                    placeholder="Votre pseudo" 
+                    value={formData.pseudo}
+                    onChange={handleChange}
+                    required
+                    autoComplete="username"
+                    className="border-2 border-black rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 md:py-3 w-full placeholder-[#3A3A3A] text-black text-sm sm:text-base md:text-lg shadow-md focus:outline-none focus:ring-2 focus:ring-[#E22807] focus:border-[#E22807] transition-all"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="email" className='text-black font-semibold tracking-widest text-base sm:text-lg md:text-xl mb-1 sm:mb-2 block'>
+                    Email
+                  </label>
+                  <input 
+                    id="email"
+                    name="email"
+                    type="email" 
+                    placeholder="votre@email.com" 
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    autoComplete="email"
+                    className="border-2 border-black rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 md:py-3 w-full placeholder-[#3A3A3A] text-black text-sm sm:text-base md:text-lg shadow-md focus:outline-none focus:ring-2 focus:ring-[#E22807] focus:border-[#E22807] transition-all"
+                  />
+                </div>
               </div>
+
               
-              {/*Mot de passe confirmer */}
-              <div className="text-left flex-1">
-                <p className='text-black font-medium tracking-widest text-[18px] mb-2 text-left' style={{fontFamily: 'Poppins, sans-serif', letterSpacing: '10%'}}>Confirmer votre mot de passe</p>
-                <input 
-                  type="password" 
-                  name="confirmPassword"
-                  placeholder="Mot de passe confirmer" 
-                  value={formData.confirmPassword}
-                  onChange={handleInputChange}
-                  required
-                  className="border border-black rounded-3xl p-2 w-full block placeholder-[#5A5A5A] text-black responsive-input" 
-                  style={{boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)'}}
-                />
-              </div>
-            </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 mb-3 sm:mb-4 md:mb-5">
+                <div>
+                  <label htmlFor="password" className='text-black font-semibold tracking-widest text-base sm:text-lg md:text-xl mb-1 sm:mb-2 block'>
+                    Mot de passe
+                  </label>
+                  <input 
+                    id="password"
+                    name="password"
+                    type="password" 
+                    placeholder="••••••••" 
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                    autoComplete="new-password"
+                    className="border-2 border-black rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 md:py-3 w-full placeholder-[#3A3A3A] text-black text-sm sm:text-base md:text-lg shadow-md focus:outline-none focus:ring-2 focus:ring-[#E22807] focus:border-[#E22807] transition-all"
+                  />
+                </div>
 
-
-            <div className="flex gap-7 mt-10 responsive-row">
-              {/* Niveau en sport */}
-              <div className="text-left flex-1">
-                <p className='text-black font-medium tracking-widest text-[22px] mb-2 text-left' style={{fontFamily: 'Poppins, sans-serif', letterSpacing: '10%'}}>Votre niveau en sport</p>
-                <select 
-                  name="niveau"
-                  value={formData.niveau}
-                  onChange={handleInputChange}
-                  className="border border-black rounded-3xl p-2 w-full block text-black bg-white responsive-input" 
-                  style={{boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)'}}
-                >
-                  <option value="" className="text-[#5A5A5A]">Sélectionnez votre niveau</option>
-                  <option value="debutant" className="text-black">Débutant</option>
-                  <option value="intermediaire" className="text-black">Intermédiaire</option>
-                  <option value="avance" className="text-black">Avancé</option>
-                </select>
+                <div>
+                  <label htmlFor="confirmPassword" className='text-black font-semibold tracking-widest text-base sm:text-lg md:text-xl mb-1 sm:mb-2 block'>
+                    Confirmer mot de passe
+                  </label>
+                  <input 
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type="password" 
+                    placeholder="••••••••" 
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    required
+                    autoComplete="new-password"
+                    className="border-2 border-black rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 md:py-3 w-full placeholder-[#3A3A3A] text-black text-sm sm:text-base md:text-lg shadow-md focus:outline-none focus:ring-2 focus:ring-[#E22807] focus:border-[#E22807] transition-all"
+                  />
+                </div>
               </div>
-              
-              {/*Objectif principal */}
-              <div className="text-left flex-1">
-                <p className='text-black font-medium tracking-widest text-[22px] mb-2 text-left' style={{fontFamily: 'Poppins, sans-serif', letterSpacing: '10%'}}>Votre objectif principal</p>
-                <select 
-                  name="objectifs"
-                  value={formData.objectifs}
-                  onChange={handleInputChange}
-                  className="border border-black rounded-3xl p-2 w-full block text-black bg-white responsive-input" 
-                  style={{boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)'}}
-                >
-                  <option value="" className="text-[#5A5A5A]">Sélectionnez votre objectif</option>
-                  <option value="prise de masse" className="text-black">Prise de masse</option>
-                  <option value="perte de poids" className="text-black">Perte de poids</option>
-                  <option value="entretien" className="text-black">Entretien</option>
-                  <option value="force" className="text-black">Force</option>
-                </select>
-              </div>
-            </div>
 
-            {/* Consentement RGPD */}
-            <div className="mt-8 bg-gray-50 p-4 rounded-lg border">
-              <div className="flex items-start">
-                <input
-                  type="checkbox"
-                  id="rgpdConsent"
-                  checked={rgpdConsent}
-                  onChange={(e) => setRgpdConsent(e.target.checked)}
-                  className="mt-1 mr-3 w-4 h-4 text-[#E22807] border-gray-300 rounded focus:ring-[#E22807]"
-                  required
-                />
-                <label htmlFor="rgpdConsent" className="text-sm text-gray-700 leading-relaxed">
-                  J'accepte que mes données personnelles soient collectées et traitées conformément à la{' '}
-                  <Link 
-                    to="/politique-confidentialite" 
-                    target="_blank"
-                    className="text-[#E22807] underline hover:text-[#c41e06] font-medium"
+             
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                <div>
+                  <label htmlFor="niveau" className='text-black font-semibold tracking-widest text-base sm:text-lg md:text-xl mb-1 sm:mb-2 block'>
+                    Niveau
+                  </label>
+                  <select 
+                    id="niveau"
+                    name="niveau"
+                    value={formData.niveau}
+                    onChange={handleChange}
+                    required
+                    className="border-2 border-black rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 md:py-3 w-full text-black text-sm sm:text-base md:text-lg shadow-md focus:outline-none focus:ring-2 focus:ring-[#E22807] focus:border-[#E22807] transition-all bg-white"
                   >
-                    politique de confidentialité
-                  </Link>
-                  . Je comprends que je peux exercer mes droits RGPD à tout moment.
-                </label>
-              </div>
-              
-              {/* Note informative */}
-              <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                <p className="text-sm text-blue-700 text-center">
-                  ℹ️ Votre compte sera activé instantanément après l'inscription. Aucune vérification par email requise !
-                </p>
-              </div>
-            </div>
+                    <option value="">Sélectionner un niveau</option>
+                    <option value="debutant">Débutant</option>
+                    <option value="intermediaire">Intermédiaire</option>
+                    <option value="avance">Avancé</option>
+                  </select>
+                </div>
 
-            {error && <p className="text-red-500 text-sm mt-4 text-center">{error}</p>}
-            {message && <p className="text-green-600 text-sm mt-4 text-center">{message}</p>}
+                <div>
+                  <label htmlFor="objectif" className='text-black font-semibold tracking-widest text-base sm:text-lg md:text-xl mb-1 sm:mb-2 block'>
+                    Objectif
+                  </label>
+                  <select 
+                    id="objectif"
+                    name="objectif"
+                    value={formData.objectif}
+                    onChange={handleChange}
+                    required
+                    className="border-2 border-black rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 md:py-3 w-full text-black text-sm sm:text-base md:text-lg shadow-md focus:outline-none focus:ring-2 focus:ring-[#E22807] focus:border-[#E22807] transition-all bg-white"
+                  >
+                    <option value="">Sélectionner un objectif</option>
+                    <option value="perte de poids">Perte de poids</option>
+                    <option value="prise de masse">Prise de masse</option>
+                    <option value="entretien">Entretien</option>
+                    <option value="force">Force</option>
+                  </select>
+                </div>
+              </div>
+            </fieldset>
 
-            {/* Bouton Continuer */}
-            <div className="mt-10 text-center">
+            {/* Message d'erreur */}
+            {error && (
+              <div 
+                className="bg-red-100 border-2 border-red-400 text-red-700 px-4 py-3 rounded-2xl text-center font-semibold"
+                role="alert"
+              >
+                {error}
+              </div>
+            )}
+
+           
+            <div className="text-center pt-2 sm:pt-4">
               <button 
                 type="submit"
-                disabled={isLoading}
-                className="px-13 py-1.5 bg-[#E22807] text-white rounded-4xl font-semibold text-[28px] transition-transform duration-150 ease-in-out hover:scale-105 active:scale-95 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed" 
-                style={{fontFamily: 'Poppins, sans-serif',boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)'}}
+                disabled={loading}
+                className="w-full sm:w-auto px-6 sm:px-8 md:px-10 py-2 sm:py-2.5 bg-gradient-to-r from-[#E22807] to-[#c41e06] text-white rounded-full font-bold text-base sm:text-lg md:text-[22px] transition-all duration-200 ease-in-out hover:scale-[1.02] hover:shadow-2xl active:scale-95 shadow-lg focus:outline-none focus:ring-4 focus:ring-[#E22807]/50 border-2 border-[#E22807]/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
-                {isLoading ? 'Inscription...' : 'Continuer'}
+                {loading ? 'Chargement...' : "S'inscrire"}
               </button>
             </div>
           </form>
-          <div className='mt-6 text-center '>
-            <p className='text-[18px] text-black font-medium' style={{fontFamily: 'Poppins, sans-serif'}}>Vous avez déja un compte ?
-                
+
+          
+          <footer className='mt-4 sm:mt-6 md:mt-8 text-center'>
+            <p className='text-sm sm:text-base md:text-[18px] text-gray-700 font-medium mb-3 sm:mb-4 md:mb-5'>
+              Vous avez déjà un compte ?
             </p>
-          </div>
-          <div className="mt-6 text-center">
             <button 
-              className="px-13 py-1.5 bg-black text-white rounded-4xl font-semibold text-[28px] transition-transform duration-150 ease-in-out hover:scale-105 active:scale-95 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2" 
-              style={{fontFamily: 'Poppins, sans-serif',boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)'}}
+              type="button"
+              className="w-full sm:w-auto px-6 sm:px-8 md:px-10 py-2 sm:py-2.5 bg-gradient-to-r from-gray-900 to-gray-800 text-white rounded-full font-bold text-base sm:text-lg md:text-[22px] transition-all duration-200 ease-in-out hover:scale-[1.02] hover:shadow-2xl active:scale-95 shadow-lg focus:outline-none focus:ring-4 focus:ring-gray-900/50 border-2 border-gray-700/30"
               onClick={() => navigate('/login')}
             >
               Se connecter
             </button>
-          </div>
+          </footer>
 
-        </div>
-       
-      </div>
-    </div>
+        </article>
+      </section>
+    </main>
   )
 }
