@@ -19,7 +19,7 @@ export default function Dashboard() {
         const token = localStorage.getItem('token');
         
         // Récupérer les données du profil utilisateur
-        const profileResponse = await fetch('https://progfit.onrender.com/api/auth/profile', {
+        const profileResponse = await fetch('https://progfit-backend.onrender.com/api/auth/profile', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -31,7 +31,7 @@ export default function Dashboard() {
         }
 
         // Récupérer le programme actuel et les séances
-        const programmeResponse = await fetch('https://progfit.onrender.com/api/user-programmes/actuel', {
+        const programmeResponse = await fetch('https://progfit-backend.onrender.com/api/user-programmes/actuel', {
           headers: {
             'Authorization': `Bearer ${token}`
           }

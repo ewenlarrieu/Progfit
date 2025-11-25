@@ -39,7 +39,7 @@ export default function Programs() {
   };
 
   useEffect(() => {
-    fetch('https://progfit.onrender.com/api/programmes')
+    fetch('https://progfit-backend.onrender.com/api/programmes')
       .then(res => {
         if (!res.ok) throw new Error('Erreur');
         return res.json();

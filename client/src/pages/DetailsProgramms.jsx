@@ -12,7 +12,7 @@ export default function DetailsProgramms() {
     try {
       const token = localStorage.getItem('token');
       
-      const response = await fetch('https://progfit.onrender.com/api/user-programmes/inscrire', {
+      const response = await fetch('https://progfit-backend.onrender.com/api/user-programmes/inscrire', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ export default function DetailsProgramms() {
 
   useEffect(() => {
     if (id) {
-      fetch(`https://progfit.onrender.com/api/programmes/${id}`)
+      fetch(`https://progfit-backend.onrender.com/api/programmes/${id}`)
         .then(res => res.json())
         .then(data => setProgramme(data.programme))
         .catch(err => console.error('Erreur:', err));

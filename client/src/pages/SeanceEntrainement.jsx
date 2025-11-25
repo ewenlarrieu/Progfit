@@ -17,7 +17,7 @@ export default function SeanceEntrainement() {
       try {
         const token = localStorage.getItem('token');
         
-        const response = await fetch('https://progfit.onrender.com/api/user-programmes/seance/terminer', {
+        const response = await fetch('https://progfit-backend.onrender.com/api/user-programmes/seance/terminer', {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -52,7 +52,7 @@ export default function SeanceEntrainement() {
       try {
         const token = localStorage.getItem('token');
         
-        const response = await fetch('https://progfit.onrender.com/api/user-programmes/terminer', {
+        const response = await fetch('https://progfit-backend.onrender.com/api/user-programmes/terminer', {
           method: 'PUT',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -81,7 +81,7 @@ export default function SeanceEntrainement() {
       try {
         const token = localStorage.getItem('token');
         
-        const response = await fetch('https://progfit.onrender.com/api/user-programmes/abandonner', {
+        const response = await fetch('https://progfit-backend.onrender.com/api/user-programmes/abandonner', {
           method: 'PUT',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -112,13 +112,13 @@ export default function SeanceEntrainement() {
         
         if (id) {
           // Si on a un ID spécifique, récupérer ce programme
-          const response = await fetch(`https://progfit.onrender.com/api/programmes/${id}`);
+          const response = await fetch(`https://progfit-backend.onrender.com/api/programmes/${id}`);
           const data = await response.json();
           setProgramme(data.programme);
           
           // Récupérer aussi les séances terminées de l'utilisateur
           const token = localStorage.getItem('token');
-          const seancesResponse = await fetch('https://progfit.onrender.com/api/user-programmes/actuel', {
+          const seancesResponse = await fetch('https://progfit-backend.onrender.com/api/user-programmes/actuel', {
             headers: {
               'Authorization': `Bearer ${token}`
             }
@@ -134,7 +134,7 @@ export default function SeanceEntrainement() {
         } else {
           // Pas d'ID fourni, récupérer le programme actuel de l'utilisateur
           const token = localStorage.getItem('token');
-          const programmeActuelResponse = await fetch('https://progfit.onrender.com/api/user-programmes/actuel', {
+          const programmeActuelResponse = await fetch('https://progfit-backend.onrender.com/api/user-programmes/actuel', {
             headers: {
               'Authorization': `Bearer ${token}`
             }

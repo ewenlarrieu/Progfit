@@ -56,7 +56,7 @@ export default function Register() {
       // Préparer les objectifs comme tableau
       const objectifs = formData.objectifs ? [formData.objectifs] : []
 
-      const response = await fetch('https://progfit.onrender.com/api/auth/register', {
+      const response = await fetch('https://progfit-backend.onrender.com/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
