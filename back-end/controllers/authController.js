@@ -268,6 +268,7 @@ export const getProfile = async (req, res) => {
         niveau: user.niveau,
         objectif: user.objectif,
         createdAt: user.createdAt,
+        totalSeancesCompletees: user.totalSeancesCompletees,
         programmeActuel: user.programmeActuel?.programmeId
           ? {
               programme: user.programmeActuel.programmeId,

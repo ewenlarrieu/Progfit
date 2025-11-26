@@ -35,6 +35,10 @@ const userSchema = new mongoose.Schema(
       enum: ["perte de poids", "prise de masse", "entretien", "force"],
       required: true,
     },
+    totalSeancesCompletees: {
+      type: Number,
+      default: 0,
+    },
     programmeActuel: {
       programmeId: {
         type: mongoose.Schema.Types.ObjectId,

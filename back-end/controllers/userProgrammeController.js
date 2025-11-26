@@ -176,6 +176,9 @@ export const markSeanceAsCompleted = async (req, res) => {
     // Add jour to completed seances
     user.programmeActuel.seancesCompletees.push(jour);
 
+    // Increment total seances completed
+    user.totalSeancesCompletees = (user.totalSeancesCompletees || 0) + 1;
+
     await user.save();
 
     // Check if all seances are now completed
