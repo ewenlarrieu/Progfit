@@ -249,7 +249,9 @@ export const getProfile = async (req, res) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.userId;
 
-    const user = await User.findById(userId).select("-motDePasse");
+    const user = await User.findById(userId)
+      .select("-motDePasse")
+      .populate("programmeActuel.programmeId");
 
     if (!user) {
       return res.status(404).json({
@@ -266,6 +268,15 @@ export const getProfile = async (req, res) => {
         niveau: user.niveau,
         objectif: user.objectif,
         createdAt: user.createdAt,
+        programmeActuel: user.programmeActuel?.programmeId
+          ? {
+              programme: user.programmeActuel.programmeId,
+              dateDebut: user.programmeActuel.dateDebut,
+              semaineActuelle: user.programmeActuel.semaineActuelle,
+              seancesCompletees: user.programmeActuel.seancesCompletees,
+              statut: user.programmeActuel.statut,
+            }
+          : null,
       },
     });
   } catch (error) {
