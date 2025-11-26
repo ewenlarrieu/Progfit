@@ -1,79 +1,27 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import Logo from "./Logo";
+import Logo2 from "./Logo2";
 
 export default function NavBar() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
 
-  // Définition des liens de navigation
-  const navLinks = [
-    { path: "/dashboard", label: "Tableau de bord", icon: "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z" },
-    { path: "/programs", label: "Programme", icon: "M13 10V3L4 14h7v7l9-11h-7z" },
-    { path: "/detailsprogramms", label: "Détail programme", icon: "M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2" },
-    { path: "/SeanceEntrainement", label: "Séance d'entrainement", icon: "M4 8h16M4 16h16M8 4v16M16 4v16" },
-    { divider: true },
-    { path: "/profile", label: "Mon compte", icon: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" },
-  ];
-
-  const isActive = (path) => {
-    if (path === "/dashboard") {
-      return location.pathname === "/" || location.pathname === "/dashboard";
-    }
-    return location.pathname === path;
-  };
-
   const handleLogout = () => {
     localStorage.removeItem('token');
     navigate("/login");
   };
 
-  // Style conditionnel pour item actif
-  const linkClasses = (path) =>
-    `flex items-center p-3 font-semibold transition-colors ${
-      isActive(path) ? "text-[#E22807] underline" : "text-black hover:text-[#E22807]"
-    }`;
-
-  // Rendu des liens
-  const renderLinks = (isMobile = false) =>
-    navLinks.map((link, idx) =>
-      link.divider ? (
-        <div key={idx} className="border-b-2 border-black -mx-4 my-2"></div>
-      ) : (
-        <li key={link.path}>
-          <button
-            className={linkClasses(link.path)}
-            style={{ fontFamily: "Poppins, sans-serif" }}
-            onClick={() => {
-              navigate(link.path);
-              if (isMobile) setIsOpen(false);
-            }}
-          >
-            <svg
-              className="w-5 h-5 mr-3"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={link.icon} />
-            </svg>
-            {link.label}
-          </button>
-        </li>
-      )
-    );
-
   return (
     <>
       {/* Topbar Mobile */}
-      <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between p-4 bg-gray-200 shadow-md md:hidden">
-        <Logo />
+      <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 bg-gray-200 shadow-md md:hidden">
+        <Logo2 />
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="text-black focus:outline-none"
+          className="text-black p-2"
         >
-          <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             {isOpen ? (
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             ) : (
@@ -83,83 +31,214 @@ export default function NavBar() {
         </button>
       </div>
 
-      {/* Sidebar Desktop */}
+     
       <div className="fixed top-0 left-0 hidden h-screen w-64 flex-col bg-gray-200 shadow-lg md:flex z-40">
         <div className="p-6 border-b-2 border-black">
-          <Logo />
+          <Logo2 />
         </div>
-        <nav className="flex-1 p-4">
-          <ul className="space-y-2">{renderLinks()}</ul>
+        
+        <nav className="flex-1 p-4 overflow-y-auto">
+          <ul className="space-y-2">
+            <li>
+              <button
+                onClick={() => navigate("/dashboard")}
+                className={`w-full text-left p-3 font-semibold rounded transition-colors ${
+                  location.pathname === "/" || location.pathname === "/dashboard"
+                    ? "text-[#E22807] bg-white" 
+                    : "text-black hover:text-[#E22807] hover:bg-white/50"
+                }`}
+                style={{ fontFamily: "Poppins, sans-serif" }}
+              >
+                Tableau de bord
+              </button>
+            </li>
+
+            <li>
+              <button
+                onClick={() => navigate("/programs")}
+                className={`w-full text-left p-3 font-semibold rounded transition-colors ${
+                  location.pathname === "/programs"
+                    ? "text-[#E22807] bg-white" 
+                    : "text-black hover:text-[#E22807] hover:bg-white/50"
+                }`}
+                style={{ fontFamily: "Poppins, sans-serif" }}
+              >
+                Programme
+              </button>
+            </li>
+
+            <li>
+              <button
+                onClick={() => navigate("/detailsprogramms")}
+                className={`w-full text-left p-3 font-semibold rounded transition-colors ${
+                  location.pathname === "/detailsprogramms"
+                    ? "text-[#E22807] bg-white" 
+                    : "text-black hover:text-[#E22807] hover:bg-white/50"
+                }`}
+                style={{ fontFamily: "Poppins, sans-serif" }}
+              >
+                Détail programme
+              </button>
+            </li>
+
+            <li>
+              <button
+                onClick={() => navigate("/SeanceEntrainement")}
+                className={`w-full text-left p-3 font-semibold rounded transition-colors ${
+                  location.pathname === "/SeanceEntrainement"
+                    ? "text-[#E22807] bg-white" 
+                    : "text-black hover:text-[#E22807] hover:bg-white/50"
+                }`}
+                style={{ fontFamily: "Poppins, sans-serif" }}
+              >
+                Séance d'entrainement
+              </button>
+            </li>
+
+            <li>
+              <button
+                onClick={() => navigate("/profile")}
+                className={`w-full text-left p-3 font-semibold rounded transition-colors ${
+                  location.pathname === "/profile"
+                    ? "text-[#E22807] bg-white" 
+                    : "text-black hover:text-[#E22807] hover:bg-white/50"
+                }`}
+                style={{ fontFamily: "Poppins, sans-serif" }}
+              >
+                Mon compte
+              </button>
+            </li>
+          </ul>
         </nav>
+
         <button
-          className="flex items-center p-3 text-black font-semibold cursor-pointer mb-6 ml-4"
-          style={{ fontFamily: "Poppins, sans-serif" }}
           onClick={handleLogout}
+          className="p-4 text-black font-semibold hover:text-[#E22807] border-t-2 border-black transition-colors text-left"
+          style={{ fontFamily: "Poppins, sans-serif" }}
         >
-          <svg
-            className="w-5 h-5 mr-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-            />
-          </svg>
           Déconnexion
         </button>
       </div>
 
-      {/* Overlay Mobile Menu */}
+      {/* Menu Mobile */}
       {isOpen && (
-            <div className="fixed top-0 left-0 z-50 h-screen w-64 bg-gray-200 shadow-lg flex flex-col">
-            <div className="p-6 border-b-2 border-black flex justify-between items-center">
-              <Logo />
-              <button
-                onClick={() => setIsOpen(false)}
-                className="text-black focus:outline-none ml-2"
-              >
-                <svg
-                  className="w-8 h-8"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
+        <>
+          <div 
+            className="fixed inset-0 bg-black/50 z-40 md:hidden"
+            onClick={() => setIsOpen(false)}
+          />
+          
+          <div className="fixed inset-0 z-50 bg-gray-200 md:hidden flex flex-col">
+            <div className="flex items-center justify-between px-4 py-3 border-b-2 border-black">
+              <Logo2 />
+              <button onClick={() => setIsOpen(false)} className="text-black p-2">
+                <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
-            <nav className="flex-1 p-4">
-              <ul className="space-y-2">{renderLinks(true)}</ul>
+
+            <nav className="flex-1 p-4 overflow-y-auto">
+              <ul className="space-y-2">
+                <li>
+                  <button
+                    onClick={() => {
+                      navigate("/dashboard");
+                      setIsOpen(false);
+                    }}
+                    className={`w-full text-left p-3 font-semibold rounded transition-colors ${
+                      location.pathname === "/" || location.pathname === "/dashboard"
+                        ? "text-[#E22807] bg-white" 
+                        : "text-black hover:text-[#E22807] hover:bg-white/50"
+                    }`}
+                    style={{ fontFamily: "Poppins, sans-serif" }}
+                  >
+                    Tableau de bord
+                  </button>
+                </li>
+
+                <li>
+                  <button
+                    onClick={() => {
+                      navigate("/programs");
+                      setIsOpen(false);
+                    }}
+                    className={`w-full text-left p-3 font-semibold rounded transition-colors ${
+                      location.pathname === "/programs"
+                        ? "text-[#E22807] bg-white" 
+                        : "text-black hover:text-[#E22807] hover:bg-white/50"
+                    }`}
+                    style={{ fontFamily: "Poppins, sans-serif" }}
+                  >
+                    Programme
+                  </button>
+                </li>
+
+                <li>
+                  <button
+                    onClick={() => {
+                      navigate("/detailsprogramms");
+                      setIsOpen(false);
+                    }}
+                    className={`w-full text-left p-3 font-semibold rounded transition-colors ${
+                      location.pathname === "/detailsprogramms"
+                        ? "text-[#E22807] bg-white" 
+                        : "text-black hover:text-[#E22807] hover:bg-white/50"
+                    }`}
+                    style={{ fontFamily: "Poppins, sans-serif" }}
+                  >
+                    Détail programme
+                  </button>
+                </li>
+
+                <li>
+                  <button
+                    onClick={() => {
+                      navigate("/SeanceEntrainement");
+                      setIsOpen(false);
+                    }}
+                    className={`w-full text-left p-3 font-semibold rounded transition-colors ${
+                      location.pathname === "/SeanceEntrainement"
+                        ? "text-[#E22807] bg-white" 
+                        : "text-black hover:text-[#E22807] hover:bg-white/50"
+                    }`}
+                    style={{ fontFamily: "Poppins, sans-serif" }}
+                  >
+                    Séance d'entrainement
+                  </button>
+                </li>
+
+                <li>
+                  <button
+                    onClick={() => {
+                      navigate("/profile");
+                      setIsOpen(false);
+                    }}
+                    className={`w-full text-left p-3 font-semibold rounded transition-colors ${
+                      location.pathname === "/profile"
+                        ? "text-[#E22807] bg-white" 
+                        : "text-black hover:text-[#E22807] hover:bg-white/50"
+                    }`}
+                    style={{ fontFamily: "Poppins, sans-serif" }}
+                  >
+                    Mon compte
+                  </button>
+                </li>
+              </ul>
             </nav>
+
             <button
-              className="flex items-center p-3 text-black font-semibold cursor-pointer mb-6 ml-4"
-              style={{ fontFamily: "Poppins, sans-serif" }}
               onClick={() => {
                 handleLogout();
                 setIsOpen(false);
               }}
+              className="p-4 text-black font-semibold hover:text-[#E22807] border-t-2 border-black transition-colors text-left"
+              style={{ fontFamily: "Poppins, sans-serif" }}
             >
-              <svg
-                className="w-5 h-5 mr-3"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                />
-              </svg>
               Déconnexion
             </button>
           </div>
-        
+        </>
       )}
     </>
   );

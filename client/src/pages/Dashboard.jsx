@@ -78,7 +78,7 @@ export default function Dashboard() {
     return (
       <div className="flex min-h-screen bg-gray-50">
         <NavBar/>
-        <div className="flex-1 md:ml-64 p-8 flex justify-center items-center">
+        <div className="flex-1 md:ml-64 p-8 pt-20 md:pt-8 flex justify-center items-center">
           <p className="text-black text-xl">Chargement du tableau de bord...</p>
         </div>
       </div>
@@ -89,7 +89,7 @@ export default function Dashboard() {
     <div className="flex min-h-screen bg-gray-50">
       <NavBar/>
       <div 
-        className="flex-1 md:ml-64 p-4 sm:p-6 md:p-8 text-white" 
+        className="flex-1 md:ml-64 p-4 sm:p-6 md:p-8 pt-20 md:pt-8 text-white" 
         style={{ fontFamily: 'Poppins, sans-serif'}}
       >
         {/* Bloc d'accueil */}
