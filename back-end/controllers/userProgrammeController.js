@@ -398,3 +398,51 @@ export const getHistoriqueProgrammes = async (req, res) => {
     });
   }
 };
+
+export const getCurrentProgramme = async (req, res) => {
+  try {
+    const token = req.headers.authorization?.split(" ")[1];
+
+    if (!token) {
+      return res.status(401).json({
+        message: "Authentication token required",
+      });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.userId;
+
+    const user = await User.findById(userId).populate(
+      "programmeActuel.programmeId"
+    );
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    if (!user.programmeActuel || !user.programmeActuel.programmeId) {
+      return res.status(200).json({
+        message: "No active programme",
+        programmeActuel: null,
+      });
+    }
+
+    res.status(200).json({
+      message: "Current programme retrieved successfully",
+      programmeActuel: {
+        programme: user.programmeActuel.programmeId,
+        dateDebut: user.programmeActuel.dateDebut,
+        semaineActuelle: user.programmeActuel.semaineActuelle,
+        seancesCompletees: user.programmeActuel.seancesCompletees,
+        statut: user.programmeActuel.statut,
+      },
+    });
+  } catch (error) {
+    console.error("Error getting current programme:", error);
+    res.status(500).json({
+      message: "Server error while getting current programme",
+    });
+  }
+};

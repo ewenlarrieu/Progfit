@@ -6,10 +6,12 @@ import {
   validateWeek,
   getHistoriqueProgrammes,
   cancelLastSeance,
+  getCurrentProgramme,
 } from "../controllers/userProgrammeController.js";
 
 const router = express.Router();
 
+router.get("/current", getCurrentProgramme);
 router.post("/complete-seance", markSeanceAsCompleted);
 router.post("/validate-week", validateWeek);
 router.delete("/unsubscribe", unsubscribeFromProgramme);
