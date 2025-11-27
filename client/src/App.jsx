@@ -12,6 +12,8 @@ import Profile from './pages/Profile';
 import DetailsProgramms from './pages/DetailsProgramms';
 import SeanceEntrainement from './pages/SeanceEntrainement';
 import PolitiqueConfidentialite from './pages/PolitiqueConfidentialite';
+import Admin from './pages/Admin';
+
 
 function App() {
   return (
@@ -27,6 +29,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/detailsprogramms/:id" element={<DetailsProgramms />} />
           <Route path="/seance-entrainement/:id" element={<SeanceEntrainement />} />
+          <Route path="/admin" element={<Admin />} />
           <Route path="*" element={<Home />} />
         </Routes>
       </div>
