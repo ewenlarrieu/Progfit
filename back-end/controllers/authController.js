@@ -265,6 +265,7 @@ export const getProfile = async (req, res) => {
         id: user._id,
         nom: user.nom,
         email: user.email,
+        role: user.role,
         niveau: user.niveau,
         objectif: user.objectif,
         createdAt: user.createdAt,

@@ -57,7 +57,10 @@ export default function Dashboard() {
 
         if (response.ok) {
           const data = await response.json()
-          setHistorique(data.histoique || [])
+          const sortedHistory = (data.histoique || []).sort((a, b) => 
+            new Date(b.dateFin) - new Date(a.dateFin)
+          )
+          setHistorique(sortedHistory)
         }
       } catch (error) {
         console.error('Error fetching history:', error)
@@ -183,7 +186,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Bloc Prochaine Séance */}
+       
         <div className="mt-6">
           <div className="bg-white rounded-lg p-4 sm:p-6 shadow">
             <p className="text-black text-center font-bold text-2xl md:text-3xl pb-6">
@@ -212,7 +215,7 @@ export default function Dashboard() {
                             <p className="font-semibold text-gray-800">{exercice.nom}</p>
                             <p className="text-sm text-gray-600">
                               {exercice.series} séries × {exercice.repetitions} répétitions
-                              {exercice.repos && ` - Repos: ${exercice.repos}`}
+                             
                             </p>
                           </div>
                         ))}
@@ -226,7 +229,7 @@ export default function Dashboard() {
                     </p>
                   )
                 }
-              })()
+              })
             ) : (
               <p className="text-center text-gray-500">
                 Aucun programme actif
@@ -235,7 +238,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Bloc Historique des programmes */}
+        
         <div className="mt-6">
           <div className="bg-white rounded-lg p-4 sm:p-6 shadow">
             <p className="text-black text-center font-bold text-2xl md:text-3xl pb-6">
@@ -277,12 +280,12 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Bloc Profil original (en bas) */}
+        
         <div className="flex mt-6">
           <div className="bg-white rounded-lg p-4 sm:p-6 shadow w-full max-w-3xl mx-auto flex flex-col items-center">
             <img src={profileIcon} alt="" className="w-20 h-20 sm:w-24 sm:h-24 mb-4" />
             <p className="text-black text-center font-bold text-2xl md:text-3xl pb-6">
-              Nom profil
+              {user?.nom}
             </p>
 
             <div className="border-b-2 border-black w-full mb-5"></div>

@@ -1,11 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Logo2 from "./Logo2";
+import { API_URL } from '../config/api';
 
 export default function NavBar() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
+  const [userRole, setUserRole] = useState(null);
+
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) return;
+
+        const response = await fetch(`${API_URL}/api/auth/profile`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setUserRole(data.user.role);
+        }
+      } catch (error) {
+        console.error('Error fetching user role:', error);
+      }
+    };
+
+    fetchUserRole();
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -108,6 +134,22 @@ export default function NavBar() {
                 Mon compte
               </button>
             </li>
+
+            {userRole === "admin" && (
+              <li>
+                <button
+                  onClick={() => navigate("/admin")}
+                  className={`w-full text-left p-3 font-semibold rounded transition-colors ${
+                    location.pathname === "/admin"
+                      ? "text-[#E22807] bg-white" 
+                      : "text-black hover:text-[#E22807] hover:bg-white/50"
+                  }`}
+                  style={{ fontFamily: "Poppins, sans-serif" }}
+                >
+                  Admin
+                </button>
+              </li>
+            )}
           </ul>
         </nav>
 
@@ -224,6 +266,25 @@ export default function NavBar() {
                     Mon compte
                   </button>
                 </li>
+
+                {userRole === "admin" && (
+                  <li>
+                    <button
+                      onClick={() => {
+                        navigate("/admin");
+                        setIsOpen(false);
+                      }}
+                      className={`w-full text-left p-3 font-semibold rounded transition-colors ${
+                        location.pathname === "/admin"
+                          ? "text-[#E22807] bg-white" 
+                          : "text-black hover:text-[#E22807] hover:bg-white/50"
+                      }`}
+                      style={{ fontFamily: "Poppins, sans-serif" }}
+                    >
+                      Admin
+                    </button>
+                  </li>
+                )}
               </ul>
             </nav>
 
