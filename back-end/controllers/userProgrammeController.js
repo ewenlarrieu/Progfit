@@ -89,20 +89,25 @@ export const unsubscribeFromProgramme = async (req, res) => {
       });
     }
 
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      {
-        $unset: { programmeActuel: "" },
-      },
-      { new: true }
-    );
+    // Add to history before removing
+    user.historiquePrograms.push({
+      programmeId: user.programmeActuel.programmeId,
+      dateDebut: user.programmeActuel.dateDebut,
+      dateFin: new Date(),
+      statut: "abandonne",
+    });
+
+    // Clear programmeActuel
+    user.programmeActuel = undefined;
+
+    await user.save();
 
     res.status(200).json({
       message: "Successfully unsubscribed from programme",
       user: {
-        id: updatedUser._id,
-        nom: updatedUser.nom,
-        programmeActuel: updatedUser.programmeActuel,
+        id: user._id,
+        nom: user.nom,
+        programmeActuel: user.programmeActuel,
       },
     });
   } catch (error) {

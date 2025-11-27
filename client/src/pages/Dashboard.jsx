@@ -9,6 +9,7 @@ export default function Dashboard() {
   const navigate = useNavigate()
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [historique, setHistorique] = useState([])
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -42,6 +43,30 @@ export default function Dashboard() {
     fetchUserData()
   }, [navigate])
 
+  useEffect(() => {
+    const fetchHistorique = async () => {
+      try {
+        const token = localStorage.getItem('token')
+        if (!token) return
+
+        const response = await fetch(`${API_URL}/api/user-programmes/history`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+
+        if (response.ok) {
+          const data = await response.json()
+          setHistorique(data.histoique || [])
+        }
+      } catch (error) {
+        console.error('Error fetching history:', error)
+      }
+    }
+
+    fetchHistorique()
+  }, [])
+
 
 
 
@@ -61,7 +86,7 @@ export default function Dashboard() {
             Bonjour {user?.nom}
           </p>
           <p className="mt-2 text-sm sm:text-base md:text-lg">
-            {user?.programmeActuel 
+            {user?.programmeActuel?.programme 
               ? `Vous suivez actuellement le programme : ${user.programmeActuel.programme.nom}`
               : "Aucun programme en cours vous pouvez commencer un nouveau programme en vous inscrivant sur la page programme"
             }
@@ -80,7 +105,7 @@ export default function Dashboard() {
               </div>
               
               <div className="w-full flex flex-col items-center justify-center flex-1">
-                {user?.programmeActuel ? (
+                {user?.programmeActuel?.programme ? (
                   <div className="text-center">
                     <p className="text-[#E22807] font-semibold text-xl mb-2">
                       {user.programmeActuel.programme.nom}
@@ -164,9 +189,92 @@ export default function Dashboard() {
             <p className="text-black text-center font-bold text-2xl md:text-3xl pb-6">
               Prochaine Séance
             </p>
-       
+            <div className="border-t-2 border-gray-200 mb-4"></div>
+            
+            {user?.programmeActuel?.programme ? (
+              (() => {
+                const prochaineSeance = user.programmeActuel.programme.seances.find(
+                  seance => !user.programmeActuel.seancesCompletees.includes(seance.jour)
+                )
+                
+                if (prochaineSeance) {
+                  return (
+                    <div className="text-center">
+                      <p className="text-gray-600 text-sm mb-2">
+                        Semaine {user.programmeActuel.semaineActuelle}
+                      </p>
+                      <p className="text-[#E22807] font-semibold text-2xl mb-3">
+                        Jour {prochaineSeance.jour}
+                      </p>
+                      <div className="max-w-2xl mx-auto">
+                        {prochaineSeance.exercices.map((exercice, index) => (
+                          <div key={index} className="bg-gray-50 rounded-lg p-3 mb-2">
+                            <p className="font-semibold text-gray-800">{exercice.nom}</p>
+                            <p className="text-sm text-gray-600">
+                              {exercice.series} séries × {exercice.repetitions} répétitions
+                              {exercice.repos && ` - Repos: ${exercice.repos}`}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )
+                } else {
+                  return (
+                    <p className="text-center text-gray-500">
+                      Toutes les séances de la semaine sont terminées ! Validez la semaine pour continuer.
+                    </p>
+                  )
+                }
+              })()
+            ) : (
+              <p className="text-center text-gray-500">
+                Aucun programme actif
+              </p>
+            )}
           </div>
+        </div>
 
+        {/* Bloc Historique des programmes */}
+        <div className="mt-6">
+          <div className="bg-white rounded-lg p-4 sm:p-6 shadow">
+            <p className="text-black text-center font-bold text-2xl md:text-3xl pb-6">
+              Historique des programmes
+            </p>
+            <div className="border-t-2 border-gray-200 mb-4"></div>
+            
+            {historique.length > 0 ? (
+              <div className="max-w-4xl mx-auto space-y-3">
+                {historique.map((item, index) => (
+                  <div key={index} className="bg-gray-50 rounded-lg p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center">
+                    <div className="mb-2 sm:mb-0">
+                      <p className="font-semibold text-gray-800 text-lg">
+                        {item.programmeId?.nom}
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        Du {new Date(item.dateDebut).toLocaleDateString('fr-FR')  } au {new Date(item.dateFin).toLocaleDateString('fr-FR')}
+                      </p>
+                    </div>
+                    <div>
+                      {item.statut === 'termine' ? (
+                        <span className="px-3 py-1 rounded-full text-sm font-semibold bg-green-100 text-green-800">
+                          Terminé
+                        </span>
+                      ) : (
+                        <span className="px-3 py-1 rounded-full text-sm font-semibold bg-red-100 text-red-800">
+                          Abandonné
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-center text-gray-500">
+                Aucun programme terminé
+              </p>
+            )}
+          </div>
         </div>
 
         {/* Bloc Profil original (en bas) */}
@@ -185,11 +293,11 @@ export default function Dashboard() {
               <p>Niveau : <span className="text-black">{user?.niveau}
               
               </span></p>
-              <p>Objectifs : <span className="text-black">{user?.niveau}
+              <p>Objectifs : <span className="text-black">{user?.objectif}
                 
               </span></p>
-              <p>Programme en cours : <span className="text-black"> {user?.programmeActuel.programme.nom}
-                
+              <p>Programme en cours : <span className="text-black">
+                {user?.programmeActuel?.programme?.nom || "Aucun programme en cours "}
               </span></p>
              
            
