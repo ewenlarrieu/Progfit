@@ -18,10 +18,10 @@ export const createProgramme = async (req, res) => {
       });
     }
 
-    const validDifficulties = ["Beginner", "Intermediate", "Advanced"];
+    const validDifficulties = ["Débutant", "Intermédiaire", "Avancé"];
     if (!validDifficulties.includes(difficulte)) {
       return res.status(400).json({
-        message: "Difficulte must be: Beginner, Intermediate, or Advanced",
+        message: "Difficulte must be: Débutant, Intermédiaire, or Avancé",
       });
     }
 

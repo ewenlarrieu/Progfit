@@ -40,6 +40,32 @@ export default function Admin() {
     fetchProgrammes()
   }, [])
 
+  const handleDelete = async (programmeId) => {
+    if (!window.confirm('Êtes-vous sûr de vouloir supprimer ce programme ?')) {
+      return
+    }
+
+    try {
+      const token = localStorage.getItem('token')
+      const response = await fetch(`${API_URL}/api/programmes/${programmeId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+
+      if (response.ok) {
+        setProgrammes(programmes.filter(p => p._id !== programmeId))
+        alert('Programme supprimé avec succès')
+      } else {
+        alert('Erreur lors de la suppression du programme')
+      }
+    } catch (error) {
+      console.error('Erreur lors de la suppression du programme', error)
+      alert('Erreur lors de la suppression du programme')
+    }
+  }
+
   return (
     <div className='min-h-screen bg-gray-50'>
       <NavBar/>
@@ -54,17 +80,75 @@ export default function Admin() {
         {loading ? (
           <p className="text-center text-gray-600">Chargement...</p>
         ) : programmes.length > 0 ? (
-          <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <section className="space-y-8">
             {programmes.map((programme) => (
-              <article key={programme._id} className="bg-white rounded-lg shadow p-6">
-                <h2 className="text-xl font-bold text-[#E22807] mb-2">
-                  {programme.nom}
-                </h2>
-                <div className="space-y-2 text-gray-700">
-                  <p><span className="font-semibold">Difficulté:</span> {programme.difficulte}</p>
-                  <p><span className="font-semibold">Objectif:</span> {programme.objectif}</p>
-                  <p><span className="font-semibold">Durée:</span> {programme.duree} semaines</p>
-                  <p><span className="font-semibold">Séances:</span> {programme.seances?.length}</p>
+              <article key={programme._id} className="bg-white rounded-lg shadow-lg p-6">
+              
+                <header className="border-b-2 border-gray-200 pb-4 mb-4">
+                  <div className="flex justify-between items-start mb-3">
+                    <h2 className="text-2xl font-bold text-[#E22807]">
+                      {programme.nom}
+                    </h2>
+                    <button
+                      onClick={() => handleDelete(programme._id)}
+                      className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200"
+                    >
+                      Supprimer
+                    </button>
+                  </div>
+                  <p className="text-gray-600 mb-4">{programme.description}</p>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <div>
+                      <span className="font-semibold text-gray-700">Difficulté: </span>
+                      <span className="text-gray-600">{programme.difficulte}</span>
+                    </div>
+                    <div>
+                      <span className="font-semibold text-gray-700">Objectif: </span>
+                      <span className="text-gray-600">{programme.objectif}</span>
+                    </div>
+                    <div>
+                      <span className="font-semibold text-gray-700">Durée: </span>
+                      <span className="text-gray-600">{programme.duree} semaines</span>
+                    </div>
+                    <div>
+                      <span className="font-semibold text-gray-700">Séances: </span>
+                      <span className="text-gray-600">{programme.seances?.length}</span>
+                    </div>
+                  </div>
+                </header>
+
+                
+                <div>
+                  <h3 className="text-lg font-bold text-gray-800 mb-3">Séances du programme</h3>
+                  <div className="space-y-4">
+                    {programme.seances?.map((seance, index) => (
+                      <div key={index} className="bg-gray-50 rounded-lg p-4">
+                        <div className="flex justify-between items-center mb-3">
+                          <h4 className="font-bold text-[#E22807]">
+                            Jour {seance.jour} - {seance.nom}
+                          </h4>
+                          <span className="text-sm text-gray-600">
+                            Durée estimée: {seance.dureeEstimee} min
+                          </span>
+                        </div>
+                        
+                        
+                        <div className="space-y-2">
+                          {seance.exercices?.map((exercice, exIndex) => (
+                            <div key={exIndex} className="bg-white rounded p-3 border border-gray-200">
+                              <p className="font-semibold text-gray-800">{exercice.nom}</p>
+                              <p className="text-sm text-gray-600 mb-2">{exercice.description}</p>
+                              <div className="flex flex-wrap gap-4 text-xs text-gray-700">
+                                <span><strong>Séries:</strong> {exercice.series}</span>
+                                <span><strong>Répétitions:</strong> {exercice.repetitions}</span>
+                                <span><strong>Repos:</strong> {exercice.repos}</span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </article>
             ))}
