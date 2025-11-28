@@ -12,7 +12,7 @@ const programmeSchema = new mongoose.Schema(
     },
     difficulte: {
       type: String,
-      enum: ["Beginner", "Intermediate", "Advanced"],
+      enum: ["Débutant", "Intermédiaire", "Avancé"],
       required: true,
     },
     objectif: {
