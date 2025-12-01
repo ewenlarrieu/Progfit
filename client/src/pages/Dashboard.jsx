@@ -33,6 +33,8 @@ export default function Dashboard() {
         }
         const data = await response.json()
         setUser(data.user)
+        console.log('User data:', data.user)
+        console.log('Programme actuel:', data.user?.programmeActuel)
       } catch (error) {
         navigate('/login')
       } finally {
@@ -185,9 +187,15 @@ export default function Dashboard() {
               </div>
               <div className="flex justify-center mt-6">
                 <button 
-                  onClick={() => navigate('/seanceentrainement')}
+                  onClick={() => {
+
+                    if (user?.programmeActuel?.programme?._id) {
+                      navigate(`/seance-entrainement/${user.programmeActuel.programme._id}`);
+                    }
+                  }}
                   className="bg-[#E22807] hover:bg-[#c41c00] text-white font-semibold py-2 px-4 sm:px-6 rounded-lg transition-colors duration-200"
                   aria-label={user?.programmeActuel ? 'Voir les séances' : 'Pas de programme'}
+                  disabled={!user?.programmeActuel}
                 >
                   {user?.programmeActuel ? 'Voir les séances' : 'Pas de programme'}
                 </button>

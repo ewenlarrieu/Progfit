@@ -93,6 +93,7 @@ export default function NavBar() {
               </button>
             </li>
 
+
             <li>
               <button
                 onClick={() => navigate("/detailsprogramms")}
@@ -109,9 +110,9 @@ export default function NavBar() {
 
             <li>
               <button
-                onClick={() => navigate("/SeanceEntrainement")}
+                onClick={() => navigate("/seance-entrainement")}
                 className={`w-full text-left p-3 font-semibold rounded transition-colors ${
-                  location.pathname === "/SeanceEntrainement"
+                  location.pathname === "/seance-entrainement" || location.pathname.startsWith("/seance-entrainement/")
                     ? "text-[#E22807] bg-white" 
                     : "text-black hover:text-[#E22807] hover:bg-white/50"
                 }`}
@@ -207,7 +208,7 @@ export default function NavBar() {
                     }}
                     className={`w-full text-left p-3 font-semibold rounded transition-colors ${
                       location.pathname === "/programs"
-                        ? "text-[#E22807] bg-white" 
+                        ? "text-[#E22807] bg-white"
                         : "text-black hover:text-[#E22807] hover:bg-white/50"
                     }`}
                     style={{ fontFamily: "Poppins, sans-serif" }}
@@ -217,6 +218,21 @@ export default function NavBar() {
                 </li>
 
                 <li>
+                  <button
+                    onClick={() => {
+                      navigate("/detailsprogramms");
+                      setIsOpen(false);
+                    }}
+                    className={`w-full text-left p-3 font-semibold rounded transition-colors ${
+                      location.pathname === "/detailsprogramms" || location.pathname.startsWith("/detailsprogramms/")
+                        ? "text-[#E22807] bg-white"
+                        : "text-black hover:text-[#E22807] hover:bg-white/50"
+                    }`}
+                    style={{ fontFamily: "Poppins, sans-serif" }}
+                  >
+                    Détail programme
+                  </button>
+                </li>                <li>
                   <button
                     onClick={() => {
                       navigate("/detailsprogramms");
@@ -236,11 +252,11 @@ export default function NavBar() {
                 <li>
                   <button
                     onClick={() => {
-                      navigate("/SeanceEntrainement");
+                      navigate("/seance-entrainement");
                       setIsOpen(false);
                     }}
                     className={`w-full text-left p-3 font-semibold rounded transition-colors ${
-                      location.pathname === "/SeanceEntrainement"
+                      location.pathname === "/seance-entrainement" || location.pathname.startsWith("/seance-entrainement/")
                         ? "text-[#E22807] bg-white" 
                         : "text-black hover:text-[#E22807] hover:bg-white/50"
                     }`}

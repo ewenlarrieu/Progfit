@@ -173,7 +173,7 @@ export default function Admin() {
       >
         <header className="mb-6">
           <div className="flex justify-between items-center">
-            <h1 className="text-3xl font-bold text-gray-800">Administration des programmes</h1>
+            <h1 className="text-3xl font-bold text-gray-800">Programmes Admin</h1>
             <button
               onClick={() => setShowForm(!showForm)}
               className="bg-[#E22807] hover:bg-[#c41c00] text-white font-semibold py-2 px-6 rounded-lg transition-colors duration-200"

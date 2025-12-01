@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import NavBar from '../components/NavBar'
+import { API_URL } from '../config/api'
 
 
 export default function DetailsProgramms() {
@@ -12,24 +13,20 @@ export default function DetailsProgramms() {
     try {
       const token = localStorage.getItem('token');
       
-      const response = await fetch('https://progfit-backend.onrender.com/api/user-programmes/inscrire', {
+      const response = await fetch(`${API_URL}/api/user-programmes/${id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          programmeId: id
-        })
+        }
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        // Inscription réussie, naviguer vers la page séance d'entraînement
+        alert('Inscription au programme réussie !');
         navigate(`/seance-entrainement/${id}`);
       } else {
-        // Afficher l'erreur
         alert(data.message || 'Erreur lors de l\'inscription au programme');
       }
     } catch (error) {
@@ -40,30 +37,29 @@ export default function DetailsProgramms() {
 
   useEffect(() => {
     if (id) {
-      fetch(`https://progfit-backend.onrender.com/api/programmes/${id}`)
+      fetch(`${API_URL}/api/programmes/${id}`)
         .then(res => res.json())
         .then(data => setProgramme(data.programme))
         .catch(err => console.error('Erreur:', err));
     }
   }, [id]);
 
-  // Si pas d'ID, afficher un message d'erreur
+  // Si pas d'ID, afficher un message
   if (!id) {
     return (
       <div className="flex min-h-screen bg-gray-50">
         <NavBar />
         <div className="flex-1 md:ml-64 p-8 flex flex-col justify-center items-center">
           <div className="text-center bg-white p-8 rounded-lg shadow-md max-w-md">
-            <div className="text-6xl mb-4">⚠️</div>
-            <h2 className="text-black text-2xl font-bold mb-4">Programme non trouvé</h2>
+            <h2 className="text-black text-2xl font-bold mb-4">Aucun programme sélectionné</h2>
             <p className="text-gray-600 mb-6">
-              Veuillez sélectionner un programme depuis la page programmes pour voir ses détails.
+              Veuillez sélectionner un programme dans la page Programme
             </p>
             <button 
               onClick={() => navigate('/programs')}
-              className="bg-[#E22807] text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors font-medium"
+              className="bg-[#E22807] text-white px-6 py-3 rounded-lg hover:bg-[#c41c00] transition-colors font-medium"
             >
-              Aller aux programmes
+              Aller à la page Programme
             </button>
           </div>
         </div>
@@ -71,26 +67,19 @@ export default function DetailsProgramms() {
     );
   }
 
-  if (!programme) {
-    return (
-      <div className="flex min-h-screen bg-gray-50">
-        <NavBar />
-        <div className="flex-1 md:ml-64 p-8 flex justify-center items-center">
-          <p className="text-black text-xl">Chargement...</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="flex min-h-screen bg-gray-50">
-      <NavBar />
-      <div 
+      <nav>
+        <NavBar />
+      </nav>
+      <main 
         className="flex-1 md:ml-64 p-4 sm:p-6 md:p-8" 
         style={{ fontFamily: 'Poppins, sans-serif'}}
       >
+        {programme && (
+          <>
         {/* Header programme */}
-        <div className="mb-10">
+        <header className="mb-10">
           <h1 className="text-black font-bold text-2xl sm:text-3xl md:text-4xl">
             Programme <span className="text-[#E22807]">{programme.nom}</span>
           </h1>
@@ -101,50 +90,45 @@ export default function DetailsProgramms() {
             Voici un aperçu détaillé de votre programme. Retrouvez les objectifs, 
             la durée, ainsi que la structure de vos séances hebdomadaires.
           </p>
-        </div>
+        </header>
 
         {/* Informations principales */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
-          <div className="bg-white rounded-lg shadow p-4 sm:p-6 text-center">
-            <p className="text-black font-bold text-lg sm:text-xl">Catégorie</p>
+        <section className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
+          <article className="bg-white rounded-lg shadow p-4 sm:p-6 text-center">
+            <h2 className="text-black font-bold text-lg sm:text-xl">Catégorie</h2>
             <p className="text-[#E22807] mt-2 text-base sm:text-lg">{programme.objectif}</p>
-          </div>
-          <div className="bg-white rounded-lg shadow p-4 sm:p-6 text-center">
-            <p className="text-black font-bold text-lg sm:text-xl">Niveau</p>
-            <p className="text-[#E22807] mt-2 text-base sm:text-lg">{programme.niveau}</p>
-          </div>
-           <div className="bg-white rounded-lg shadow p-4 sm:p-6 text-center">
-            <p className="text-black font-bold text-lg sm:text-xl">Nombre d'exercices par semaine</p>
+          </article>
+          <article className="bg-white rounded-lg shadow p-4 sm:p-6 text-center">
+            <h2 className="text-black font-bold text-lg sm:text-xl">Niveau</h2>
+            <p className="text-[#E22807] mt-2 text-base sm:text-lg">{programme.difficulte}</p>
+          </article>
+          <article className="bg-white rounded-lg shadow p-4 sm:p-6 text-center">
+            <h2 className="text-black font-bold text-lg sm:text-xl">Nombre d'exercices par semaine</h2>
             <p className="text-[#E22807] mt-2 text-base sm:text-lg">
-              {programme.seances ? 
-                programme.seances.reduce((total, seance) => 
-                  total + (seance.exercices ? seance.exercices.length : 0), 0
-                ) 
-                : 0
-              }
+              {programme.seances?.flatMap(seance => seance.exercices || []).length || 0}
             </p>
-          </div>
-          
-      
-        </div>
+          </article>
+        </section>
 
         {/* Planning hebdomadaire */}
-        <h2 className="text-black text-2xl sm:text-3xl md:text-4xl font-bold underline mb-6">
-          Planning hebdomadaire
-        </h2>
-        <p className="text-gray-700 text-lg mb-8 text-center">
-          Ce programme est à réaliser pendant <span className="font-semibold text-[#E22807]">{programme.duree} semaines</span> consécutives pour obtenir des résultats optimaux.
-        </p>
-        <div className="flex flex-col items-center justify-center gap-8 w-full min-h-[60vh] mt-12">
-          {programme.seances && programme.seances.map((seance, index) => (
-            <div key={index} className="bg-white border-2 border-black rounded-lg p-8 min-h-24 w-full max-w-5xl transition-all duration-300">
-              <p className='text-[#E22807] font-bold text-3xl mb-7'>Jour {seance.jour}</p>
-              <p className='font-bold text-black text-2xl mb-7'>Objectif : {seance.nom}</p>
-              <p className='font-normal text-black text-2xl mb-7'>Durée estimée : {seance.dureeEstimee}min</p>
-              <p className='font-normal text-black text-2xl'>Nombre d'exercices : {seance.exercices ? seance.exercices.length : 0}</p>
-            </div>
-          ))}
-        </div>
+        <section>
+          <h2 className="text-black text-2xl sm:text-3xl md:text-4xl font-bold underline mb-6">
+            Planning hebdomadaire
+          </h2>
+          <p className="text-gray-700 text-lg mb-8 text-center">
+            Ce programme est à réaliser pendant <span className="font-semibold text-[#E22807]">{programme.duree} semaines</span> consécutives pour obtenir des résultats optimaux.
+          </p>
+          <div className="flex flex-col items-center justify-center gap-8 w-full min-h-[60vh] mt-12">
+            {programme.seances && programme.seances.map((seance, index) => (
+              <article key={index} className="bg-white border-2 border-black rounded-lg p-8 min-h-24 w-full max-w-5xl transition-all duration-300">
+                <h3 className='text-[#E22807] font-bold text-3xl mb-7'>Jour {seance.jour}</h3>
+                <p className='font-bold text-black text-2xl mb-7'>Objectif : {seance.nom}</p>
+                <p className='font-normal text-black text-2xl mb-7'>Durée estimée : {seance.dureeEstimee}min</p>
+                <p className='font-normal text-black text-2xl'>Nombre d'exercices : {seance.exercices ? seance.exercices.length : 0}</p>
+              </article>
+            ))}
+          </div>
+        </section>
         
         {/* Bouton pour commencer le programme */}
         <div className="flex justify-center mt-12 mb-8">
@@ -155,7 +139,9 @@ export default function DetailsProgramms() {
             Commencer ce programme
           </button>
         </div>
-      </div>
+          </>
+        )}
+      </main>
     </div>
   )
 }

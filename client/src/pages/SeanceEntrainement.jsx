@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import NavBar from '../components/NavBar'
+import { API_URL } from '../config/api'
 
 
 
@@ -109,6 +110,7 @@ export default function SeanceEntrainement() {
     const fetchProgramme = async () => {
       try {
         setLoading(true);
+        const token = localStorage.getItem('token');
         
         if (id) {
           // Si on a un ID spécifique, récupérer ce programme
@@ -117,7 +119,6 @@ export default function SeanceEntrainement() {
           setProgramme(data.programme);
           
           // Récupérer aussi les séances terminées de l'utilisateur
-          const token = localStorage.getItem('token');
           const seancesResponse = await fetch('https://progfit-backend.onrender.com/api/user-programmes/actuel', {
             headers: {
               'Authorization': `Bearer ${token}`
@@ -133,8 +134,7 @@ export default function SeanceEntrainement() {
           }
         } else {
           // Pas d'ID fourni, récupérer le programme actuel de l'utilisateur
-          const token = localStorage.getItem('token');
-          const programmeActuelResponse = await fetch('https://progfit-backend.onrender.com/api/user-programmes/actuel', {
+          const programmeActuelResponse = await fetch(`${API_URL}/api/user-programmes/current`, {
             headers: {
               'Authorization': `Bearer ${token}`
             }
@@ -142,12 +142,11 @@ export default function SeanceEntrainement() {
           
           if (programmeActuelResponse.ok) {
             const programmeData = await programmeActuelResponse.json();
-            if (programmeData.programmeActuel && programmeData.programmeActuel.programmeId) {
-              setProgramme(programmeData.programmeActuel.programmeId);
-              // Récupérer les séances terminées
-              if (programmeData.programmeActuel.seancesTerminees) {
-                const seancesTermineesIndex = programmeData.programmeActuel.seancesTerminees.map(s => s.seanceIndex);
-                setSeancesTerminees(seancesTermineesIndex);
+            if (programmeData.programmeActuel && programmeData.programmeActuel.programme) {
+              setProgramme(programmeData.programmeActuel.programme);
+              // Récupérer les séances terminées/completées
+              if (programmeData.programmeActuel.seancesCompletees) {
+                setSeancesTerminees(programmeData.programmeActuel.seancesCompletees);
               }
             } else {
               setError('Aucun programme actuel trouvé. Veuillez choisir un programme depuis la page programmes.');
