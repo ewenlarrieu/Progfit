@@ -33,8 +33,6 @@ export default function Dashboard() {
         }
         const data = await response.json()
         setUser(data.user)
-        console.log('User data:', data.user)
-        console.log('Programme actuel:', data.user?.programmeActuel)
       } catch (error) {
         navigate('/login')
       } finally {

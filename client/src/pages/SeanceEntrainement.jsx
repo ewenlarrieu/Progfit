@@ -3,344 +3,301 @@ import { useParams, useNavigate } from 'react-router-dom'
 import NavBar from '../components/NavBar'
 import { API_URL } from '../config/api'
 
-
-
 export default function SeanceEntrainement() {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const [programme, setProgramme] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [seancesTerminees, setSeancesTerminees] = useState([]);
+  const { id } = useParams()
+  const navigate = useNavigate()
+  const [programmeData, setProgrammeData] = useState(null)
 
-  const handleTerminerSeance = async (seanceIndex) => {
-    if (window.confirm('Êtes-vous sûr de vouloir marquer cette séance comme terminée ?')) {
-      try {
-        const token = localStorage.getItem('token');
-        
-        const response = await fetch('https://progfit-backend.onrender.com/api/user-programmes/seance/terminer', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            seanceIndex: seanceIndex,
-            exercicesTermines: [] 
-          })
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-          alert(`Séance terminée ! Progression: ${data.progression}%`);
-          // Ajouter la séance à la liste des séances terminées
-          setSeancesTerminees(prev => [...prev, seanceIndex]);
-        } else {
-          alert(data.message || 'Erreur lors de la validation de la séance');
+  const handleUnsubscribe = async () => {
+    try {
+      const token = localStorage.getItem('token')
+      const response = await fetch(`${API_URL}/api/user-programmes/unsubscribe`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         }
-      } catch (error) {
-        console.error('Erreur:', error);
-        alert('Erreur lors de la validation de la séance');
+      })
+
+      if (response.ok) {
+        alert('Vous avez été désinscrit du programme')
+        navigate('/dashboard')
+      } else {
+        const error = await response.json()
+        alert(error.message)
       }
+    } catch (error) {
+      console.error('Erreur:', error)
+      alert('Erreur lors de la désinscription')
     }
-  };
+  }
 
+  const handleCompleteSeance = async (jour) => {
+    try {
+      const token = localStorage.getItem('token')
+      const response = await fetch(`${API_URL}/api/user-programmes/complete-seance`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ jour })
+      })
 
+      if (response.ok) {
+        const data = await response.json()
+        alert(data.message)
+        // Recharger les données du programme
+        window.location.reload()
+      } else {
+        const error = await response.json()
+        alert(error.message || 'Erreur lors de la validation de la séance')
+      }
+    } catch (error) {
+      console.error('Erreur:', error)
+      alert('Erreur lors de la validation de la séance')
+    }
+  }
 
-  const handleTerminerProgramme = async () => {
-    if (window.confirm('Félicitations ! Êtes-vous sûr de vouloir marquer ce programme comme terminé ?')) {
-      try {
-        const token = localStorage.getItem('token');
-        
-        const response = await fetch('https://progfit-backend.onrender.com/api/user-programmes/terminer', {
-          method: 'PUT',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-          alert('Félicitations ! Programme terminé avec succès ! ');
-          // Rediriger vers la page programmes
-          navigate('/programs');
-        } else {
-          alert(data.message || 'Erreur lors de la finalisation du programme');
+  const handleValidateWeek = async () => {
+    try {
+      const token = localStorage.getItem('token')
+      const response = await fetch(`${API_URL}/api/user-programmes/validate-week`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         }
-      } catch (error) {
-        console.error('Erreur:', error);
-        alert('Erreur lors de la finalisation du programme');
-      }
-    }
-  };
+      })
 
-  const handleAnnulerProgramme = async () => {
-    if (window.confirm('Êtes-vous sûr de vouloir annuler ce programme ?')) {
-      try {
-        const token = localStorage.getItem('token');
-        
-        const response = await fetch('https://progfit-backend.onrender.com/api/user-programmes/abandonner', {
-          method: 'PUT',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-          alert('Programme annulé avec succès !');
-          // Rediriger vers la page programmes
-          navigate('/programs');
+      if (response.ok) {
+        const data = await response.json()
+        if (data.programmeCompleted) {
+          alert(data.message)
+          navigate('/dashboard')
         } else {
-          alert(data.message || 'Erreur lors de l\'annulation du programme');
+          alert(data.message)
+          window.location.reload()
         }
-      } catch (error) {
-        console.error('Erreur:', error);
-        alert('Erreur lors de l\'annulation du programme');
+      } else {
+        const error = await response.json()
+        alert(error.message || 'Erreur lors de la validation de la semaine')
       }
+    } catch (error) {
+      console.error('Erreur:', error)
+      alert('Erreur lors de la validation de la semaine')
     }
-  };
+  }
 
   useEffect(() => {
-    const fetchProgramme = async () => {
+    const fetchProgrammeActuel = async () => {
       try {
-        setLoading(true);
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token')
         
         if (id) {
-          // Si on a un ID spécifique, récupérer ce programme
-          const response = await fetch(`https://progfit-backend.onrender.com/api/programmes/${id}`);
-          const data = await response.json();
-          setProgramme(data.programme);
-          
-          // Récupérer aussi les séances terminées de l'utilisateur
-          const seancesResponse = await fetch('https://progfit-backend.onrender.com/api/user-programmes/actuel', {
+          const response = await fetch(`${API_URL}/api/programmes/${id}`, {
             headers: {
               'Authorization': `Bearer ${token}`
             }
-          });
-          
-          if (seancesResponse.ok) {
-            const seancesData = await seancesResponse.json();
-            if (seancesData.programmeActuel && seancesData.programmeActuel.seancesTerminees) {
-              const seancesTermineesIndex = seancesData.programmeActuel.seancesTerminees.map(s => s.seanceIndex);
-              setSeancesTerminees(seancesTermineesIndex);
+          })
+          if (response.ok) {
+            const data = await response.json()
+            const userResponse = await fetch(`${API_URL}/api/user-programmes/current`, {
+              headers: {
+                'Authorization': `Bearer ${token}`
+              }
+            })
+            if (userResponse.ok) {
+              const userData = await userResponse.json()
+              setProgrammeData({
+                programme: data.programme,
+                semaineActuelle: userData.programmeActuel?.semaineActuelle,
+                seancesCompletees: userData.programmeActuel?.seancesCompletees 
+              })
             }
           }
         } else {
-          // Pas d'ID fourni, récupérer le programme actuel de l'utilisateur
-          const programmeActuelResponse = await fetch(`${API_URL}/api/user-programmes/current`, {
+          // Sinon récupérer le programme actuel de l'utilisateur
+          const response = await fetch(`${API_URL}/api/user-programmes/current`, {
             headers: {
               'Authorization': `Bearer ${token}`
             }
-          });
-          
-          if (programmeActuelResponse.ok) {
-            const programmeData = await programmeActuelResponse.json();
-            if (programmeData.programmeActuel && programmeData.programmeActuel.programme) {
-              setProgramme(programmeData.programmeActuel.programme);
-              // Récupérer les séances terminées/completées
-              if (programmeData.programmeActuel.seancesCompletees) {
-                setSeancesTerminees(programmeData.programmeActuel.seancesCompletees);
-              }
-            } else {
-              setError('Aucun programme actuel trouvé. Veuillez choisir un programme depuis la page programmes.');
+          })
+          if (response.ok) {
+            const data = await response.json()
+            if (data.programmeActuel) {
+              setProgrammeData({
+                programme: data.programmeActuel.programme,
+                semaineActuelle: data.programmeActuel.semaineActuelle,
+                seancesCompletees: data.programmeActuel.seancesCompletees
+              })
             }
-          } else {
-            setError('Erreur lors de la récupération du programme actuel.');
           }
         }
-      } catch (err) {
-        console.error('Erreur:', err);
-        setError('Erreur lors du chargement des données.');
-      } finally {
-        setLoading(false);
+      } catch (error) {
+        console.error('Erreur:', error)
       }
-    };
+    }
 
-    fetchProgramme();
-  }, [id]);
+    fetchProgrammeActuel()
+  }, [id])
 
-  if (loading) {
-    return (
-      <div className="flex min-h-screen bg-gray-50">
-        <NavBar />
-        <div className="flex-1 md:ml-64 p-8 flex justify-center items-center">
-          <p className="text-black text-xl">Chargement...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex min-h-screen bg-gray-50">
-        <NavBar />
-        <div className="flex-1 md:ml-64 p-8 flex flex-col justify-center items-center">
-          <div className="text-center bg-white p-8 rounded-lg shadow-md max-w-md">
-            <div className="text-6xl mb-4">🏋️‍♂️</div>
-            <h2 className="text-black text-2xl font-bold mb-4">Séance d'entraînement</h2>
-            <p className="text-gray-600 mb-6">
-              {error}
-            </p>
-            <button 
-              onClick={() => navigate('/programs')}
-              className="bg-[#E22807] text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors font-medium"
-            >
-              Choisir un programme
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (!programme) {
-    return (
-      <div className="flex min-h-screen bg-gray-50">
-        <NavBar />
-        <div className="flex-1 md:ml-64 p-8 flex justify-center items-center">
-          <p className="text-black text-xl">Aucun programme trouvé.</p>
-        </div>
-      </div>
-    );
-  }
   return (
-    <div className='min-h-screen bg-gray-50'>
+    <main className='min-h-screen bg-gray-50'>
+      <nav>
       <NavBar/>
-      <div className="flex-1 md:ml-64 p-4 sm:p-6 md:p-8" 
+
+      </nav>
+      <section className="flex-1 md:ml-64 p-4 sm:p-6 md:p-8" 
         style={{ fontFamily: 'Poppins, sans-serif'}}>
-          <p className='text-[#E22807] font-bold text-4xl'>Ma séance en cours</p>
+          <h1 className='text-[#E22807] font-bold text-4xl'>Ma séance en cours</h1>
           
-          {/* Informations du programme */}
-          <div className="border border-gray-300 rounded-xl p-8 mt-8 bg-white max-w-4xl flex flex-col gap-6 text-black font-bold text-2xl">
-            <p>Programme <span className='text-[#E22807]'>{programme.nom}</span></p>
-            <p>Durée : <span className='text-[#E22807]'>{programme.duree} semaines</span></p>
-            <p>Difficulté : <span className='text-[#E22807]'>{programme.niveau}</span></p>
-            <p>Objectif : <span className='text-[#E22807]'>{programme.objectif}</span></p>
-            
-            {/* Vérifier si toutes les séances sont terminées */}
-            {programme.seances && seancesTerminees.length === programme.seances.length ? (
-              <div className="flex flex-col gap-4">
-                <p className="text-green-600 font-bold text-xl">🎉 Toutes les séances sont terminées ! 🎉</p>
-                <div className="flex gap-4 flex-wrap">
-                  <button 
-                    className="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-lg text-xl transition-colors duration-300 shadow-lg w-fit"
-                    onClick={handleTerminerProgramme}
-                  >
-                    Terminer ce programme ✓
-                  </button>
-                  <button 
-                    className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-4 px-8 rounded-lg text-xl transition-colors duration-300 shadow-lg w-fit"
-                    onClick={handleAnnulerProgramme}
-                  >
-                    Annuler ce programme
-                  </button>
+          {!programmeData && (
+            <article className="mt-8 bg-white border border-gray-300 rounded-xl p-8 max-w-2xl">
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">Aucun programme actif</h2>
+              <p className="text-gray-600 mb-6">
+                Vous n'avez pas encore choisi de programme d'entraînement. Veuillez sélectionner un programme pour commencer vos séances.
+              </p>
+              <button
+                onClick={() => navigate('/programs')}
+                className="bg-[#E22807] hover:bg-[#c41c00] text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300"
+                aria-label="Voir les programmes disponibles"
+              >
+                Voir les programmes
+              </button>
+            </article>
+          )}
+          
+          {programmeData && (
+            <>
+              {/* Informations du programme */}
+              <article className="border border-gray-300 rounded-xl p-8 mt-8 bg-white max-w-4xl flex flex-col gap-6 text-black font-bold text-2xl">
+                <h2 className="sr-only">Informations du programme</h2>
+                <p>Programme <span className='text-[#E22807]'>{programmeData.programme.nom}</span></p>
+                <p>Semaine actuelle : <span className='text-[#E22807]'>{programmeData.semaineActuelle} / {programmeData.programme.duree}</span></p>
+                <p>Durée : <span className='text-[#E22807]'>{programmeData.programme.duree} semaines</span></p>
+                <p>Difficulté : <span className='text-[#E22807]'>{programmeData.programme.difficulte}</span></p>
+                <p>Objectif : <span className='text-[#E22807]'>{programmeData.programme.objectif}</span></p>
+                
+                {/* Actions du programme */}
+                <div className="flex flex-col gap-4">
+                  <p className="text-gray-600 text-lg">
+                    Progression : {programmeData.seancesCompletees.length} / {programmeData.programme.seances.length} séances terminées
+                  </p>
+                  <nav className="flex gap-4 flex-wrap" aria-label="Actions du programme">
+                    {programmeData.seancesCompletees.length === programmeData.programme.seances.length && (
+                      <button 
+                        className="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-lg text-xl transition-colors duration-300 shadow-lg w-fit"
+                        onClick={handleValidateWeek}
+                        aria-label="Terminer la semaine et passer à la suivante"
+                      >
+                        Terminer la semaine ✓
+                      </button>
+                    )}
+                    <button 
+                      className="bg-[#E22807] hover:bg-[#c41c00] text-white font-bold py-4 px-8 rounded-lg text-xl transition-colors duration-300 shadow-lg w-fit"
+                      onClick={handleUnsubscribe}
+                      aria-label="Se désinscrire du programme actuel"
+                    >
+                      Annuler ce programme
+                    </button>
+                  </nav>
                 </div>
-              </div>
-            ) : (
-              <div className="flex flex-col gap-4">
-                <p className="text-gray-600 text-lg">
-                  Progression : {seancesTerminees.length} / {programme.seances?.length || 0} séances terminées
-                </p>
-                <button 
-                  className="bg-[#E22807] hover:bg-red-700 text-white font-bold py-4 px-8 rounded-lg text-xl transition-colors duration-300 shadow-lg w-fit"
-                  onClick={handleAnnulerProgramme}
-                >
-                  Annuler ce programme
-                </button>
-              </div>
-            )}
-          </div>
+              </article>
+            </>
+          )}
 
           {/* Séances du programme */}
-          {programme.seances && programme.seances.length > 0 && (
-            <div className="mt-12">
+          {programmeData && programmeData.programme.seances && (
+            <section className="mt-12">
               <h2 className="text-black text-3xl font-bold mb-8">Séances d'entraînement</h2>
-              <div className="flex flex-col gap-8">
-                {programme.seances.map((seance, index) => (
-                  <div key={index} className="bg-white border border-gray-300 rounded-xl p-6 max-w-4xl">
-                    {/* Header de la séance */}
-                    <div className="mb-6">
+              <ul className="flex flex-col gap-8">
+                {programmeData.programme.seances.map((seance, index) => {
+                  const isCompleted = programmeData.seancesCompletees?.includes(seance.jour)
+                  const seancePrecedente = index > 0 ? programmeData.programme.seances[index - 1] : null
+                  const canComplete = index === 0 || (seancePrecedente && programmeData.seancesCompletees?.includes(seancePrecedente.jour))
+                  
+                  console.log(`Séance ${seance.jour}:`, {
+                    index,
+                    isCompleted,
+                    canComplete,
+                    seancePrecedente: seancePrecedente?.jour,
+                    seancesCompletees: programmeData.seancesCompletees
+                  })
+                  
+                  return (
+                  <li key={index} className="bg-white border border-gray-300 rounded-xl p-6 max-w-4xl">
+                    {/* En-tête de la séance */}
+                    <header className="mb-6">
                       <h3 className="text-[#E22807] font-bold text-2xl mb-2">
                         Jour {seance.jour} - {seance.nom}
                       </h3>
                       <p className="text-gray-600 text-lg mb-2">
-                        <span className="font-semibold">Objectif:</span> {seance.objectif}
+                        <span className="font-semibold">Durée estimée:</span> {seance.dureeEstimee} minutes
                       </p>
                       <p className="text-gray-600 text-lg">
-                        <span className="font-semibold">Durée estimée:</span> {seance.dureeEstimee} min
+                        <span className="font-semibold">Nombre d'exercices:</span> {seance.exercices?.length}
                       </p>
-                    </div>
+                    </header>
 
-                    {/* Exercices de la séance */}
-                    {seance.exercices && seance.exercices.length > 0 ? (
-                      <div className="space-y-4">
-                        <h4 className="text-black font-bold text-xl mb-4">
-                          Exercices ({seance.exercices.length})
-                        </h4>
-                        <div className="grid gap-4">
+                    {/* Liste des exercices */}
+                    {seance.exercices && seance.exercices.length > 0 && (
+                      <section className="space-y-4 mb-6">
+                        <h4 className="text-black font-bold text-xl mb-4">Exercices</h4>
+                        <ul className="grid gap-4">
                           {seance.exercices.map((exercice, exIndex) => (
-                            <div key={exIndex} className="bg-gray-50 rounded-lg p-4 border">
+                            <li key={exIndex} className="bg-gray-50 rounded-lg p-4 border">
                               <h5 className="font-bold text-lg text-[#E22807] mb-2">
                                 {exercice.nom}
                               </h5>
-                              <div className="text-sm text-gray-700 space-y-1">
-                                <p><span className="font-semibold">Séries:</span> {exercice.series}</p>
-                                <p><span className="font-semibold">Répétitions:</span> {exercice.repetitions}</p>
-                                {exercice.duree && (
-                                  <p><span className="font-semibold">Durée:</span> {exercice.duree}s</p>
+                              <dl className="text-sm text-gray-700 space-y-1">
+                                <div><dt className="inline font-semibold">Séries:</dt> <dd className="inline">{exercice.series}</dd></div>
+                                <div><dt className="inline font-semibold">Répétitions:</dt> <dd className="inline">{exercice.repetitions}</dd></div>
+                                <div><dt className="inline font-semibold">Repos:</dt> <dd className="inline">{exercice.repos} secondes</dd></div>
+                                {exercice.poids && (
+                                  <div><dt className="inline font-semibold">Poids:</dt> <dd className="inline">{exercice.poids}</dd></div>
                                 )}
-                                <p><span className="font-semibold">Groupes musculaires:</span> {exercice.groupesMusculaires?.join(', ')}</p>
                                 {exercice.description && (
-                                  <p><span className="font-semibold">Description:</span> {exercice.description}</p>
-                                )}
-                                {exercice.instructions && exercice.instructions.length > 0 && (
-                                  <div className="mt-3">
-                                    <p className="font-semibold mb-2">Instructions:</p>
-                                    <ul className="list-disc list-inside space-y-1 ml-2">
-                                      {exercice.instructions.map((instruction, instIndex) => (
-                                        <li key={instIndex} className="text-gray-600">
-                                          {instruction}
-                                        </li>
-                                      ))}
-                                    </ul>
+                                  <div className="mt-2">
+                                    <dt className="font-semibold">Description:</dt>
+                                    <dd className="text-gray-600 italic">{exercice.description}</dd>
                                   </div>
                                 )}
-                              </div>
-                            </div>
+                              </dl>
+                            </li>
                           ))}
-                        </div>
-                      </div>
-                    ) : (
-                      <p className="text-gray-500 text-center py-4">Aucun exercice pour cette séance</p>
+                        </ul>
+                      </section>
                     )}
 
-                    {/* Bouton Terminer séance */}
-                    <div className="mt-6 flex justify-center">
-                      <button
-                        onClick={() => handleTerminerSeance(index)}
-                        disabled={seancesTerminees.includes(index)}
-                        className={`px-6 py-3 rounded-lg font-bold text-lg transition-colors duration-300 ${
-                          seancesTerminees.includes(index)
-                            ? 'bg-green-500 text-white cursor-not-allowed opacity-75'
-                            : 'bg-[#E22807] hover:bg-red-700 text-white shadow-lg'
-                        }`}
-                      >
-                        {seancesTerminees.includes(index) ? 'Séance terminée ✓' : 'Terminer séance'}
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+                    {/* Action de validation de séance */}
+                    <footer className="mt-6 flex justify-center">
+                      {isCompleted ? (
+                        <div className='bg-gray-400 text-white px-6 py-3 rounded-lg font-bold text-lg' role="status" aria-label="Séance terminée">
+                          ✓ Séance terminée
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => handleCompleteSeance(seance.jour)}
+                          disabled={!canComplete}
+                          className={`px-6 py-3 rounded-lg font-bold text-lg transition-colors duration-300 ${
+                            !canComplete
+                              ? 'bg-gray-400 text-gray-600 cursor-not-allowed'
+                              : 'bg-green-600 hover:bg-green-700 text-white'
+                          }`}
+                          aria-label={!canComplete ? 'Terminer la séance précédente d\'abord' : `Marquer la séance ${seance.nom} comme terminée`}
+                        >
+                          Terminer la séance
+                        </button>
+                      )}
+                    </footer>
+                  </li>
+                  )
+                })}
+              </ul>
+            </section>
           )}
-        </div>
-      </div>
+        </section>
+      </main>
   )
 }
