@@ -17,7 +17,8 @@ export default function Register() {
     password: '',
     confirmPassword: '',
     niveau: '',
-    objectif: ''
+    objectif: '',
+    acceptPolitique: false
   })
 
  
@@ -163,7 +164,7 @@ export default function Register() {
                     id="password"
                     name="password"
                     type="password" 
-                    placeholder="••••••••" 
+                    placeholder="Mot de passe" 
                     value={formData.password}
                     onChange={handleChange}
                     required
@@ -180,7 +181,7 @@ export default function Register() {
                     id="confirmPassword"
                     name="confirmPassword"
                     type="password" 
-                    placeholder="••••••••" 
+                    placeholder="Confirmer votre mot de passe" 
                     value={formData.confirmPassword}
                     onChange={handleChange}
                     required
@@ -232,6 +233,30 @@ export default function Register() {
                 </div>
               </div>
             </fieldset>
+
+            {/* Politique de confidentialité */}
+            <div className="flex justify-center gap-3 px-2">
+              <input
+                type="checkbox"
+                id="acceptPolitique"
+                name="acceptPolitique"
+                checked={formData.acceptPolitique}
+                onChange={(e) => setFormData({ ...formData, acceptPolitique: e.target.checked })}
+                required
+                className="mt-1 w-4 h-4 text-[#E22807] bg-white border-2 border-gray-300 rounded focus:ring-2 focus:ring-[#E22807] cursor-pointer"
+              />
+              <label htmlFor="acceptPolitique" className="text-sm sm:text-base text-gray-700 cursor-pointer">
+                J'accepte la{' '}
+                <a 
+                  href="/politique-confidentialite" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#E22807] font-semibold underline hover:text-[#c41c00] transition-colors"
+                >
+                  politique de confidentialité
+                </a>
+              </label>
+            </div>
 
             {/* Message d'erreur */}
             {error && (
