@@ -70,18 +70,9 @@ export default function Dashboard() {
     fetchHistorique()
   }, [])
 
-
-
-
-
-
-
   return (
     <div className="flex min-h-screen bg-gray-50">
-
-      <nav>
       <NavBar/>
-      </nav>
 
       <main 
         className="flex-1 md:ml-64 p-4 sm:p-6 md:p-8 pt-20 md:pt-8 text-white" 
@@ -186,12 +177,11 @@ export default function Dashboard() {
               <div className="flex justify-center mt-6">
                 <button 
                   onClick={() => {
-
                     if (user?.programmeActuel?.programme?._id) {
                       navigate(`/seance-entrainement/${user.programmeActuel.programme._id}`);
                     }
                   }}
-                  className="bg-[#E22807] hover:bg-[#c41c00] text-white font-semibold py-2 px-4 sm:px-6 rounded-lg transition-colors duration-200"
+                  className="bg-[#E22807] hover:bg-[#c41c00] text-white font-semibold py-2 px-4 sm:px-6 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                   aria-label={user?.programmeActuel ? 'Voir les séances' : 'Pas de programme'}
                   disabled={!user?.programmeActuel}
                 >

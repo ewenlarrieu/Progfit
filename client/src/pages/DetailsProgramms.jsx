@@ -9,6 +9,14 @@ export default function DetailsProgramms() {
   const navigate = useNavigate();
   const [programme, setProgramme] = useState(null);
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login');
+      return;
+    }
+  }, [navigate]);
+
   const handleCommencerProgramme = async () => {
     try {
       const token = localStorage.getItem('token');

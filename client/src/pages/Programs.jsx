@@ -39,6 +39,12 @@ export default function Programs() {
   };
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login');
+      return;
+    }
+
     fetch(`${API_URL}/api/programmes`)
       .then(res => {
         if (!res.ok) throw new Error('Erreur');

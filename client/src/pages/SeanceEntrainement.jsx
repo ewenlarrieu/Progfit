@@ -8,6 +8,14 @@ export default function SeanceEntrainement() {
   const navigate = useNavigate()
   const [programmeData, setProgrammeData] = useState(null)
 
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    if (!token) {
+      navigate('/login')
+      return
+    }
+  }, [navigate])
+
   const handleUnsubscribe = async () => {
     try {
       const token = localStorage.getItem('token')

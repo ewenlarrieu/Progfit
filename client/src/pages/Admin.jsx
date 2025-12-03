@@ -18,14 +18,14 @@ export default function Admin() {
   })
 
   useEffect(() => {
+    const token = localStorage.getItem('token')
+    if (!token) {
+      navigate('/login')
+      return
+    }
+
     const fetchProgrammes = async () => {
       try {
-        const token = localStorage.getItem('token')
-        if (!token) {
-          navigate('/login')
-          return
-        }
-
         const response = await fetch(`${API_URL}/api/programmes`, {
           headers: {
             'Authorization': `Bearer ${token}`
