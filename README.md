@@ -47,7 +47,7 @@
 
 ---
 
-## 🚀 Installation
+## Installation
 
 ### 1. Cloner le projet
 
@@ -68,7 +68,7 @@ npm install
 
 ---
 
-## ⚙️ Configuration
+## Configuration
 
 ### Configuration du Backend
 
@@ -103,7 +103,7 @@ export const API_URL = "http://localhost:5000";
 
 ---
 
-## 🎮 Utilisation
+## Utilisation
 
 ### Démarrer le Backend
 
