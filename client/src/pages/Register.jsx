@@ -10,36 +10,18 @@ import { API_URL } from '../config/api';
 export default function Register() {
   const navigate = useNavigate()
   
- 
-  const [formData, setFormData] = useState({
-    pseudo: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    niveau: '',
-    objectif: '',
-    acceptPolitique: false
-  })
-
- 
+  const [pseudo, setPseudo] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [niveau, setNiveau] = useState('')
+  const [objectif, setObjectif] = useState('')
+  const [acceptPolitique, setAcceptPolitique] = useState(false)
   const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
-    setError('')
-  }
 
   const handleSubmit = async (e) => {
     e.preventDefault() 
     setError('') 
-    
-
-
-    setLoading(true)
 
     try {
       const response = await fetch(`${API_URL}/api/auth/register`, {
@@ -48,12 +30,12 @@ export default function Register() {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          username: formData.pseudo,
-          email: formData.email,
-          password: formData.password,
-          confirmPassword: formData.confirmPassword,
-          niveau: formData.niveau,
-          objectif: formData.objectif
+          username: pseudo,
+          email: email,
+          password: password,
+          confirmPassword: confirmPassword,
+          niveau: niveau,
+          objectif: objectif
         })
       })
       const data = await response.json()
@@ -66,8 +48,6 @@ export default function Register() {
       
     } catch (error) {
       setError(error.message || 'Erreur lors de l\'inscription. Veuillez réessayer.')
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -125,11 +105,10 @@ export default function Register() {
                   </label>
                   <input 
                     id="pseudo"
-                    name="pseudo"
                     type="text" 
                     placeholder="Votre pseudo" 
-                    value={formData.pseudo}
-                    onChange={handleChange}
+                    value={pseudo}
+                    onChange={(e) => { setPseudo(e.target.value); setError(''); }}
                     required
                     autoComplete="username"
                     className="border-2 border-black rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 md:py-3 w-full placeholder-[#3A3A3A] text-black text-sm sm:text-base md:text-lg shadow-md focus:outline-none focus:ring-2 focus:ring-[#E22807] focus:border-[#E22807] transition-all"
@@ -142,11 +121,10 @@ export default function Register() {
                   </label>
                   <input 
                     id="email"
-                    name="email"
                     type="email" 
                     placeholder="votre@email.com" 
-                    value={formData.email}
-                    onChange={handleChange}
+                    value={email}
+                    onChange={(e) => { setEmail(e.target.value); setError(''); }}
                     required
                     autoComplete="email"
                     className="border-2 border-black rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 md:py-3 w-full placeholder-[#3A3A3A] text-black text-sm sm:text-base md:text-lg shadow-md focus:outline-none focus:ring-2 focus:ring-[#E22807] focus:border-[#E22807] transition-all"
@@ -162,11 +140,10 @@ export default function Register() {
                   </label>
                   <input 
                     id="password"
-                    name="password"
                     type="password" 
                     placeholder="Mot de passe" 
-                    value={formData.password}
-                    onChange={handleChange}
+                    value={password}
+                    onChange={(e) => { setPassword(e.target.value); setError(''); }}
                     required
                     autoComplete="new-password"
                     className="border-2 border-black rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 md:py-3 w-full placeholder-[#3A3A3A] text-black text-sm sm:text-base md:text-lg shadow-md focus:outline-none focus:ring-2 focus:ring-[#E22807] focus:border-[#E22807] transition-all"
@@ -179,11 +156,10 @@ export default function Register() {
                   </label>
                   <input 
                     id="confirmPassword"
-                    name="confirmPassword"
                     type="password" 
                     placeholder="Confirmer votre mot de passe" 
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
+                    value={confirmPassword}
+                    onChange={(e) => { setConfirmPassword(e.target.value); setError(''); }}
                     required
                     autoComplete="new-password"
                     className="border-2 border-black rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 md:py-3 w-full placeholder-[#3A3A3A] text-black text-sm sm:text-base md:text-lg shadow-md focus:outline-none focus:ring-2 focus:ring-[#E22807] focus:border-[#E22807] transition-all"
@@ -199,9 +175,8 @@ export default function Register() {
                   </label>
                   <select 
                     id="niveau"
-                    name="niveau"
-                    value={formData.niveau}
-                    onChange={handleChange}
+                    value={niveau}
+                    onChange={(e) => { setNiveau(e.target.value); setError(''); }}
                     required
                     className="border-2 border-black rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 md:py-3 w-full text-black text-sm sm:text-base md:text-lg shadow-md focus:outline-none focus:ring-2 focus:ring-[#E22807] focus:border-[#E22807] transition-all bg-white"
                   >
@@ -218,9 +193,8 @@ export default function Register() {
                   </label>
                   <select 
                     id="objectif"
-                    name="objectif"
-                    value={formData.objectif}
-                    onChange={handleChange}
+                    value={objectif}
+                    onChange={(e) => { setObjectif(e.target.value); setError(''); }}
                     required
                     className="border-2 border-black rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 md:py-3 w-full text-black text-sm sm:text-base md:text-lg shadow-md focus:outline-none focus:ring-2 focus:ring-[#E22807] focus:border-[#E22807] transition-all bg-white"
                   >
@@ -239,9 +213,8 @@ export default function Register() {
               <input
                 type="checkbox"
                 id="acceptPolitique"
-                name="acceptPolitique"
-                checked={formData.acceptPolitique}
-                onChange={(e) => setFormData({ ...formData, acceptPolitique: e.target.checked })}
+                checked={acceptPolitique}
+                onChange={(e) => setAcceptPolitique(e.target.checked)}
                 required
                 className="mt-1 w-4 h-4 text-[#E22807] bg-white border-2 border-gray-300 rounded focus:ring-2 focus:ring-[#E22807] cursor-pointer"
               />
@@ -272,10 +245,9 @@ export default function Register() {
             <div className="text-center pt-2 sm:pt-4">
               <button 
                 type="submit"
-                disabled={loading}
-                className="w-full sm:w-auto px-6 sm:px-8 md:px-10 py-2 sm:py-2.5 bg-gradient-to-r from-[#E22807] to-[#c41e06] text-white rounded-full font-bold text-base sm:text-lg md:text-[22px] transition-all duration-200 ease-in-out hover:scale-[1.02] hover:shadow-2xl active:scale-95 shadow-lg focus:outline-none focus:ring-4 focus:ring-[#E22807]/50 border-2 border-[#E22807]/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                className="w-full sm:w-auto px-6 sm:px-8 md:px-10 py-2 sm:py-2.5 bg-gradient-to-r from-[#E22807] to-[#c41e06] text-white rounded-full font-bold text-base sm:text-lg md:text-[22px] transition-all duration-200 ease-in-out hover:scale-[1.02] hover:shadow-2xl active:scale-95 shadow-lg focus:outline-none focus:ring-4 focus:ring-[#E22807]/50 border-2 border-[#E22807]/20"
               >
-                {loading ? 'Chargement...' : "S'inscrire"}
+                S'inscrire
               </button>
             </div>
           </form>

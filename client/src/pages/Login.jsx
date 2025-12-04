@@ -28,7 +28,7 @@ export default function Login() {
       const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.message || 'Erreur lors de la connexion')
+        throw new Error(data.message)
       }
 
       localStorage.setItem('token', data.token)
@@ -41,7 +41,6 @@ export default function Login() {
 
   return (
     <main className="login-main">
-      {/* Background image */}
       <div 
         className="login-background"
         style={{ backgroundImage: `url(${backgroundImage})` }}
@@ -50,8 +49,7 @@ export default function Login() {
       >
        
       </div>
-      
-      {/* Back button */}
+     
       <nav className="login-nav">
         <button
           onClick={() => navigate('/')}
@@ -64,7 +62,7 @@ export default function Login() {
 
       <section className="login-section" aria-labelledby="login-title">
         <article className="login-card">
-          {/* Header */}
+       
           <header className="login-header">
             <Logo />
             <h1 className="login-title">
@@ -72,13 +70,12 @@ export default function Login() {
             </h1>
           </header>
 
-          {/* Profile icon */}
           <div className="login-profile-icon" role="img" aria-label="Icône de profil utilisateur">
             <div className="login-profile-icon-bg"></div>
             <img src={profileIcon} alt="" aria-hidden="true" />
           </div>
 
-          {/* Form */}
+ 
           <form onSubmit={handleLogin} className="login-form" aria-label="Formulaire de connexion">
             <fieldset className="login-form-fields">
               <legend className="sr-only">Informations de connexion</legend>
@@ -117,14 +114,14 @@ export default function Login() {
               </div>
             </fieldset>
 
-            {/* Error message */}
+          
             {error && (
               <div role="alert" className="login-error">
                 <p>{error}</p>
               </div>
             )}
 
-            {/* Submit button */}
+          
             <div className="login-submit-container">
               <button 
                 type="submit"
@@ -135,7 +132,6 @@ export default function Login() {
             </div>
           </form>
 
-          {/* Footer */}
           <footer className="login-footer">
             <p className="login-footer-text">
               Vous n'avez pas de compte ?
