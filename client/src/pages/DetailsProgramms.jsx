@@ -35,7 +35,7 @@ export default function DetailsProgramms() {
         alert('Inscription au programme réussie !');
         navigate(`/seance-entrainement/${id}`);
       } else {
-        alert(data.message || 'Erreur lors de l\'inscription au programme');
+        alert(data.message);
       }
     } catch (error) {
       console.error('Erreur:', error);
@@ -52,10 +52,13 @@ export default function DetailsProgramms() {
     }
   }, [id]);
 
-  // Si pas d'ID, afficher un message
+  
   if (!id) {
     return (
-      <div className="flex min-h-screen bg-gray-50">
+      <div className="flex min-h-screen bg-gray-50"
+            style={
+              { fontFamily: 'Poppins, sans-serif'}
+            }>
         <NavBar />
         <div className="flex-1 md:ml-64 p-8 flex flex-col justify-center items-center">
           <div className="text-center bg-white p-8 rounded-lg shadow-md max-w-md">
@@ -86,7 +89,7 @@ export default function DetailsProgramms() {
       >
         {programme && (
           <>
-        {/* Header programme */}
+    
         <header className="mb-10">
           <h1 className="text-black font-bold text-2xl sm:text-3xl md:text-4xl">
             Programme <span className="text-[#E22807]">{programme.nom}</span>
@@ -100,7 +103,6 @@ export default function DetailsProgramms() {
           </p>
         </header>
 
-        {/* Informations principales */}
         <section className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
           <article className="bg-white rounded-lg shadow p-4 sm:p-6 text-center">
             <h2 className="text-black font-bold text-lg sm:text-xl">Catégorie</h2>
@@ -113,12 +115,12 @@ export default function DetailsProgramms() {
           <article className="bg-white rounded-lg shadow p-4 sm:p-6 text-center">
             <h2 className="text-black font-bold text-lg sm:text-xl">Nombre d'exercices par semaine</h2>
             <p className="text-[#E22807] mt-2 text-base sm:text-lg">
-              {programme.seances?.flatMap(seance => seance.exercices || []).length || 0}
+              {programme.seances?.flatMap(seance => seance.exercices ).length }
             </p>
           </article>
         </section>
 
-        {/* Planning hebdomadaire */}
+        
         <section>
           <h2 className="text-black text-2xl sm:text-3xl md:text-4xl font-bold underline mb-6">
             Planning hebdomadaire
@@ -138,7 +140,7 @@ export default function DetailsProgramms() {
           </div>
         </section>
         
-        {/* Bouton pour commencer le programme */}
+
         <div className="flex justify-center mt-12 mb-8">
           <button 
             className="bg-[#E22807] hover:bg-red-700 text-white font-bold py-4 px-8 rounded-lg text-xl transition-colors duration-300 shadow-lg"

@@ -69,7 +69,7 @@ export default function Programs() {
         className="flex-1 md:ml-64 p-4 sm:p-6 md:p-8 pt-20 md:pt-8 text-white flex flex-col max-w-full"
         style={{ fontFamily: 'Poppins, sans-serif' }}
       >
-        {/* En-tête */}
+       
         <header className="mb-8">
           <h1 className="text-black font-bold text-2xl sm:text-3xl md:text-4xl underline mb-6">
             Liste des programmes
@@ -79,10 +79,9 @@ export default function Programs() {
           </div>
         </header>
 
-        {/* Gestion erreurs */}
         {error && <p className="text-red-600">{error}</p>}
 
-        {/* Grille des programmes */}
+    
         {!error && programmes.length > 0 && (
           <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 mt-6 w-full">
             {programmes.map((p, index) => (

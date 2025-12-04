@@ -8,7 +8,6 @@ export default function Dashboard() {
 
   const navigate = useNavigate()
   const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
   const [historique, setHistorique] = useState([])
 
   useEffect(() => {
@@ -35,13 +34,11 @@ export default function Dashboard() {
         setUser(data.user)
       } catch (error) {
         navigate('/login')
-      } finally {
-        setLoading(false)
       }
     }
 
     fetchUserData()
-  }, [navigate])
+  }, [])
 
   useEffect(() => {
     const fetchHistorique = async () => {
@@ -57,13 +54,13 @@ export default function Dashboard() {
 
         if (response.ok) {
           const data = await response.json()
-          const sortedHistory = (data.histoique || []).sort((a, b) => 
+          const sortedHistory = (data.histoique).sort((a, b) => 
             new Date(b.dateFin) - new Date(a.dateFin)
           )
           setHistorique(sortedHistory)
         }
       } catch (error) {
-        console.error('Error fetching history:', error)
+        console.error('Error fetching history:')
       }
     }
 
@@ -85,7 +82,7 @@ export default function Dashboard() {
           </h1>
           <p className="mt-2 text-sm sm:text-base md:text-lg">
             {user?.programmeActuel?.programme 
-              ? `Vous suivez actuellement le programme : ${user.programmeActuel.programme.nom}`
+              ? `Vous suivez actuellement le programme : ${user?.programmeActuel?.programme.nom}`
               : "Aucun programme en cours vous pouvez commencer un nouveau programme en vous inscrivant sur la page programme"
             }
           </p>
@@ -93,7 +90,6 @@ export default function Dashboard() {
 
         
         <section className="flex flex-col md:flex-row gap-6 mt-6">
-          {/* Carte Programme actuel */}
           <article className="bg-white rounded-lg p-4 sm:p-6 shadow flex-1">
             <div className="flex flex-col justify-between h-full">
               <header className="w-full">
@@ -107,10 +103,10 @@ export default function Dashboard() {
                 {user?.programmeActuel?.programme ? (
                   <div className="text-center">
                     <p className="text-[#E22807] font-semibold text-xl mb-2">
-                      {user.programmeActuel.programme.nom}
+                      {user?.programmeActuel?.programme.nom}
                     </p>
                     <p className="text-gray-600 text-sm">
-                      Semaine {user.programmeActuel.semaineActuelle}
+                      Semaine {user?.programmeActuel?.semaineActuelle}
                     </p>
                   </div>
                 ) : (

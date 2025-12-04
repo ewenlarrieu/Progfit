@@ -1,5 +1,6 @@
 import Programme from "../models/Programme.js";
 
+//Create programme (Admin)
 export const createProgramme = async (req, res) => {
   try {
     const { nom, description, difficulte, objectif, duree, seances } = req.body;
@@ -65,6 +66,7 @@ export const createProgramme = async (req, res) => {
   }
 };
 
+//Get all programme
 export const getAllProgrammes = async (req, res) => {
   try {
     const programmes = await Programme.find();
@@ -82,6 +84,7 @@ export const getAllProgrammes = async (req, res) => {
   }
 };
 
+//Delete programme (Admin)
 export const deleteProgramme = async (req, res) => {
   try {
     const { id } = req.params;
@@ -106,6 +109,7 @@ export const deleteProgramme = async (req, res) => {
   }
 };
 
+//Get programme by id
 export const getProgrammeById = async (req, res) => {
   try {
     const { id } = req.params;

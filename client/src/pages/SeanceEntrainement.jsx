@@ -55,11 +55,10 @@ export default function SeanceEntrainement() {
       if (response.ok) {
         const data = await response.json()
         alert(data.message)
-        // Recharger les données du programme
         window.location.reload()
       } else {
         const error = await response.json()
-        alert(error.message || 'Erreur lors de la validation de la séance')
+        alert(error.message)
       }
     } catch (error) {
       console.error('Erreur:', error)
@@ -89,7 +88,7 @@ export default function SeanceEntrainement() {
         }
       } else {
         const error = await response.json()
-        alert(error.message || 'Erreur lors de la validation de la semaine')
+        alert(error.message)
       }
     } catch (error) {
       console.error('Erreur:', error)

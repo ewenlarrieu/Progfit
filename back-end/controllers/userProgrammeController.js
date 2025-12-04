@@ -2,6 +2,7 @@ import Programme from "../models/Programme.js";
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 
+//Subscribe to programme
 export const subscribeToProgramme = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
@@ -17,7 +18,6 @@ export const subscribeToProgramme = async (req, res) => {
 
     const { programmeId } = req.params;
 
-    // Check if user already has an active programme
     const existingUser = await User.findById(userId);
     if (
       existingUser.programmeActuel &&
@@ -63,6 +63,7 @@ export const subscribeToProgramme = async (req, res) => {
   }
 };
 
+//Unsubscribe to programme
 export const unsubscribeFromProgramme = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
@@ -89,15 +90,12 @@ export const unsubscribeFromProgramme = async (req, res) => {
       });
     }
 
-    // Add to history before removing
     user.historiquePrograms.push({
       programmeId: user.programmeActuel.programmeId,
       dateDebut: user.programmeActuel.dateDebut,
       dateFin: new Date(),
       statut: "abandonne",
     });
-
-    // Clear programmeActuel
     user.programmeActuel = undefined;
 
     await user.save();
@@ -153,7 +151,6 @@ export const markSeanceAsCompleted = async (req, res) => {
       });
     }
 
-    // Get the programme to check available seances
     const programme = await Programme.findById(
       user.programmeActuel.programmeId
     );
@@ -163,25 +160,21 @@ export const markSeanceAsCompleted = async (req, res) => {
       });
     }
 
-    // Check if the jour exists in the programme
     const seanceExists = programme.seances.some((s) => s.jour === jour);
     if (!seanceExists) {
       return res.status(400).json({
-        message: "This jour does not exist in the programme",
+        message: "This day does not exist in the programme",
       });
     }
 
-    // Check if already completed
     if (user.programmeActuel.seancesCompletees.includes(jour)) {
       return res.status(400).json({
         message: "This seance is already completed",
       });
     }
 
-    // Add jour to completed seances
     user.programmeActuel.seancesCompletees.push(jour);
 
-    // Increment total seances completed
     user.totalSeancesCompletees = (user.totalSeancesCompletees || 0) + 1;
 
     await user.save();
@@ -254,7 +247,6 @@ export const validateWeek = async (req, res) => {
       });
     }
 
-    // Check if all seances are completed
     const allJours = programme.seances.map((s) => s.jour);
     const allCompleted = allJours.every((j) =>
       user.programmeActuel.seancesCompletees.includes(j)
@@ -272,7 +264,6 @@ export const validateWeek = async (req, res) => {
     user.programmeActuel.semaineActuelle += 1;
     user.programmeActuel.seancesCompletees = [];
 
-    // Check if programme is completed
     if (user.programmeActuel.semaineActuelle > programme.duree) {
       // Add to history before clearing
       user.historiquePrograms.push({
@@ -281,8 +272,6 @@ export const validateWeek = async (req, res) => {
         dateFin: new Date(),
         statut: "termine",
       });
-
-      // Clear programmeActuel
       user.programmeActuel = undefined;
 
       await user.save();
@@ -318,6 +307,7 @@ export const validateWeek = async (req, res) => {
   }
 };
 
+//Cancel last sceance
 export const cancelLastSeance = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
@@ -350,7 +340,6 @@ export const cancelLastSeance = async (req, res) => {
       });
     }
 
-    // Remove last completed seance
     const cancelledJour = user.programmeActuel.seancesCompletees.pop();
 
     await user.save();
@@ -372,6 +361,7 @@ export const cancelLastSeance = async (req, res) => {
   }
 };
 
+//Get history programmes
 export const getHistoriqueProgrammes = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
@@ -407,6 +397,7 @@ export const getHistoriqueProgrammes = async (req, res) => {
   }
 };
 
+//Get curent programme
 export const getCurrentProgramme = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
