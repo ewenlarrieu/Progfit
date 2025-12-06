@@ -38,7 +38,6 @@ export default function DetailsProgramms() {
         alert(data.message);
       }
     } catch (error) {
-      console.error('Erreur:', error);
       alert('Erreur lors de l\'inscription au programme');
     }
   };
@@ -48,7 +47,7 @@ export default function DetailsProgramms() {
       fetch(`${API_URL}/api/programmes/${id}`)
         .then(res => res.json())
         .then(data => setProgramme(data.programme))
-        .catch(err => console.error('Erreur:', err));
+        .catch(err => {});
     }
   }, [id]);
 

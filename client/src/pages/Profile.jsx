@@ -38,7 +38,7 @@ const Profile = () => {
           });
         }
       } catch (error) {
-        console.error('Erreur:', error);
+        // Erreur silencieuse
       }
     };
 
@@ -76,7 +76,6 @@ const Profile = () => {
         setMessage(data.message || 'Erreur lors de la mise à jour');
       }
     } catch (error) {
-      console.error('Erreur:', error);
       setMessage('Erreur lors de la mise à jour du profil');
     }
   };
@@ -104,7 +103,6 @@ const Profile = () => {
         setMessage(data.message);
       }
     } catch (error) {
-      console.error('Erreur:', error);
       setMessage('Erreur lors de la suppression du compte');
     }
   };
@@ -203,7 +201,7 @@ const Profile = () => {
 
             {/* Zone de suppression du compte */}
             <section className="mt-8 pt-8 border-t border-gray-300">
-              <h3 className="text-xl font-bold text-red-600 mb-4">Zone dangereuse</h3>
+           
               <p className="text-gray-600 mb-4">
                 La suppression de votre compte est irréversible. Toutes vos données seront définitivement perdues.
               </p>

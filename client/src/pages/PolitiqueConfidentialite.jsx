@@ -114,7 +114,7 @@ export default function PolitiqueConfidentialite() {
             </div>
           </section>
 
-          {/* Conservation des données */}
+    
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">6. Conservation des données</h2>
             <div className="overflow-x-auto">

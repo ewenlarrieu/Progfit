@@ -208,7 +208,7 @@ export default function Register() {
               </div>
             </fieldset>
 
-            {/* Politique de confidentialité */}
+            
             <div className="flex justify-center gap-3 px-2">
               <input
                 type="checkbox"
@@ -231,7 +231,7 @@ export default function Register() {
               </label>
             </div>
 
-            {/* Message d'erreur */}
+         
             {error && (
               <div 
                 className="bg-red-100 border-2 border-red-400 text-red-700 px-4 py-3 rounded-2xl text-center font-semibold"

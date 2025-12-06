@@ -60,7 +60,7 @@ export default function Dashboard() {
           setHistorique(sortedHistory)
         }
       } catch (error) {
-        console.error('Error fetching history:')
+        // Erreur silencieuse
       }
     }
 

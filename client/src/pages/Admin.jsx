@@ -6,7 +6,6 @@ import { API_URL } from '../config/api'
 export default function Admin() {
   const navigate = useNavigate()
   const [programmes, setProgrammes] = useState([])
-  const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
   const [formData, setFormData] = useState({
     nom: '',
@@ -34,15 +33,10 @@ export default function Admin() {
 
         if (response.ok) {
           const data = await response.json()
-          console.log('Data received:', data)
           setProgrammes(Array.isArray(data) ? data : data.programmes)
-        } else {
-          console.error('Erreur lors de la récupération des programmes')
         }
       } catch (error) {
-        console.error('Error fetching programmes:', error)
-      } finally {
-        setLoading(false)
+        
       }
     }
 
@@ -70,7 +64,6 @@ export default function Admin() {
         alert('Erreur lors de la suppression du programme')
       }
     } catch (error) {
-      console.error('Erreur lors de la suppression du programme', error)
       alert('Erreur lors de la suppression du programme')
     }
   }
@@ -159,7 +152,6 @@ export default function Admin() {
         alert(`Erreur: ${error.message}`)
       }
     } catch (error) {
-      console.error('Erreur lors de la création du programme', error)
       alert('Erreur lors de la création du programme')
     }
   }
@@ -398,9 +390,7 @@ export default function Admin() {
           </section>
         )}
 
-        {loading ? (
-          <p className="text-center text-gray-600">Chargement...</p>
-        ) : programmes.length > 0 ? (
+        {programmes.length > 0 ? (
           <section className="space-y-8">
             {programmes.map((programme) => (
               <article key={programme._id} className="bg-white rounded-lg shadow-lg p-6">

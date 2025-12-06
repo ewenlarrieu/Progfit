@@ -16,6 +16,54 @@ export default function SeanceEntrainement() {
     }
   }, [navigate])
 
+  const fetchProgrammeActuel = async () => {
+    try {
+      const token = localStorage.getItem('token')
+      
+      if (id) {
+        const response = await fetch(`${API_URL}/api/programmes/${id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        if (response.ok) {
+          const data = await response.json()
+          const userResponse = await fetch(`${API_URL}/api/user-programmes/current`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          })
+          if (userResponse.ok) {
+            const userData = await userResponse.json()
+            setProgrammeData({
+              programme: data.programme,
+              semaineActuelle: userData.programmeActuel?.semaineActuelle,
+              seancesCompletees: userData.programmeActuel?.seancesCompletees 
+            })
+          }
+        }
+      } else {
+        const response = await fetch(`${API_URL}/api/user-programmes/current`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        if (response.ok) {
+          const data = await response.json()
+          if (data.programmeActuel) {
+            setProgrammeData({
+              programme: data.programmeActuel.programme,
+              semaineActuelle: data.programmeActuel.semaineActuelle,
+              seancesCompletees: data.programmeActuel.seancesCompletees
+            })
+          }
+        }
+      }
+    } catch (error) {
+      // Erreur silencieuse
+    }
+  }
+
   const handleUnsubscribe = async () => {
     try {
       const token = localStorage.getItem('token')
@@ -35,7 +83,6 @@ export default function SeanceEntrainement() {
         alert(error.message)
       }
     } catch (error) {
-      console.error('Erreur:', error)
       alert('Erreur lors de la désinscription')
     }
   }
@@ -55,13 +102,12 @@ export default function SeanceEntrainement() {
       if (response.ok) {
         const data = await response.json()
         alert(data.message)
-        window.location.reload()
+        await fetchProgrammeActuel()
       } else {
         const error = await response.json()
         alert(error.message)
       }
     } catch (error) {
-      console.error('Erreur:', error)
       alert('Erreur lors de la validation de la séance')
     }
   }
@@ -84,68 +130,18 @@ export default function SeanceEntrainement() {
           navigate('/dashboard')
         } else {
           alert(data.message)
-          window.location.reload()
+          await fetchProgrammeActuel()
         }
       } else {
         const error = await response.json()
         alert(error.message)
       }
     } catch (error) {
-      console.error('Erreur:', error)
       alert('Erreur lors de la validation de la semaine')
     }
   }
 
   useEffect(() => {
-    const fetchProgrammeActuel = async () => {
-      try {
-        const token = localStorage.getItem('token')
-        
-        if (id) {
-          const response = await fetch(`${API_URL}/api/programmes/${id}`, {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          })
-          if (response.ok) {
-            const data = await response.json()
-            const userResponse = await fetch(`${API_URL}/api/user-programmes/current`, {
-              headers: {
-                'Authorization': `Bearer ${token}`
-              }
-            })
-            if (userResponse.ok) {
-              const userData = await userResponse.json()
-              setProgrammeData({
-                programme: data.programme,
-                semaineActuelle: userData.programmeActuel?.semaineActuelle,
-                seancesCompletees: userData.programmeActuel?.seancesCompletees 
-              })
-            }
-          }
-        } else {
-          // Sinon récupérer le programme actuel de l'utilisateur
-          const response = await fetch(`${API_URL}/api/user-programmes/current`, {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          })
-          if (response.ok) {
-            const data = await response.json()
-            if (data.programmeActuel) {
-              setProgrammeData({
-                programme: data.programmeActuel.programme,
-                semaineActuelle: data.programmeActuel.semaineActuelle,
-                seancesCompletees: data.programmeActuel.seancesCompletees
-              })
-            }
-          }
-        }
-      } catch (error) {
-        console.error('Erreur:', error)
-      }
-    }
-
     fetchProgrammeActuel()
   }, [id])
 
@@ -177,7 +173,7 @@ export default function SeanceEntrainement() {
           
           {programmeData && (
             <>
-              {/* Informations du programme */}
+            
               <article className="border border-gray-300 rounded-xl p-8 mt-8 bg-white max-w-4xl flex flex-col gap-6 text-black font-bold text-2xl">
                 <h2 className="sr-only">Informations du programme</h2>
                 <p>Programme <span className='text-[#E22807]'>{programmeData.programme.nom}</span></p>
@@ -186,7 +182,7 @@ export default function SeanceEntrainement() {
                 <p>Difficulté : <span className='text-[#E22807]'>{programmeData.programme.difficulte}</span></p>
                 <p>Objectif : <span className='text-[#E22807]'>{programmeData.programme.objectif}</span></p>
                 
-                {/* Actions du programme */}
+          
                 <div className="flex flex-col gap-4">
                   <p className="text-gray-600 text-lg">
                     Progression : {programmeData.seancesCompletees.length} / {programmeData.programme.seances.length} séances terminées
@@ -214,7 +210,7 @@ export default function SeanceEntrainement() {
             </>
           )}
 
-          {/* Séances du programme */}
+          
           {programmeData && programmeData.programme.seances && (
             <section className="mt-12">
               <h2 className="text-black text-3xl font-bold mb-8">Séances d'entraînement</h2>
@@ -224,17 +220,9 @@ export default function SeanceEntrainement() {
                   const seancePrecedente = index > 0 ? programmeData.programme.seances[index - 1] : null
                   const canComplete = index === 0 || (seancePrecedente && programmeData.seancesCompletees?.includes(seancePrecedente.jour))
                   
-                  console.log(`Séance ${seance.jour}:`, {
-                    index,
-                    isCompleted,
-                    canComplete,
-                    seancePrecedente: seancePrecedente?.jour,
-                    seancesCompletees: programmeData.seancesCompletees
-                  })
-                  
                   return (
                   <li key={index} className="bg-white border border-gray-300 rounded-xl p-6 max-w-4xl">
-                    {/* En-tête de la séance */}
+                 
                     <header className="mb-6">
                       <h3 className="text-[#E22807] font-bold text-2xl mb-2">
                         Jour {seance.jour} - {seance.nom}
@@ -247,7 +235,7 @@ export default function SeanceEntrainement() {
                       </p>
                     </header>
 
-                    {/* Liste des exercices */}
+                  
                     {seance.exercices && seance.exercices.length > 0 && (
                       <section className="space-y-4 mb-6">
                         <h4 className="text-black font-bold text-xl mb-4">Exercices</h4>
@@ -277,7 +265,7 @@ export default function SeanceEntrainement() {
                       </section>
                     )}
 
-                    {/* Action de validation de séance */}
+                   
                     <footer className="mt-6 flex justify-center">
                       {isCompleted ? (
                         <div className='bg-gray-400 text-white px-6 py-3 rounded-lg font-bold text-lg' role="status" aria-label="Séance terminée">

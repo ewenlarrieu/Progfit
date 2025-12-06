@@ -26,7 +26,7 @@ export default function NavBar() {
           setUserRole(data.user.role);
         }
       } catch (error) {
-        console.error('Error fetching user role:', error);
+      
       }
     };
 
@@ -163,7 +163,7 @@ export default function NavBar() {
         </button>
       </div>
 
-      {/* Menu Mobile */}
+      
       {isOpen && (
         <div className="fixed top-[60px] left-0 right-0 z-40 bg-gray-200 md:hidden shadow-lg border-b-2 border-black">
           <nav className="p-4 max-h-[calc(100vh-60px)] overflow-y-auto">
