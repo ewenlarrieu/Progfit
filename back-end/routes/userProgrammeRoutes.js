@@ -5,7 +5,6 @@ import {
   markSeanceAsCompleted,
   validateWeek,
   getHistoriqueProgrammes,
-  cancelLastSeance,
   getCurrentProgramme,
 } from "../controllers/userProgrammeController.js";
 
@@ -17,6 +16,5 @@ router.post("/validate-week", validateWeek);
 router.delete("/unsubscribe", unsubscribeFromProgramme);
 router.post("/:programmeId", subscribeToProgramme);
 router.get("/history", getHistoriqueProgrammes);
-router.delete("/cancel-last-seance", cancelLastSeance);
 
 export default router;
