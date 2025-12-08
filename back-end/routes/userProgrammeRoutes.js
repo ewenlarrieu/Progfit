@@ -7,14 +7,15 @@ import {
   getHistoriqueProgrammes,
   getCurrentProgramme,
 } from "../controllers/userProgrammeController.js";
+import { auth } from "../middlewares/auth.js";
 
 const router = express.Router();
 
-router.get("/current", getCurrentProgramme);
-router.post("/complete-seance", markSeanceAsCompleted);
-router.post("/validate-week", validateWeek);
-router.delete("/unsubscribe", unsubscribeFromProgramme);
-router.post("/:programmeId", subscribeToProgramme);
-router.get("/history", getHistoriqueProgrammes);
+router.get("/current", auth, getCurrentProgramme);
+router.post("/complete-seance", auth, markSeanceAsCompleted);
+router.post("/validate-week", auth, validateWeek);
+router.delete("/unsubscribe", auth, unsubscribeFromProgramme);
+router.post("/:programmeId", auth, subscribeToProgramme);
+router.get("/history", auth, getHistoriqueProgrammes);
 
 export default router;

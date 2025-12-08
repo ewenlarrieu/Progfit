@@ -6,13 +6,14 @@ import {
   getProfile,
   deleteAccount,
 } from "../controllers/authController.js";
+import { auth } from "../middlewares/auth.js";
 
 const router = express.Router();
 
 router.post("/register", register);
 router.post("/login", login);
-router.put("/update-profile", updateProfile);
-router.get("/profile", getProfile);
-router.delete("/delete-account", deleteAccount);
+router.put("/update-profile", auth, updateProfile);
+router.get("/profile", auth, getProfile);
+router.delete("/delete-account", auth, deleteAccount);
 
 export default router;
