@@ -156,16 +156,7 @@ export const updateProfile = async (req, res) => {
   const { username, niveau, objectif } = req.body;
 
   try {
-    const token = req.header("Authorization")?.replace("Bearer ", "");
-
-    if (!token) {
-      return res.status(401).json({
-        message: "Authentication token required",
-      });
-    }
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.userId;
+    const userId = req.user._id;
 
     const validLevels = ["debutant", "intermediaire", "avance"];
     const validGoals = [
@@ -238,16 +229,7 @@ export const updateProfile = async (req, res) => {
 // Get user profile
 export const getProfile = async (req, res) => {
   try {
-    const token = req.headers.authorization?.split(" ")[1];
-
-    if (!token) {
-      return res.status(401).json({
-        message: "Authentication token required",
-      });
-    }
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.userId;
+    const userId = req.user._id;
 
     const user = await User.findById(userId)
       .select("-motDePasse")
@@ -292,16 +274,7 @@ export const getProfile = async (req, res) => {
 // Delete user account
 export const deleteAccount = async (req, res) => {
   try {
-    const token = req.headers.authorization?.split(" ")[1];
-
-    if (!token) {
-      return res.status(401).json({
-        message: "Authentication token required",
-      });
-    }
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.userId;
+    const userId = req.user._id;
 
     const deletedUser = await User.findByIdAndDelete(userId);
 
