@@ -1,21 +1,10 @@
 import Programme from "../models/Programme.js";
 import User from "../models/User.js";
-import jwt from "jsonwebtoken";
 
 //Subscribe to programme
 export const subscribeToProgramme = async (req, res) => {
   try {
-    const token = req.headers.authorization?.split(" ")[1];
-
-    if (!token) {
-      return res.status(401).json({
-        message: "Authentication token required",
-      });
-    }
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.userId;
-
+    const userId = req.user._id;
     const { programmeId } = req.params;
 
     const existingUser = await User.findById(userId);
@@ -66,16 +55,7 @@ export const subscribeToProgramme = async (req, res) => {
 //Unsubscribe to programme
 export const unsubscribeFromProgramme = async (req, res) => {
   try {
-    const token = req.headers.authorization?.split(" ")[1];
-
-    if (!token) {
-      return res.status(401).json({
-        message: "Authentication token required",
-      });
-    }
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.userId;
+    const userId = req.user._id;
 
     const user = await User.findById(userId);
     if (!user) {
@@ -119,17 +99,7 @@ export const unsubscribeFromProgramme = async (req, res) => {
 // Mark a seance as completed
 export const markSeanceAsCompleted = async (req, res) => {
   try {
-    const token = req.headers.authorization?.split(" ")[1];
-
-    if (!token) {
-      return res.status(401).json({
-        message: "Authentication token required",
-      });
-    }
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.userId;
-
+    const userId = req.user._id;
     const { jour } = req.body;
 
     if (!jour) {
@@ -207,16 +177,7 @@ export const markSeanceAsCompleted = async (req, res) => {
 // Validate and move to next week
 export const validateWeek = async (req, res) => {
   try {
-    const token = req.headers.authorization?.split(" ")[1];
-
-    if (!token) {
-      return res.status(401).json({
-        message: "Authentication token required",
-      });
-    }
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.userId;
+    const userId = req.user._id;
 
     const user = await User.findById(userId);
     if (!user) {
@@ -310,16 +271,7 @@ export const validateWeek = async (req, res) => {
 //Get history programmes
 export const getHistoriqueProgrammes = async (req, res) => {
   try {
-    const token = req.headers.authorization?.split(" ")[1];
-
-    if (!token) {
-      return res.status(401).json({
-        message: "Authentification token required",
-      });
-    }
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.userId;
+    const userId = req.user._id;
 
     const user = await User.findById(userId).populate(
       "historiquePrograms.programmeId"
@@ -346,16 +298,7 @@ export const getHistoriqueProgrammes = async (req, res) => {
 //Get curent programme
 export const getCurrentProgramme = async (req, res) => {
   try {
-    const token = req.headers.authorization?.split(" ")[1];
-
-    if (!token) {
-      return res.status(401).json({
-        message: "Authentication token required",
-      });
-    }
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.userId;
+    const userId = req.user._id;
 
     const user = await User.findById(userId).populate(
       "programmeActuel.programmeId"

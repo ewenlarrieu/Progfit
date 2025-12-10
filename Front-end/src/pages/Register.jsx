@@ -245,7 +245,7 @@ export default function Register() {
             <div className="text-center pt-2 sm:pt-4">
               <button 
                 type="submit"
-                className="w-full sm:w-auto px-6 sm:px-8 md:px-10 py-2 sm:py-2.5 bg-gradient-to-r from-[#E22807] to-[#c41e06] text-white rounded-full font-bold text-base sm:text-lg md:text-[22px] transition-all duration-200 ease-in-out hover:scale-[1.02] hover:shadow-2xl active:scale-95 shadow-lg focus:outline-none focus:ring-4 focus:ring-[#E22807]/50 border-2 border-[#E22807]/20"
+                className="w-full sm:w-auto px-6 sm:px-8 md:px-10 py-2 sm:py-2.5 bg-linear-to-r from-[#E22807] to-[#c41e06] text-white rounded-full font-bold text-base sm:text-lg md:text-[22px] transition-all duration-200 ease-in-out hover:scale-[1.02] hover:shadow-2xl active:scale-95 shadow-lg focus:outline-none focus:ring-4 focus:ring-[#E22807]/50 border-2 border-[#E22807]/20"
               >
                 S'inscrire
               </button>
@@ -259,7 +259,7 @@ export default function Register() {
             </p>
             <button 
               type="button"
-              className="w-full sm:w-auto px-6 sm:px-8 md:px-10 py-2 sm:py-2.5 bg-gradient-to-r from-gray-900 to-gray-800 text-white rounded-full font-bold text-base sm:text-lg md:text-[22px] transition-all duration-200 ease-in-out hover:scale-[1.02] hover:shadow-2xl active:scale-95 shadow-lg focus:outline-none focus:ring-4 focus:ring-gray-900/50 border-2 border-gray-700/30"
+              className="w-full sm:w-auto px-6 sm:px-8 md:px-10 py-2 sm:py-2.5 bg-linear-to-r from-gray-900 to-gray-800 text-white rounded-full font-bold text-base sm:text-lg md:text-[22px] transition-all duration-200 ease-in-out hover:scale-[1.02] hover:shadow-2xl active:scale-95 shadow-lg focus:outline-none focus:ring-4 focus:ring-gray-900/50 border-2 border-gray-700/30"
               onClick={() => navigate('/login')}
             >
               Se connecter
