@@ -13,6 +13,7 @@ import DetailsProgramms from './pages/DetailsProgramms';
 import SeanceEntrainement from './pages/SeanceEntrainement';
 import PolitiqueConfidentialite from './pages/PolitiqueConfidentialite';
 import Admin from './pages/Admin';
+import ProtectedRoute from './components/ProtectedRoute';
 
 
 function App() {
@@ -24,14 +25,14 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/politique-confidentialite" element={<PolitiqueConfidentialite />} />
-          <Route path="/programs" element={<Programs />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/detailsprogramms" element={<DetailsProgramms />} />
-          <Route path="/detailsprogramms/:id" element={<DetailsProgramms />} />
-          <Route path="/seance-entrainement" element={<SeanceEntrainement />} />
-          <Route path="/seance-entrainement/:id" element={<SeanceEntrainement />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route path="/programs" element={<ProtectedRoute><Programs /></ProtectedRoute>} />
+          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route path="/detailsprogramms" element={<ProtectedRoute><DetailsProgramms /></ProtectedRoute>} />
+          <Route path="/detailsprogramms/:id" element={<ProtectedRoute><DetailsProgramms /></ProtectedRoute>} />
+          <Route path="/seance-entrainement" element={<ProtectedRoute><SeanceEntrainement /></ProtectedRoute>} />
+          <Route path="/seance-entrainement/:id" element={<ProtectedRoute><SeanceEntrainement /></ProtectedRoute>} />
+          <Route path="/admin" element={<ProtectedRoute adminOnly={true}><Admin /></ProtectedRoute>} />
           <Route path="*" element={<Home />} />
         </Routes>
       </div>
