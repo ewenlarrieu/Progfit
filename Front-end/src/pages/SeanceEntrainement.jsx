@@ -198,9 +198,9 @@ export default function SeanceEntrainement() {
                       <button 
                         className="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-lg text-xl transition-colors duration-300 shadow-lg w-fit"
                         onClick={handleValidateWeek}
-                        aria-label="Terminer la semaine et passer à la suivante"
+                        aria-label={programmeData.semaineActuelle === programmeData.programme.duree ? "Terminer le programme" : "Terminer la semaine et passer à la suivante"}
                       >
-                        Terminer la semaine ✓
+                        {programmeData.semaineActuelle === programmeData.programme.duree ? "Terminer le programme ✓" : "Terminer la semaine ✓"}
                       </button>
                     )}
                     <button 
