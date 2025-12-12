@@ -46,12 +46,12 @@ export default function ProtectedRoute({ children, adminOnly = false }) {
     return <div>Chargement...</div>;
   }
 
-  // Not authenticated
+  
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 
-  // Admin only route but user is not admin
+  
   if (adminOnly && !isAdmin) {
     return <Navigate to="/dashboard" replace />;
   }

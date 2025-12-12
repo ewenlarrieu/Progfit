@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import NavBar from '../components/NavBar'
 import { API_URL } from '../config/api'
+import { useToast } from '../context/ToastContext'
 
 export default function SeanceEntrainement() {
   const { id } = useParams()
   const navigate = useNavigate()
+  const { showToast } = useToast()
   const [programmeData, setProgrammeData] = useState(null)
 
   useEffect(() => {
@@ -76,14 +78,14 @@ export default function SeanceEntrainement() {
       })
 
       if (response.ok) {
-        alert('Vous avez été désinscrit du programme')
+        showToast('Vous avez été désinscrit du programme', 'success')
         navigate('/dashboard')
       } else {
         const error = await response.json()
-        alert(error.message)
+        showToast(error.message, 'error')
       }
     } catch (error) {
-      alert('Erreur lors de la désinscription')
+      showToast('Erreur lors de la désinscription', 'error')
     }
   }
 
@@ -101,14 +103,14 @@ export default function SeanceEntrainement() {
 
       if (response.ok) {
         const data = await response.json()
-        alert(data.message)
+        showToast(data.message, 'success')
         await fetchProgrammeActuel()
       } else {
         const error = await response.json()
-        alert(error.message)
+        showToast(error.message, 'error')
       }
     } catch (error) {
-      alert('Erreur lors de la validation de la séance')
+      showToast('Erreur lors de la validation de la séance', 'error')
     }
   }
 
@@ -126,18 +128,18 @@ export default function SeanceEntrainement() {
       if (response.ok) {
         const data = await response.json()
         if (data.programmeCompleted) {
-          alert(data.message)
+          showToast(data.message, 'success')
           navigate('/dashboard')
         } else {
-          alert(data.message)
+          showToast(data.message, 'success')
           await fetchProgrammeActuel()
         }
       } else {
         const error = await response.json()
-        alert(error.message)
+        showToast(error.message, 'error')
       }
     } catch (error) {
-      alert('Erreur lors de la validation de la semaine')
+      showToast('Erreur lors de la validation de la semaine', 'error')
     }
   }
 

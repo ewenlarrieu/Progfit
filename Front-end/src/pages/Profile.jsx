@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NavBar from '../components/NavBar';
 import { API_URL } from '../config/api';
+import { useToast } from '../context/ToastContext';
 
 const Profile = () => {
   const navigate = useNavigate();
+  const { showToast } = useToast();
   const [user, setUser] = useState(null);
   const [formData, setFormData] = useState({
     username: '',
@@ -96,7 +98,7 @@ const Profile = () => {
 
       if (response.ok) {
         localStorage.removeItem('token');
-        alert('Votre compte a été supprimé');
+        showToast('Votre compte a été supprimé', 'success');
         navigate('/');
       } else {
         const data = await response.json();

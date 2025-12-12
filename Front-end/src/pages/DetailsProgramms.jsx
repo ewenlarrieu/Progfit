@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import NavBar from '../components/NavBar'
 import { API_URL } from '../config/api'
+import { useToast } from '../context/ToastContext'
 
 
 export default function DetailsProgramms() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { showToast } = useToast();
   const [programme, setProgramme] = useState(null);
 
   useEffect(() => {
@@ -32,13 +34,13 @@ export default function DetailsProgramms() {
       const data = await response.json();
 
       if (response.ok) {
-        alert('Inscription au programme réussie !');
+        showToast('Inscription au programme réussie !', 'success');
         navigate(`/seance-entrainement/${id}`);
       } else {
-        alert(data.message);
+        showToast(data.message, 'error');
       }
     } catch (error) {
-      alert('Erreur lors de l\'inscription au programme');
+      showToast('Erreur lors de l\'inscription au programme', 'error');
     }
   };
 

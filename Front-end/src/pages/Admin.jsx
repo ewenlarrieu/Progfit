@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import NavBar from '../components/NavBar'
 import { API_URL } from '../config/api'
+import { useToast } from '../context/ToastContext'
 
 export default function Admin() {
   const navigate = useNavigate()
+  const { showToast } = useToast()
   const [programmes, setProgrammes] = useState([])
   const [showForm, setShowForm] = useState(false)
   const [formData, setFormData] = useState({
@@ -59,12 +61,12 @@ export default function Admin() {
 
       if (response.ok) {
         setProgrammes(programmes.filter(p => p._id !== programmeId))
-        alert('Programme supprimé avec succès')
+        showToast('Programme supprimé avec succès', 'success')
       } else {
-        alert('Erreur lors de la suppression du programme')
+        showToast('Erreur lors de la suppression du programme', 'error')
       }
     } catch (error) {
-      alert('Erreur lors de la suppression du programme')
+      showToast('Erreur lors de la suppression du programme', 'error')
     }
   }
 
@@ -119,7 +121,7 @@ export default function Admin() {
     e.preventDefault()
 
     if (!formData.nom || !formData.description || formData.seances.length === 0) {
-      alert('Veuillez remplir tous les champs obligatoires et ajouter au moins une séance')
+      showToast('Veuillez remplir tous les champs obligatoires et ajouter au moins une séance', 'warning')
       return
     }
 
@@ -146,13 +148,13 @@ export default function Admin() {
           duree: 1,
           seances: []
         })
-        alert('Programme créé avec succès')
+        showToast('Programme créé avec succès', 'success')
       } else {
         const error = await response.json()
-        alert(`Erreur: ${error.message}`)
+        showToast(`Erreur: ${error.message}`, 'error')
       }
     } catch (error) {
-      alert('Erreur lors de la création du programme')
+      showToast('Erreur lors de la création du programme', 'error')
     }
   }
 
