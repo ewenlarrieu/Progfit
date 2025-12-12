@@ -2,7 +2,7 @@ export default function ConfirmModal({ isOpen, onClose, onConfirm, title, messag
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30 p-4 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-50 p-4">
       <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6 animate-fade-in" style={{ fontFamily: 'Poppins, sans-serif' }}>
         <h3 className="text-xl font-bold text-gray-800 mb-3">{title}</h3>
         <p className="text-gray-600 mb-6">{message}</p>
