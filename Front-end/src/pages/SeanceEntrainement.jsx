@@ -3,12 +3,14 @@ import { useParams, useNavigate } from 'react-router-dom'
 import NavBar from '../components/NavBar'
 import { API_URL } from '../config/api'
 import { useToast } from '../context/ToastContext'
+import ConfirmModal from '../components/ConfirmModal'
 
 export default function SeanceEntrainement() {
   const { id } = useParams()
   const navigate = useNavigate()
   const { showToast } = useToast()
   const [programmeData, setProgrammeData] = useState(null)
+  const [showUnsubscribeModal, setShowUnsubscribeModal] = useState(false)
 
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -67,6 +69,7 @@ export default function SeanceEntrainement() {
   }
 
   const handleUnsubscribe = async () => {
+    setShowUnsubscribeModal(false);
     try {
       const token = localStorage.getItem('token')
       const response = await fetch(`${API_URL}/api/user-programmes/unsubscribe`, {
@@ -148,6 +151,7 @@ export default function SeanceEntrainement() {
   }, [id])
 
   return (
+    <>
     <main className='min-h-screen bg-gray-50'>
       <nav>
       <NavBar/>
@@ -201,7 +205,7 @@ export default function SeanceEntrainement() {
                     )}
                     <button 
                       className="bg-[#E22807] hover:bg-[#c41c00] text-white font-bold py-4 px-8 rounded-lg text-xl transition-colors duration-300 shadow-lg w-fit"
-                      onClick={handleUnsubscribe}
+                      onClick={() => setShowUnsubscribeModal(true)}
                       aria-label="Se désinscrire du programme actuel"
                     >
                       Annuler ce programme
@@ -296,5 +300,14 @@ export default function SeanceEntrainement() {
           )}
         </section>
       </main>
+
+      <ConfirmModal
+        isOpen={showUnsubscribeModal}
+        onClose={() => setShowUnsubscribeModal(false)}
+        onConfirm={handleUnsubscribe}
+        title="Se désinscrire du programme"
+        message="Êtes-vous sûr de vouloir vous désinscrire de ce programme ? Toute votre progression sera perdue."
+      />
+    </>
   )
 }

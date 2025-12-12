@@ -1,9 +1,18 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Toast({ message, type = 'info', onClose }) {
+  const [isClosing, setIsClosing] = useState(false);
+
+  const handleClose = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      onClose();
+    }, 300); // Durée de l'animation de sortie
+  };
+
   useEffect(() => {
     const timer = setTimeout(() => {
-      onClose();
+      handleClose();
     }, 4000); // Fermeture automatique après 4 secondes
 
     return () => clearTimeout(timer);
@@ -24,12 +33,12 @@ export default function Toast({ message, type = 'info', onClose }) {
   }[type];
 
   return (
-    <div className={`${bgColor} text-white px-6 py-4 rounded-lg shadow-lg flex items-center gap-3 min-w-[300px] max-w-[500px] animate-slide-in`}
+    <div className={`${bgColor} text-white px-6 py-4 rounded-lg shadow-lg flex items-center gap-3 min-w-[300px] max-w-[500px] ${isClosing ? 'animate-slide-out' : 'animate-slide-in'}`}
      style={{ fontFamily: 'Poppins, sans-serif'}}>
       <span className="text-2xl font-bold">{icon}</span>
       <p className="flex-1 text-sm font-medium">{message}</p>
       <button
-        onClick={onClose}
+        onClick={handleClose}
         className="text-white hover:text-gray-200 transition-colors text-xl font-bold leading-none"
         aria-label="Fermer"
       >
