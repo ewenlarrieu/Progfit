@@ -11,35 +11,35 @@ export const register = async (req, res) => {
     if (!username || !email || !password || !confirmPassword) {
       return res.status(400).json({
         message:
-          "All fields are required (username, email, password, password confirmation)",
+          "Tous les champs sont requis (nom d'utilisateur, email, mot de passe, confirmation du mot de passe)",
       });
     }
     if (password !== confirmPassword) {
       return res.status(400).json({
-        message: "Passwords do not match",
+        message: "Les mots de passe ne correspondent pas",
       });
     }
     if (username.length < 2 || username.length > 50) {
       return res.status(400).json({
-        message: "Username must be between 2 and 50 characters",
+        message: "Le nom d'utilisateur doit contenir entre 2 et 50 caractères",
       });
     }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return res.status(400).json({
-        message: "Invalid email format",
+        message: "Format d'email invalide",
       });
     }
     const existingUser = await User.findOne({ email: email.toLowerCase() });
     if (existingUser) {
       return res.status(400).json({
-        message: "This email is already in use",
+        message: "Cet email est déjà utilisé",
       });
     }
     if (!verifyPW(password)) {
       return res.status(400).json({
         message:
-          "Password must contain an uppercase letter, a lowercase letter, a number and a special character (minimum 8 characters)",
+          "Le mot de passe doit contenir une majuscule, une minuscule, un chiffre et un caractère spécial (minimum 8 caractères)",
       });
     }
 
@@ -53,14 +53,15 @@ export const register = async (req, res) => {
 
     if (!niveau || !validLevels.includes(niveau.toLowerCase())) {
       return res.status(400).json({
-        message: "Please choose a valid level: debutant, intermediaire, avance",
+        message:
+          "Veuillez choisir un niveau valide : debutant, intermediaire, avance",
       });
     }
 
     if (!objectif || !validGoals.includes(objectif.toLowerCase())) {
       return res.status(400).json({
         message:
-          "Please select a valid goal: perte de poids, prise de masse, entretien, force",
+          "Veuillez sélectionner un objectif valide : perte de poids, prise de masse, entretien, force",
       });
     }
 
@@ -73,7 +74,7 @@ export const register = async (req, res) => {
     });
 
     res.status(201).json({
-      message: "Account created successfully!",
+      message: "Compte créé avec succès !",
       user: {
         id: newUser._id,
         nom: newUser.nom,
@@ -85,7 +86,7 @@ export const register = async (req, res) => {
   } catch (error) {
     console.error("Error during registration:", error);
     res.status(500).json({
-      message: "Server error during account creation",
+      message: "Erreur serveur lors de la création du compte",
     });
   }
 };
@@ -97,14 +98,14 @@ export const login = async (req, res) => {
   try {
     if (!email || !password) {
       return res.status(400).json({
-        message: "Email and password are required",
+        message: "L'email et le mot de passe sont requis",
       });
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return res.status(400).json({
-        message: "Invalid email format",
+        message: "Format d'email invalide",
       });
     }
 
@@ -112,7 +113,7 @@ export const login = async (req, res) => {
 
     if (!user) {
       return res.status(401).json({
-        message: "Incorrect email or password",
+        message: "Email ou mot de passe incorrect",
       });
     }
 
@@ -120,7 +121,7 @@ export const login = async (req, res) => {
 
     if (!isValidPassword) {
       return res.status(401).json({
-        message: "Incorrect email or password",
+        message: "Email ou mot de passe incorrect",
       });
     }
 
@@ -133,7 +134,7 @@ export const login = async (req, res) => {
       { expiresIn: "7d" }
     );
     res.status(200).json({
-      message: "Login successful!",
+      message: "Connexion réussie !",
       token,
       user: {
         id: user._id,
@@ -146,7 +147,7 @@ export const login = async (req, res) => {
   } catch (error) {
     console.error("Error during login:", error);
     res.status(500).json({
-      message: "Server error during login",
+      message: "Erreur serveur lors de la connexion",
     });
   }
 };
@@ -171,7 +172,8 @@ export const updateProfile = async (req, res) => {
     if (username) {
       if (username.length < 2 || username.length > 50) {
         return res.status(400).json({
-          message: "Username must be between 2 and 50 characters",
+          message:
+            "Le nom d'utilisateur doit contenir entre 2 et 50 caractères",
         });
       }
       updateData.nom = username.trim();
@@ -181,7 +183,7 @@ export const updateProfile = async (req, res) => {
       if (!validLevels.includes(niveau.toLowerCase())) {
         return res.status(400).json({
           message:
-            "Please choose a valid level: debutant, intermediaire, avance",
+            "Veuillez choisir un niveau valide : debutant, intermediaire, avance",
         });
       }
       updateData.niveau = niveau.toLowerCase();
@@ -191,7 +193,7 @@ export const updateProfile = async (req, res) => {
       if (!validGoals.includes(objectif.toLowerCase())) {
         return res.status(400).json({
           message:
-            "Please select a valid goal: perte de poids, prise de masse, entretien, force",
+            "Veuillez sélectionner un objectif valide : perte de poids, prise de masse, entretien, force",
         });
       }
       updateData.objectif = objectif.toLowerCase();
@@ -204,12 +206,12 @@ export const updateProfile = async (req, res) => {
 
     if (!updatedUser) {
       return res.status(404).json({
-        message: "User not found",
+        message: "Utilisateur non trouvé",
       });
     }
 
     res.status(200).json({
-      message: "Profile updated successfully!",
+      message: "Profil mis à jour avec succès !",
       user: {
         id: updatedUser._id,
         nom: updatedUser.nom,
@@ -221,7 +223,7 @@ export const updateProfile = async (req, res) => {
   } catch (error) {
     console.error("Error updating profile:", error);
     res.status(500).json({
-      message: "Server error while updating profile",
+      message: "Erreur serveur lors de la mise à jour du profil",
     });
   }
 };
@@ -237,7 +239,7 @@ export const getProfile = async (req, res) => {
 
     if (!user) {
       return res.status(404).json({
-        message: "User not found",
+        message: "Utilisateur non trouvé",
       });
     }
 
@@ -266,7 +268,7 @@ export const getProfile = async (req, res) => {
   } catch (error) {
     console.error("Error retrieving profile:", error);
     res.status(500).json({
-      message: "Server error while retrieving profile",
+      message: "Erreur serveur lors de la récupération du profil",
     });
   }
 };
@@ -280,17 +282,17 @@ export const deleteAccount = async (req, res) => {
 
     if (!deletedUser) {
       return res.status(404).json({
-        message: "User not found",
+        message: "Utilisateur non trouvé",
       });
     }
 
     res.status(200).json({
-      message: "Account deleted successfully",
+      message: "Compte supprimé avec succès",
     });
   } catch (error) {
     console.error("Error deleting account:", error);
     res.status(500).json({
-      message: "Server error while deleting account",
+      message: "Erreur serveur lors de la suppression du compte",
     });
   }
 };

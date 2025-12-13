@@ -14,14 +14,14 @@ export const subscribeToProgramme = async (req, res) => {
     ) {
       return res.status(400).json({
         message:
-          "You are already subscribed to a programme. Please unsubscribe first.",
+          "Vous êtes déjà inscrit à un programme. Veuillez vous désinscrire d'abord.",
       });
     }
 
     const programme = await Programme.findById(programmeId);
     if (!programme) {
       return res.status(401).json({
-        message: "Programme not found",
+        message: "Programme non trouvé",
       });
     }
 
@@ -37,7 +37,7 @@ export const subscribeToProgramme = async (req, res) => {
       { new: true }
     );
     res.status(200).json({
-      message: "Successfully subscrided to programme",
+      message: "Inscription au programme réussie",
       user: {
         id: user._id,
         nom: user.nom,
@@ -47,7 +47,7 @@ export const subscribeToProgramme = async (req, res) => {
   } catch (error) {
     console.error("Error subscribing to programme:", error);
     res.status(500).json({
-      message: "Server error while subscribing to programme",
+      message: "Erreur serveur lors de l'inscription au programme",
     });
   }
 };
@@ -60,13 +60,13 @@ export const unsubscribeFromProgramme = async (req, res) => {
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({
-        message: "User not found",
+        message: "Utilisateur non trouvé",
       });
     }
 
     if (!user.programmeActuel || !user.programmeActuel.programmeId) {
       return res.status(400).json({
-        message: "No active programme to unsubscribe from",
+        message: "Aucun programme actif à annuler",
       });
     }
 
@@ -81,7 +81,7 @@ export const unsubscribeFromProgramme = async (req, res) => {
     await user.save();
 
     res.status(200).json({
-      message: "Successfully unsubscribed from programme",
+      message: "Désinscription du programme réussie",
       user: {
         id: user._id,
         nom: user.nom,
@@ -91,7 +91,7 @@ export const unsubscribeFromProgramme = async (req, res) => {
   } catch (error) {
     console.error("Error unsubscribing from programme:", error);
     res.status(500).json({
-      message: "Server error while unsubscribing from programme",
+      message: "Erreur serveur lors de la désinscription du programme",
     });
   }
 };
@@ -104,20 +104,20 @@ export const markSeanceAsCompleted = async (req, res) => {
 
     if (!jour) {
       return res.status(400).json({
-        message: "Day is required",
+        message: "Le jour est requis",
       });
     }
 
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({
-        message: "User not found",
+        message: "Utilisateur non trouvé",
       });
     }
 
     if (!user.programmeActuel || !user.programmeActuel.programmeId) {
       return res.status(400).json({
-        message: "No active programme",
+        message: "Aucun programme actif",
       });
     }
 
@@ -126,20 +126,20 @@ export const markSeanceAsCompleted = async (req, res) => {
     );
     if (!programme) {
       return res.status(404).json({
-        message: "Programme not found",
+        message: "Programme non trouvé",
       });
     }
 
     const seanceExists = programme.seances.some((s) => s.jour === jour);
     if (!seanceExists) {
       return res.status(400).json({
-        message: "This day does not exist in the programme",
+        message: "Ce jour n'existe pas dans le programme",
       });
     }
 
     if (user.programmeActuel.seancesCompletees.includes(jour)) {
       return res.status(400).json({
-        message: "This seance is already completed",
+        message: "Cette séance est déjà terminée",
       });
     }
 
@@ -157,8 +157,8 @@ export const markSeanceAsCompleted = async (req, res) => {
 
     res.status(200).json({
       message: allCompleted
-        ? "Seance marked as completed! All seances completed, you can now validate the week"
-        : "Seance marked as completed",
+        ? "Séance terminée ! Toutes les séances sont complétées, vous pouvez valider la semaine"
+        : "Séance marquée comme terminée",
       weekComplete: allCompleted,
       user: {
         id: user._id,
@@ -169,7 +169,7 @@ export const markSeanceAsCompleted = async (req, res) => {
   } catch (error) {
     console.error("Error marking seance as completed:", error);
     res.status(500).json({
-      message: "Server error while marking seance as completed",
+      message: "Erreur serveur lors de la validation de la séance",
     });
   }
 };
@@ -182,20 +182,20 @@ export const validateWeek = async (req, res) => {
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({
-        message: "User not found",
+        message: "Utilisateur non trouvé",
       });
     }
 
     if (!user.programmeActuel || !user.programmeActuel.programmeId) {
       return res.status(400).json({
-        message: "No active programme",
+        message: "Aucun programme actif",
       });
     }
 
     // Check if programme is already completed
     if (user.programmeActuel.statut === "termine") {
       return res.status(400).json({
-        message: "This programme is already completed",
+        message: "Ce programme est déjà terminé",
       });
     }
 
@@ -204,7 +204,7 @@ export const validateWeek = async (req, res) => {
     );
     if (!programme) {
       return res.status(404).json({
-        message: "Programme not found",
+        message: "Programme non trouvé",
       });
     }
 
@@ -215,7 +215,8 @@ export const validateWeek = async (req, res) => {
 
     if (!allCompleted) {
       return res.status(400).json({
-        message: "All seances must be completed before validating the week",
+        message:
+          "Toutes les séances doivent être terminées avant de valider la semaine",
         completed: user.programmeActuel.seancesCompletees.length,
         total: allJours.length,
       });
@@ -238,7 +239,7 @@ export const validateWeek = async (req, res) => {
       await user.save();
 
       return res.status(200).json({
-        message: "Programme completed! Congratulations!",
+        message: "Programme terminé ! Félicitations !",
         programmeCompleted: true,
         user: {
           id: user._id,
@@ -251,9 +252,9 @@ export const validateWeek = async (req, res) => {
     await user.save();
 
     res.status(200).json({
-      message: `Week ${
+      message: `Semaine ${
         user.programmeActuel.semaineActuelle - 1
-      } validated! Moving to week ${user.programmeActuel.semaineActuelle}`,
+      } validée ! Passage à la semaine ${user.programmeActuel.semaineActuelle}`,
       user: {
         id: user._id,
         nom: user.nom,
@@ -263,7 +264,7 @@ export const validateWeek = async (req, res) => {
   } catch (error) {
     console.error("Error validating week:", error);
     res.status(500).json({
-      message: "Server error while validating week",
+      message: "Erreur serveur lors de la validation de la semaine",
     });
   }
 };
@@ -279,18 +280,18 @@ export const getHistoriqueProgrammes = async (req, res) => {
 
     if (!user) {
       return res.status(401).json({
-        message: "User not found",
+        message: "Utilisateur non trouvé",
       });
     }
 
     res.status(200).json({
-      message: "History programs :",
+      message: "Historique des programmes :",
       histoique: user.historiquePrograms,
     });
   } catch (error) {
     console.error("Error getting history:", error);
     res.status(500).json({
-      message: "Server error while getting history",
+      message: "Erreur serveur lors de la récupération de l'historique",
     });
   }
 };
@@ -306,19 +307,19 @@ export const getCurrentProgramme = async (req, res) => {
 
     if (!user) {
       return res.status(404).json({
-        message: "User not found",
+        message: "Utilisateur non trouvé",
       });
     }
 
     if (!user.programmeActuel || !user.programmeActuel.programmeId) {
       return res.status(200).json({
-        message: "No active programme",
+        message: "Aucun programme actif",
         programmeActuel: null,
       });
     }
 
     res.status(200).json({
-      message: "Current programme retrieved successfully",
+      message: "Programme actuel récupéré avec succès",
       programmeActuel: {
         programme: user.programmeActuel.programmeId,
         dateDebut: user.programmeActuel.dateDebut,
@@ -330,7 +331,7 @@ export const getCurrentProgramme = async (req, res) => {
   } catch (error) {
     console.error("Error getting current programme:", error);
     res.status(500).json({
-      message: "Server error while getting current programme",
+      message: "Erreur serveur lors de la récupération du programme actuel",
     });
   }
 };

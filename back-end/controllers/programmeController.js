@@ -15,14 +15,14 @@ export const createProgramme = async (req, res) => {
     ) {
       return res.status(400).json({
         message:
-          "All fields are required: nom, description, difficulte, objectif, duree, seances",
+          "Tous les champs sont requis : nom, description, difficulte, objectif, duree, seances",
       });
     }
 
     const validDifficulties = ["Débutant", "Intermédiaire", "Avancé"];
     if (!validDifficulties.includes(difficulte)) {
       return res.status(400).json({
-        message: "Difficulte must be: Débutant, Intermédiaire, or Avancé",
+        message: "La difficulté doit être : Débutant, Intermédiaire ou Avancé",
       });
     }
 
@@ -35,13 +35,13 @@ export const createProgramme = async (req, res) => {
     if (!validGoals.includes(objectif.toLowerCase())) {
       return res.status(400).json({
         message:
-          "Objectif must be: perte de poids, prise de masse, entretien, or force",
+          "L'objectif doit être : perte de poids, prise de masse, entretien ou force",
       });
     }
 
     if (!Array.isArray(seances) || seances.length === 0) {
       return res.status(400).json({
-        message: "At least one seance is required",
+        message: "Au moins une séance est requise",
       });
     }
 
@@ -55,13 +55,13 @@ export const createProgramme = async (req, res) => {
     });
 
     res.status(201).json({
-      message: "Programme created successfully!",
+      message: "Programme créé avec succès !",
       programme: newProgramme,
     });
   } catch (error) {
     console.error("Error creating programme:", error);
     res.status(500).json({
-      message: "Server error while creating programme",
+      message: "Erreur serveur lors de la création du programme",
     });
   }
 };
@@ -79,7 +79,7 @@ export const getAllProgrammes = async (req, res) => {
   } catch (error) {
     console.error("Error getting programmes:", error);
     res.status(500).json({
-      message: "Server error while getting programmes",
+      message: "Erreur serveur lors de la récupération des programmes",
     });
   }
 };
@@ -93,18 +93,18 @@ export const deleteProgramme = async (req, res) => {
 
     if (!deletedProgramme) {
       return res.status(404).json({
-        message: "Programme not found",
+        message: "Programme non trouvé",
       });
     }
 
     res.status(200).json({
-      message: "Programme deleted successfully",
+      message: "Programme supprimé avec succès",
       programme: deletedProgramme,
     });
   } catch (error) {
     console.error("Error deleting programme:", error);
     res.status(500).json({
-      message: "Server error while deleting programme",
+      message: "Erreur serveur lors de la suppression du programme",
     });
   }
 };
@@ -118,7 +118,7 @@ export const getProgrammeById = async (req, res) => {
 
     if (!programme) {
       return res.status(404).json({
-        message: "Programe not found",
+        message: "Programme non trouvé",
       });
     }
 
@@ -129,7 +129,7 @@ export const getProgrammeById = async (req, res) => {
   } catch (error) {
     console.error("Error getting programme:", error);
     res.status(500).json({
-      message: "Server error while getting programme",
+      message: "Erreur serveur lors de la récupération du programme",
     });
   }
 };
