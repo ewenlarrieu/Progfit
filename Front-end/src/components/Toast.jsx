@@ -4,19 +4,20 @@ export default function Toast({ message, type = 'info', onClose }) {
   const [isClosing, setIsClosing] = useState(false);
 
   const handleClose = () => {
+    if (isClosing) return; // Éviter les appels multiples
     setIsClosing(true);
     setTimeout(() => {
       onClose();
-    }, 300); // Durée de l'animation de sortie
+    }, 300); 
   };
 
   useEffect(() => {
     const timer = setTimeout(() => {
       handleClose();
-    }, 4000); // Fermeture automatique après 4 secondes
+    }, 4000); 
 
     return () => clearTimeout(timer);
-  }, [onClose]);
+  }, []); // Retirer la dépendance onClose
 
   const bgColor = {
     success: 'bg-green-500',
